@@ -1,0 +1,206 @@
+create table competences
+(
+    id_competence int auto_increment
+        primary key,
+    competence    varchar(255) not null,
+    constraint Competences_unique
+        unique (competence)
+);
+
+create table contrat
+(
+    id_contrat  int auto_increment
+        primary key,
+    nom_contrat varchar(50) not null,
+    constraint contrat_unique
+        unique (nom_contrat)
+);
+
+create table domaines
+(
+    id_domaine  int auto_increment
+        primary key,
+    nom_domaine int not null,
+    constraint domaines_unique
+        unique (nom_domaine)
+);
+
+create table email
+(
+    id_email int auto_increment
+        primary key,
+    email    varchar(255) not null
+);
+
+create table pays
+(
+    id_pays  int auto_increment
+        primary key,
+    nom_pays varchar(56) not null,
+    constraint nom_pays
+        unique (nom_pays)
+);
+
+create table departement
+(
+    id_departement int auto_increment
+        primary key,
+    departement    varchar(50) not null,
+    id_pays_fk     int         not null,
+    constraint departement_pays_id_pays_fk
+        foreign key (id_pays_fk) references pays (id_pays)
+);
+
+create table permission
+(
+    id_permission  int auto_increment
+        primary key,
+    nom_permission varchar(50) not null,
+    constraint nom_permission
+        unique (nom_permission)
+);
+
+create table telephone
+(
+    id_telephone int auto_increment
+        primary key,
+    numero       varchar(20) not null
+);
+
+create table unite_temps
+(
+    id_unite  int auto_increment
+        primary key,
+    nom_unite varchar(50) not null,
+    nb_jours  int         not null
+);
+
+create table utilisateur
+(
+    id_utilisateur   int auto_increment
+        primary key,
+    nom              varchar(100) not null,
+    prenom           varchar(50)  not null,
+    mot_de_passe     varchar(255) not null,
+    id_email_fk      int          not null,
+    id_telephone_fk  int          null,
+    id_permission_fk int          not null,
+    constraint utilisateur_email_id_email_fk
+        foreign key (id_email_fk) references email (id_email),
+    constraint utilisateur_permission_id_permission_fk
+        foreign key (id_permission_fk) references permission (id_permission),
+    constraint utilisateur_telephone_id_telephone_fk
+        foreign key (id_telephone_fk) references telephone (id_telephone)
+);
+
+create table villes
+(
+    id_ville          int auto_increment
+        primary key,
+    nom_ville         varchar(100) not null,
+    id_departement_fk int          not null,
+    constraint Villes_pays_id_pays_fk
+        foreign key (id_departement_fk) references departement (id_departement)
+);
+
+create table adresse
+(
+    id_adresse  int auto_increment
+        primary key,
+    adresse     varchar(255) not null,
+    id_ville_fk int          not null,
+    constraint Adresse_villes_id_ville_fk
+        foreign key (id_ville_fk) references villes (id_ville)
+);
+
+create table entreprise
+(
+    id_entreprise   int auto_increment
+        primary key,
+    note            int          null,
+    nb_note         int          null,
+    nom             varchar(255) not null,
+    id_telephone_fk int          not null,
+    id_adresse_fk   int          not null,
+    id_email_fk     int          not null,
+    constraint Entreprise_adresse_id_adresse_fk
+        foreign key (id_adresse_fk) references adresse (id_adresse),
+    constraint Entreprise_email_id_email_fk
+        foreign key (id_email_fk) references email (id_email),
+    constraint Entreprise_telephone_id_telephone_fk
+        foreign key (id_telephone_fk) references telephone (id_telephone)
+);
+
+create table offre
+(
+    id_offre                int auto_increment
+        primary key,
+    titre                   varchar(255) not null,
+    date_creation           date         not null,
+    remuneration            varchar(50)  not null,
+    nb_wishlist             int          not null,
+    duree                   int          null,
+    date_debut              date         null,
+    descriptif              text         not null,
+    id_contrat_fk           int          not null,
+    id_unite_duree_fk       int          null,
+    id_adresse_fk           int          null,
+    id_entreprise_fk        int          not null,
+    id_email_recrutement_fk int          not null,
+    constraint offre_adresse_id_adresse_fk
+        foreign key (id_adresse_fk) references adresse (id_adresse),
+    constraint offre_contrat_id_contrat_fk
+        foreign key (id_contrat_fk) references contrat (id_contrat),
+    constraint offre_email_id_email_fk
+        foreign key (id_email_recrutement_fk) references email (id_email),
+    constraint offre_entreprise_id_entreprise_fk
+        foreign key (id_entreprise_fk) references entreprise (id_entreprise),
+    constraint offre_unite_temps_id_unite_fk
+        foreign key (id_unite_duree_fk) references unite_temps (id_unite)
+);
+
+create table candidature
+(
+    id_candidature    int auto_increment
+        primary key,
+    cv                varchar(255) not null,
+    lettre_motivation varchar(255) not null,
+    date_candidature  datetime     not null,
+    id_utilisateur_fk int          not null,
+    id_offre_fk       int          not null,
+    constraint candidature_offre_id_offre_fk
+        foreign key (id_offre_fk) references offre (id_offre),
+    constraint candidature_utilisateur_id_utilisateur_fk
+        foreign key (id_utilisateur_fk) references utilisateur (id_utilisateur)
+);
+
+create table competence_offre
+(
+    id_offre_fk      int not null,
+    id_competence_fk int not null,
+    constraint competence_offre_competences_id_competence_fk
+        foreign key (id_competence_fk) references competences (id_competence),
+    constraint competence_offre_offre_id_offre_fk
+        foreign key (id_offre_fk) references offre (id_offre)
+);
+
+create table offre_domaine
+(
+    id_offre_fk   int not null,
+    id_domaine_fk int not null,
+    constraint offre_domaine_domaines_id_domaine_fk
+        foreign key (id_domaine_fk) references domaines (id_domaine),
+    constraint offre_domaine_offre_id_offre_fk
+        foreign key (id_offre_fk) references offre (id_offre)
+);
+
+create table whishlist
+(
+    id_offre_fk       int not null,
+    id_utilisateur_fk int not null,
+    constraint Whishlist_offre_id_offre_fk
+        foreign key (id_offre_fk) references offre (id_offre),
+    constraint Whishlist_utilisateur_id_utilisateur_fk
+        foreign key (id_utilisateur_fk) references utilisateur (id_utilisateur)
+);
+
