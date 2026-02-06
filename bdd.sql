@@ -32,6 +32,15 @@ create table email
     email    varchar(255) not null
 );
 
+create table groupe
+(
+    id_groupe  int auto_increment
+        primary key,
+    nom_groupe varchar(100) not null,
+    constraint Groupe_unique
+        unique (nom_groupe)
+);
+
 create table pays
 (
     id_pays  int auto_increment
@@ -91,6 +100,16 @@ create table utilisateur
         foreign key (id_permission_fk) references permission (id_permission),
     constraint utilisateur_telephone_id_telephone_fk
         foreign key (id_telephone_fk) references telephone (id_telephone)
+);
+
+create table groupe_utilisateur
+(
+    id_utilisateur_fk int not null,
+    id_groupe_fk      int not null,
+    constraint groupe_utilisateur_groupe_id_groupe_fk
+        foreign key (id_groupe_fk) references groupe (id_groupe),
+    constraint groupe_utilisateur_utilisateur_id_utilisateur_fk
+        foreign key (id_utilisateur_fk) references utilisateur (id_utilisateur)
 );
 
 create table villes
@@ -164,7 +183,7 @@ create table candidature
     id_candidature    int auto_increment
         primary key,
     cv                varchar(255) not null,
-    lettre_motivation varchar(255) not null,
+    lettre_motivation text         not null,
     date_candidature  datetime     not null,
     id_utilisateur_fk int          not null,
     id_offre_fk       int          not null,
