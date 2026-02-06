@@ -11,46 +11,93 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    min-height: 100vh;
+    min-height: 300vh;
 }
 
 header {
-    text-align: center;
+  position: sticky;
+  top: -100%; 
+  z-index: 1000;
+  background-color: white; 
 }
 
-
-nav{
-    display: flex;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    position: sticky; 
-    top: 0;           
-    z-index: 9999;   
+/* Gros Logo*/
+.BoxBigLogo {
+  height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f1f1;
 }
 
-nav a {
-    padding: 5px;
-    text-align: center;
-    flex: 1;
+.BigLogo {
+  height: 100px; 
+}
+
+/* NavBar */
+nav {
+  height: 60px; 
+  background-color: rgb(224, 224, 224); 
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  color: black;
+  border-radius: 40px;
+  border: 2px solid rgba(192, 192, 192, 0.616);
+  box-shadow: 0px 4px 4px #797979;
+  justify-content: space-between; 
+}
+
+/* Petit Logo  */
+.LittleLogo {
+    height: 40px; 
+    width: auto;
+    
+    opacity: 0; 
+    
+    animation: apparitionLogo linear both;
+    
+    animation-timeline: scroll();
+    
+    animation-range: 0px 60vh;
+}
+
+/* L'animation LogoNavBar */
+@keyframes apparitionLogo {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); 
+    }
+    80% {
+        opacity: 0; 
+    }
+    100% {
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+nav .links a {
+    color: white;
+    margin-left: 20px;
     text-decoration: none;
-    color: rgb(0, 0, 0);
-    text-shadow: 1px 1px 1px rgb(100, 100, 100);
-
+    border: 10px solid black;
+    border-radius: 40px;
+    background-color: black ;
+    box-shadow: 0px 4px 4px #525252;
 }
 
-nav a:hover {
-    background-color: rgba(223, 61, 61, 0.637);
+nav .links a:hover {
+    background-color: rgba(153, 153, 153);
+    border: 10px solid rgba(153, 153, 153, 0.637);
+    border-radius: 40px;
+    box-shadow: 0px 0px 0px #525252;
 }
 
-.active{
+nav .links .active{
     font-weight: bold;
-    text-decoration: underline;
+    box-shadow: 0px 0px 0px #525252;
 }
-
-
-nav a:not(:last-child) {
-    border-right: 1px solid  rgb(100, 100, 100);
-} 
 
 main {
 
