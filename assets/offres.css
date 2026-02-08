@@ -19,9 +19,20 @@ body {
     margin: 0 2% 0 0;
 }
 
+.offre-link {
+    flex: 1 1 42%;
+    max-width: 850px;
+    min-height: 150px;
+    max-height: 250px;
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
 .offre {
     flex: 1 1 42%;
-    max-width: 800px;
+    max-width: 850px;
     min-height: 150px;
     max-height: 250px;
     border: 5px solid rgba(83, 89, 83, 0.2);
@@ -119,14 +130,6 @@ body {
     font-size: 1.4em;
     color: #dd5478;
     transition: 0.2s;
-}
-
-.wishlist-label .bi-heart:hover {
-    transform: scale(1.12);
-}
-
-.wishlist-label .bi-heart:active {
-    transform: scale(1.06);
 }
 
 .offre-titre {
