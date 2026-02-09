@@ -18,25 +18,6 @@ header {
   background-color: white; 
 }
 
-/* Gros Logo*/
-.BoxBigLogo {
-    height: 100vh; /* Doit correspondre à la valeur négative du top */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: disparitionLogo linear both;
-    animation-timeline: scroll();
-    animation-range: 0px 100vh;
-  /*
-  background-color: #f1f1f1;
-  */
-}
-
-.BigLogo {
-    height: 100px; /* Taille de ton image géante */
-
-}
-
 /* NavBar */
 .navBar {
     height: 60px; /* Hauteur de la barre qui reste */
@@ -50,11 +31,6 @@ header {
     box-shadow: 0px 4px 4px #797979;
     justify-content: space-between; 
     margin-top: 0;
-
-    opacity: 0; 
-    animation: apparitionLogo linear both;
-    animation-timeline: scroll();
-    animation-range: 0px 80vh;
 }
 
 
@@ -74,32 +50,6 @@ header {
 
 .LogoNav2 {
     height: 20px;
-}
-
-/* L'animation LogoNavBar */
-@keyframes apparitionLogo {
-    0% {
-        opacity: 0;
-        transform: translateY(10px); 
-    }
-    80% {
-        opacity: 0; 
-    }
-    100% {
-        opacity: 1; 
-        transform: translateY(0);
-    }
-}
-
-@keyframes disparitionLogo {
-    0% {
-        opacity: 1;
-        transform: scale(1); 
-    }
-    100% {
-        opacity: 0; 
-        transform: scale(0.8);
-    }
 }
 
 nav .links a {
@@ -136,10 +86,6 @@ main {
     padding-right: 10px;
 
 
-    opacity: 0; 
-    animation: apparitionLogo linear both;
-    animation-timeline: scroll();
-    animation-range: 0px 80vh;
 }
 
 main h1 {
