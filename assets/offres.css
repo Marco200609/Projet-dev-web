@@ -7,6 +7,10 @@ body {
     background: linear-gradient(135deg,#f8fbf1 5%, #c5c5a9 30%, #f8fbf1 30%,  #c5c5a9 95%);
 }
 
+main{
+    margin: 0;
+    padding: 0;
+}
 
 /* Affichage des offres */
 
@@ -15,26 +19,21 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 30px 3%;
-    padding: 2%;
-    margin: 0 2% 0 0;
+    padding: 3%;
 }
 
 .offre-link {
     flex: 1 1 42%;
     max-width: 850px;
+    min-width: 400px;
     min-height: 150px;
     max-height: 250px;
     display: block;
-    height: 100%;
     text-decoration: none;
     color: inherit;
 }
 
 .offre {
-    flex: 1 1 42%;
-    max-width: 850px;
-    min-height: 150px;
-    max-height: 250px;
     border: 5px solid rgba(83, 89, 83, 0.2);
     border-radius: 18px;
     padding: 18px 18px;
@@ -45,7 +44,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    overflow: auto;
 }
 
 .offre:hover {
@@ -192,3 +190,25 @@ body {
 }
 
 
+@media (max-width: 700px) {
+    body {
+        font-size: 0.9em;
+    }
+
+    .offre-link {
+        flex: 1 1 100%;
+        min-width: 0;
+        min-height: 100px;
+        max-height: 200px;
+    }
+
+    .pagination {
+        min-width: 65%;
+        width: 20%;
+        margin-top: 15px;
+    }
+
+    .pagination a {
+        padding: 8px 12px;
+    }
+}
