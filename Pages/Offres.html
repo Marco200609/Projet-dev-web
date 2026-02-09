@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../assets/style.css">
     <link rel="stylesheet" href="../assets/offres.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/Recherche.css">
 </head>
 <body>
 <header>
@@ -26,11 +27,74 @@
 
 
 <main>
-    <h1> Offres disponibles </h1>
 
-    <section>
-        <!--Barre de recherche-->
-    </section>
+    <h1>Rechercher une offre :</h1>
+    <div class="truc">
+        <div class="dropdown">
+            <div class = "dropbtn">Contrat</div>
+            <div class="dropdown-content">
+                <button>Stage</button>
+                <button>Alternance</button>
+                <button>CDI</button>
+                <button>CDD</button>
+                <button>Emploi saisonnier</button>
+                <button>Contrat étudiant</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class = "dropbtn">Domaine</div>
+            <div class="dropdown-content">
+                <button>Informatique</button>
+                <button>BTP</button>
+                <button>Finance</button>
+                <button>Artisanat</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class = "dropbtn">Compétence</div>
+            <div class="dropdown-content">
+                <button>Langues</button>
+                <button>CSS</button>
+                <button>HTML</button>
+                <button>Javascript</button>
+                <button>Python</button>
+                <button>Machine Learning</button>
+            </div>
+        </div>
+
+        <br><br>
+        <label for="ville">Ville :</label>
+        <input list="villes" id="ville" name="ville" placeholder="Commencez à taper...">
+        <datalist id="villes">
+            <option value="Bordeaux">
+            <option value="Bruxelles">
+            <option value="Brest">
+            <option value="Lyon">
+            <option value="Paris">
+        </datalist>
+
+        <!--        Rechercher une entreprise-->
+        <br><br>
+        <label for="ville">Entreprise :</label>
+        <input list="entreprises" id="entreprise" name="entreprise" placeholder="Commencez à taper...">
+        <datalist id="entreprises">
+            <option value="A">
+            <option value="B">
+            <option value="C">
+            <option value="D">
+            <option value="E">
+        </datalist>
+
+        <br><br> <!--enlever les br après-->
+        <form action="../Pages/Offres.html" method="get">
+            <button type="submit" >Rechercher</button>
+        </form>
+        <button>Réinitialiser</button>
+    </div>
+
+    <h1> Offres disponibles </h1>
 
     <section class="liste_offres">
         <a href="detail_offre.html" class="offre-link">

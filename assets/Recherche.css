@@ -1,0 +1,162 @@
+main {
+    padding: 0;
+}
+
+body {
+    min-height: 200vh;
+    background: linear-gradient(135deg,#f8fbf1 5%, #c5c5a9 30%, #f8fbf1 30%,  #c5c5a9 95%);
+}
+
+.dropdown {
+    position: relative;
+    margin-top: 10px;
+    margin-right: 2px;
+    margin-left: 2px;
+    display: inline-block; /* important pour que le parent prenne la taille du bouton */
+    overflow: visible;     /* pour que le menu puisse dépasser */
+}
+
+/* bouton */
+.dropbtn {
+    background-color: #c5c5a9;
+    padding: 13px 30px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.dropbtn:hover {
+    background-color: #a1a18a;
+}
+
+/* menu */
+.dropdown-content {
+    position: absolute;
+    top: 0;
+    left: 100%;           /* position à droite du bouton */
+    margin-left: 10px;    /* petit espace */
+    background-color: #F8FBF1;
+    min-width: 250px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+    padding: 10px 0;
+    z-index: 1000;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(0);
+    transition: opacity 0.3s ease;
+}
+
+/* apparition au hover */
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+.dropdown-content button {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.dropdown-content button:hover {
+    background-color: #c5c5a9;
+}
+
+button {
+    background-color: #C5C5A9;
+    border : none;
+    border-radius: 5px;
+}
+
+input {
+    background-color: #F8FBF1;
+    border-radius: 8px;
+    border : 2px solid #989882;
+}
+
+h1 {
+    color: #464a46;
+}
+
+div, button {
+    color: #2a332e;
+}
+
+.truc {
+
+    border: 5px solid rgba(83, 89, 83, 0.2);
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.27);
+    margin: 0 auto;
+    max-width: 700px;
+    padding: 10px;
+    backdrop-filter: blur(25px);
+    margin-bottom: 100px;
+}
+header {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #ffffff; /* Ajuste selon ton design */
+}
+
+/* Conteneur de l'indicateur */
+.Descendre {
+    position: absolute;
+    bottom: 10%; /* Aligné en bas */
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Création de la flèche en pur CSS */
+.Descendre::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-bottom: 3px solid #333; /* Couleur de la flèche */
+    border-right: 3px solid #333;
+    transform: rotate(45deg);
+    animation: scroll-down 2s infinite;
+}
+
+/* Animation de rebond */
+@keyframes scroll-down {
+    0% {
+        transform: rotate(45deg) translate(0, 0);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(45deg) translate(15px, 15px);
+        opacity: 0;
+    }
+}
+
+.navBar {
+    opacity: 1;
+}
+
+main {
+    opacity: 1;
+}
