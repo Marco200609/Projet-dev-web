@@ -153,3 +153,7 @@ div, button {
 .dropdown-content button:hover {
     background-color: #c5c5a9;
 }
+
+.centrerPage {
+    display: inline-block;
+}
