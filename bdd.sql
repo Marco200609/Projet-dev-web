@@ -136,8 +136,6 @@ create table entreprise
 (
     id_entreprise   int auto_increment
         primary key,
-    note            int          null,
-    nb_note         int          null,
     nom             varchar(255) not null,
     id_telephone_fk int          not null,
     id_adresse_fk   int          not null,
@@ -150,6 +148,17 @@ create table entreprise
         foreign key (id_telephone_fk) references telephone (id_telephone)
 );
 
+create table note_entreprise
+(
+    id_utilisateur_fk int not null,
+    id_entreprise_fk  int not null,
+    note              int not null,
+    constraint note_entreprise_entreprise_id_entreprise_fk
+        foreign key (id_entreprise_fk) references entreprise (id_entreprise),
+    constraint note_entreprise_utilisateur_id_utilisateur_fk
+        foreign key (id_utilisateur_fk) references utilisateur (id_utilisateur)
+);
+
 create table offre
 (
     id_offre                int auto_increment
@@ -157,7 +166,6 @@ create table offre
     titre                   varchar(255) not null,
     date_creation           date         not null,
     remuneration            varchar(50)  not null,
-    nb_wishlist             int          not null,
     duree                   int          null,
     date_debut              date         null,
     descriptif              text         not null,
