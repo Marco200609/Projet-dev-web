@@ -11,58 +11,69 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    min-height: 300vh;
+    min-height: 200vh;
 }
 
 header {
-  /* C'est ici que tout se joue */
-  position: sticky;
-  /* On dit : Colle-toi quand le haut du header est à -200px */
-  /* Donc, les 200 premiers pixels (le gros logo) vont sortir de l'écran avant que ça bloque */
-  top: -100%; 
-  z-index: 1000;
   background-color: white; 
 }
 
 /* Gros Logo*/
 .BoxBigLogo {
-  height: 100vh; /* Doit correspondre à la valeur négative du top */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    height: 100vh; /* Doit correspondre à la valeur négative du top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: disparitionLogo linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 100vh;
+  /*
   background-color: #f1f1f1;
+  */
 }
 
 .BigLogo {
-  height: 100px; /* Taille de ton image géante */
+    height: 100px; /* Taille de ton image géante */
+
 }
 
 /* NavBar */
-nav {
-  height: 60px; /* Hauteur de la barre qui reste */
-  background-color: rgb(224, 224, 224); /* Fond noir pour le contraste */
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  color: black;
-  border-radius: 40px;
-  border: 2px solid rgba(192, 192, 192, 0.616);
-  box-shadow: 0px 4px 4px #797979;
-  justify-content: space-between; 
+.navBar {
+    height: 60px; /* Hauteur de la barre qui reste */
+    background-color: rgb(224, 224, 224); /* Fond noir pour le contraste */
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: black;
+    border-radius: 40px;
+    border: 2px solid rgba(192, 192, 192, 0.616);
+    box-shadow: 0px 4px 4px #797979;
+    justify-content: space-between; 
+    margin-top: 0;
+
+    opacity: 0; 
+    animation: apparitionLogo linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
 }
 
+
 /* Petit Logo  */
-.LittleLogo {
-    height: 40px; /* Une taille raisonnable pour la nav */
+.LogoNav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    height: 40px; 
     width: auto;
-    
-    opacity: 0; 
-    
-    animation: apparitionLogo linear both;
-    
-    animation-timeline: scroll();
-    
-    animation-range: 0px 60vh;
+}
+
+.LogoNav1 {
+    height: 40px;
+}
+
+.LogoNav2 {
+    height: 20px;
 }
 
 /* L'animation LogoNavBar */
@@ -80,21 +91,34 @@ nav {
     }
 }
 
+@keyframes disparitionLogo {
+    0% {
+        opacity: 1;
+        transform: scale(1); 
+    }
+    100% {
+        opacity: 0; 
+        transform: scale(0.8);
+    }
+}
+
 nav .links a {
+    position: sticky;
     color: white;
     margin-left: 20px;
     text-decoration: none;
     border: 10px solid black;
     border-radius: 40px;
     background-color: black ;
-    box-shadow: 0px 4px 4px #525252;
+
 }
 
 nav .links a:hover {
-    background-color: rgba(153, 153, 153);
-    border: 10px solid rgba(153, 153, 153, 0.637);
+/*    background-color: rgba(153, 153, 153);
+    border: 10px solid rgba(153, 153, 153); */
     border-radius: 40px;
     box-shadow: 0px 0px 0px #525252;
+    box-shadow: 4px 4px 4px #525252;
 }
 
 nav .links .active{
@@ -110,6 +134,12 @@ main {
     text-align: start;
     padding-left: 10px;
     padding-right: 10px;
+
+
+    opacity: 0; 
+    animation: apparitionLogo linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
 }
 
 main h1 {
