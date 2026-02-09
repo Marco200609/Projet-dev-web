@@ -11,11 +11,27 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    min-height: 200vh;
+    min-height: 300vh;
 }
 
 header {
+  position: sticky;
+  top: -100%; 
+  z-index: 1000;
   background-color: white; 
+}
+
+/* Gros Logo*/
+.BoxBigLogo {
+  height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f1f1;
+}
+
+.BigLogo {
+  height: 100px; 
 }
 
 /* NavBar */
@@ -29,7 +45,7 @@ header {
     border-radius: 40px;
     border: 2px solid rgba(192, 192, 192, 0.616);
     box-shadow: 0px 4px 4px #797979;
-    justify-content: space-between; 
+    justify-content: space-between;
     margin-top: 0;
 }
 
@@ -94,6 +110,6 @@ main h1 {
 
 footer {
     color: white;
-    background-color: #000000;
+    background-color: #535953;
     text-align: center;
 }
