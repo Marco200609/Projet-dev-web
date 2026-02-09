@@ -1,0 +1,110 @@
+header {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #ffffff; /* Ajuste selon ton design */
+}
+
+/* Conteneur de l'indicateur */
+.Descendre {
+    position: absolute;
+    bottom: 10%; /* Aligné en bas */
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Création de la flèche en pur CSS */
+.Descendre::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-bottom: 3px solid #333; /* Couleur de la flèche */
+    border-right: 3px solid #333;
+    transform: rotate(45deg);
+    animation: scroll-down 2s infinite;
+}
+
+/* Animation de rebond */
+@keyframes scroll-down {
+    0% {
+        transform: rotate(45deg) translate(0, 0);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(45deg) translate(15px, 15px);
+        opacity: 0;
+    }
+}
+
+/* Gros Logo*/
+.BoxBigLogo {
+    height: 100vh; /* Doit correspondre à la valeur négative du top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: disparitionLogo linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 100vh;
+  /*
+  background-color: #f1f1f1;
+  */
+}
+
+.BigLogo {
+    height: 100px; /* Taille de ton image géante */
+
+}
+
+.navBar {
+  opacity: 0; 
+  animation: apparitionLogo linear both;
+  animation-timeline: scroll();
+  animation-range: 0px 80vh;
+}
+
+
+/* L'animation LogoNavBar */
+@keyframes apparitionLogo {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); 
+    }
+    80% {
+        opacity: 0; 
+    }
+    100% {
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+@keyframes disparitionLogo {
+    0% {
+        opacity: 1;
+        transform: scale(1); 
+    }
+    100% {
+        opacity: 0; 
+        transform: scale(0.8);
+    }
+}
+
+main {
+    opacity: 0; 
+    animation: apparitionLogo linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
+}

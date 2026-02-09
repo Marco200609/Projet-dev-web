@@ -11,87 +11,64 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    min-height: 300vh;
+    min-height: 200vh;
 }
 
 header {
-  position: sticky;
-  top: -100%; 
-  z-index: 1000;
   background-color: white; 
 }
 
-/* Gros Logo*/
-.BoxBigLogo {
-  height: 100vh; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f1f1f1;
-}
-
-.BigLogo {
-  height: 100px; 
-}
-
 /* NavBar */
-nav {
-  height: 60px; 
-  background-color: rgb(224, 224, 224); 
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  color: black;
-  border-radius: 40px;
-  border: 2px solid rgba(192, 192, 192, 0.616);
-  box-shadow: 0px 4px 4px #797979;
-  justify-content: space-between; 
+.navBar {
+    height: 60px; /* Hauteur de la barre qui reste */
+    background-color: rgb(224, 224, 224); /* Fond noir pour le contraste */
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: black;
+    border-radius: 40px;
+    border: 2px solid rgba(192, 192, 192, 0.616);
+    box-shadow: 0px 4px 4px #797979;
+    justify-content: space-between; 
+    margin-top: 0;
 }
+
 
 /* Petit Logo  */
-.LittleLogo {
+.LogoNav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
     height: 40px; 
     width: auto;
-    
-    opacity: 0; 
-    
-    animation: apparitionLogo linear both;
-    
-    animation-timeline: scroll();
-    
-    animation-range: 0px 60vh;
 }
 
-/* L'animation LogoNavBar */
-@keyframes apparitionLogo {
-    0% {
-        opacity: 0;
-        transform: translateY(10px); 
-    }
-    80% {
-        opacity: 0; 
-    }
-    100% {
-        opacity: 1; 
-        transform: translateY(0);
-    }
+.LogoNav1 {
+    height: 40px;
+}
+
+.LogoNav2 {
+    height: 20px;
 }
 
 nav .links a {
+    position: sticky;
     color: white;
     margin-left: 20px;
     text-decoration: none;
     border: 10px solid black;
     border-radius: 40px;
     background-color: black ;
-    box-shadow: 0px 4px 4px #525252;
+
 }
 
 nav .links a:hover {
-    background-color: rgba(153, 153, 153);
-    border: 10px solid rgba(153, 153, 153, 0.637);
+/*    background-color: rgba(153, 153, 153);
+    border: 10px solid rgba(153, 153, 153); */
     border-radius: 40px;
     box-shadow: 0px 0px 0px #525252;
+    box-shadow: 4px 4px 4px #525252;
 }
 
 nav .links .active{
@@ -107,6 +84,8 @@ main {
     text-align: start;
     padding-left: 10px;
     padding-right: 10px;
+
+
 }
 
 main h1 {
