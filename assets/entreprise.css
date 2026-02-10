@@ -7,6 +7,11 @@ body {
     background: linear-gradient(135deg,#f8fbf1 5%, #c5c5a9 30%, #f8fbf1 30%,  #c5c5a9 95%);
 }
 
+main {
+    margin: 0;
+    padding: 0;
+}
+
 
 
 .liste_entreprises{
@@ -15,11 +20,11 @@ body {
     justify-content: center;
     gap: 30px 3%;
     padding: 2%;
-    margin: 0 2% 0 0;
 }
 
 .entreprise-link {
     flex: 1 1 25%;
+    min-width: 330px;
     max-width: 500px;
     max-height: 250px;
     display: block;
@@ -71,11 +76,9 @@ body {
     display: flex;
     justify-content: center;
     gap: 1%;
-    min-width: 350px;
+    min-width: 300px;
     width: 20%;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 20px auto;
 }
 
 .pagination a {
@@ -102,4 +105,53 @@ body {
 .pagination a.page_active {
     color: black;
     filter: brightness(1.5);
+}
+
+.entreprise-logo {
+    max-width: 100%;
+    max-height: 50px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.entreprise-titre {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #535953;
+    margin-bottom: 10px;
+}
+
+.entreprise-content {
+    display: flex;
+    align-items: center;
+}
+
+.localisation, .note, .nb-offre {
+    color: #535953;
+    margin-top: 4px;
+}
+.localisation {
+    flex: 1;
+    text-align: left;}
+
+.note {
+    flex: 1;
+    text-align: center;;
+    color: #bdac37;
+}
+
+.nb-offre {
+    flex: 1;
+    text-align: right;}
+
+
+@media (max-width: 500px) {
+    .entreprise-link {
+        flex: 1 1 100%;
+        max-width: none;
+    }
+    .entreprise-content {
+        font-size: 0.8em;
+    }
+
 }
