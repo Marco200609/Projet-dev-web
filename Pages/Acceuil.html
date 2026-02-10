@@ -36,38 +36,48 @@
         <!--mettre le caroussel ici-->
 
         <h2>Rechercher une offre ou une entreprise :</h2>
-        <div class="truc">
-        <div class="dropdown">
+        <form action="../Pages/Offres.html" method="get" class="truc">
+
+            <label for="nomOffre">Nom de l'offre :</label>
+            <input list="nomOffres" id="nomOffre" name="nomOffre" placeholder="Commencez à taper...">
+            <datalist id="nomOffres">
+                <option value="test">
+                <option value="test1">
+            </datalist>
+
+            <br>
+
+            <div class="dropdown">
             <div class = "dropbtn">Contrat</div>
             <div class="dropdown-content">
-                <button>Stage</button>
-                <button>Alternance</button>
-                <button>CDI</button>
-                <button>CDD</button>
-                <button>Emploi saisonnier</button>
-                <button>Contrat étudiant</button>
+                <button type="button">Stage</button>
+                <button type="button">Alternance</button>
+                <button type="button">CDI</button>
+                <button type="button">CDD</button>
+                <button type="button">Emploi saisonnier</button>
+                <button type="button">Contrat étudiant</button>
             </div>
         </div>
 
         <div class="dropdown">
             <div class = "dropbtn">Domaine</div>
             <div class="dropdown-content">
-                <button>Informatique</button>
-                <button>BTP</button>
-                <button>Finance</button>
-                <button>Artisanat</button>
+                <button type="button">Informatique</button>
+                <button type="button">BTP</button>
+                <button type="button">Finance</button>
+                <button type="button">Artisanat</button>
             </div>
         </div>
 
         <div class="dropdown">
             <div class = "dropbtn">Compétence</div>
             <div class="dropdown-content">
-                <button>Langues</button>
-                <button>CSS</button>
-                <button>HTML</button>
-                <button>Javascript</button>
-                <button>Python</button>
-                <button>Machine Learning</button>
+                <button type="button">Langues</button>
+                <button type="button">CSS</button>
+                <button type="button">HTML</button>
+                <button type="button">Javascript</button>
+                <button type="button">Python</button>
+                <button type="button">Machine Learning</button>
             </div>
         </div>
 
@@ -95,11 +105,10 @@
         </datalist>
 
         <br><br> <!--enlever les br après-->
-        <form action="../Pages/Offres.html" method="get">
         <button type="submit" >Rechercher</button>
+        <button type="reset">Réinitialiser</button>
+
         </form>
-        <button>Réinitialiser</button>
-        </div>
 
     </main>
 
