@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulaire candidature</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/Formulaire_candidature.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<header>
+</header>
+<nav class="navBar">
+    <div class="LogoNav">
+        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+        <img src="../Images/LogoNav2.png" class="LogoNav2">
+    </div>
+    <div class="links">
+        <a href="#" >Accueil</a>
+        <a href="#"  class="active" >Offre</a>
+        <a href="#">Entreprise</a>
+        <a href="#">Mon Compte</a>
+    </div>
+</nav>
+
+<main>
+    <section>
+        <h1>Stage développement web</h1>
+        <div class="zone_info">
+            <span class="entreprise">Entreprise X</span>
+            <span class="domaine">Informatique</span>
+            <span class="localisation"><i class="bi bi-geo-alt"></i> Paris</span>
+            <span><strong>Reference :</strong> 000000 </span>
+        </div>
+
+        <form>
+            <div class="form-group">
+                <label>
+                    <select name="civilité">
+                        <option>Monsieur</option>
+                        <option>Madame</option>
+                        <option>Non précisé</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <input class="espace_formulaire" type="text" name="prenom" placeholder="Prénom" minlength="1" required>
+                <input type="text" name="nom" placeholder="Nom" minlength="1" required>
+            </div>
+
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Adresse e-mail" required>
+            </div>
+
+            <div class="form-group">
+                <textarea name="message" rows="10" cols="75" placeholder="Votre message à destination du recruteur" minlength="20" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="filecv">CV (PDF)</label><br>
+                <input type="file" id="filecv" accept="application/pdf" required>
+            </div>
+
+            <div class="form-group">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Logo linkedin" width="20">
+                <input type="url"
+                       name="Profil Linkedin"
+                       placeholder="Profil LinkedIn"
+                       pattern="https://(www\.)?linkedin\.com/.*"
+                       title="Veuillez entrer un lien LinkedIn valide">
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Envoyer">
+                <input type="reset" value="Annuler">
+            </div>
+
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p> © 2026 - All Right Reserved </p>
+</footer>
+</body>
+</html>
