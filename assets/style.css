@@ -1,4 +1,10 @@
+@font-face {
+    font-family: NSD;
+    src: url("assets/Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth,wght.ttf");
+}
+
 html, body{
+    font-family: NSD, sans-serif;
     height: 100%;
     margin: 0;
     gap: 0;
