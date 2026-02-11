@@ -137,6 +137,7 @@ create table entreprise
     id_entreprise   int auto_increment
         primary key,
     nom             varchar(255) not null,
+    logo            varchar(255) null,
     id_telephone_fk int          not null,
     id_adresse_fk   int          not null,
     id_email_fk     int          not null,
