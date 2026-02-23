@@ -1,10 +1,13 @@
+body {
+    min-height: 300vh
+}
+
+
 header {
     position: relative;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    background-color: #ffffff; /* Ajuste selon ton design */
 }
 
 /* Conteneur de l'indicateur */
@@ -58,21 +61,16 @@ header {
     animation: disparitionLogo linear both;
     animation-timeline: scroll();
     animation-range: 0px 100vh;
-  /*
-  background-color: #f1f1f1;
-  */
-}
-
-.BigLogo {
-    height: 100px; /* Taille de ton image géante */
-
 }
 
 .navBar {
+    
   opacity: 0; 
   animation: apparitionLogo linear both;
-  animation-timeline: scroll();
-  animation-range: 0px 80vh;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
+    
+    z-index: 99;
 }
 
 
@@ -87,6 +85,22 @@ header {
     }
     100% {
         opacity: 1; 
+        z-index: 99;
+        transform: translateY(0);
+    }
+}
+
+@keyframes apparitionMain {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); 
+    }
+    80% {
+        opacity: 0; 
+    }
+    100% {
+        opacity: 1; 
+        z-index: 1;
         transform: translateY(0);
     }
 }
@@ -98,13 +112,174 @@ header {
     }
     100% {
         opacity: 0; 
+        z-index: 1;
         transform: scale(0.8);
     }
 }
 
 main {
+    
     opacity: 0; 
-    animation: apparitionLogo linear both;
+    animation: apparitionMain linear both;
     animation-timeline: scroll();
     animation-range: 0px 80vh;
+    
+    z-index: 1;
 }
+
+/* --- CONFIGURATION PC (Par défaut) --- */
+.menu-checkbox {
+    display: none;
+}
+
+.burger-label {
+    display: none;
+}
+
+/* --- CONFIGURATION MOBILE --- */
+@media (max-width: 768px) {
+
+
+    .navBar {
+        opacity: 1 !important; 
+        transform: none !important;
+        animation: none !important; 
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+
+    .burger-label {
+        display: flex !important;
+        flex-direction: column;
+        gap: 5px;
+        z-index: 2000;
+        cursor: pointer;
+    }
+
+    .burger-label span {
+        width: 25px;
+        height: 3px;
+        background-color: black;
+        border-radius: 2px;
+    }
+
+    .links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%; 
+        width: 70%;
+        height: 100vh;
+        background-color: #f8fbf1;
+        padding-top: 80px;
+        transition: 0.4s ease-in-out;
+        z-index: 1500;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    }
+
+
+    nav .links a {
+        margin: 10px 20px !important;
+        border: 2px solid black !important;
+        text-align: center;
+    }
+
+
+    .menu-checkbox:checked ~ .links {
+        right: 0;
+    }
+
+
+    .menu-checkbox:checked + .burger-label span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+    .menu-checkbox:checked + .burger-label span:nth-child(2) { opacity: 0; }
+    .menu-checkbox:checked + .burger-label span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+}
+
+
+/* Conteneur principal */
+.testimonial-slider {
+  width: 100%;
+  max-width: 800px;
+  margin: 50px auto;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* On cache les boutons radio */
+.testimonial-slider input[type="radio"] {
+  display: none;
+}
+
+.cards {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin-bottom: 20px;
+}
+
+/* Style de chaque carte */
+.card {
+  position: absolute;
+  width: 60%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 0;
+}
+
+.content p {
+  font-style: italic;
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.user img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+/* Logique d'affichage (Le "Cœur" du carrousel) */
+#item-1:checked ~ .cards #testimonial-1,
+#item-2:checked ~ .cards #testimonial-2,
+#item-3:checked ~ .cards #testimonial-3 {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  z-index: 2;
+}
+
+#item-1:checked ~ .cards #testimonial-2,
+#item-2:checked ~ .cards #testimonial-3,
+#item-3:checked ~ .cards #testimonial-1 {
+  transform: translateX(30%) scale(0.8);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+#item-1:checked ~ .cards #testimonial-3,
+#item-2:checked ~ .cards #testimonial-1,
+#item-3:checked ~ .cards #testimonial-2 {
+  transform: translateX(-30%) scale(0.8);
+  opacity: 0.5;
+  z-index: 1;
+}
+
