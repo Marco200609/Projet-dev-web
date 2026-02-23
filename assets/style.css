@@ -1,8 +1,10 @@
-*{
-    font-family: 'Plus Jakarta Sans', sans-serif;
+@font-face {
+    font-family: NSD;
+    src: url("assets/Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth,wght.ttf");
 }
 
 html, body{
+    font-family: NSD, sans-serif;
     height: 100%;
     margin: 0;
     gap: 0;
@@ -21,7 +23,23 @@ body {
 }
 
 header {
+  position: sticky;
+  top: -100%; 
+  z-index: 1000;
    background: transparent;
+}
+
+/* Gros Logo*/
+.BoxBigLogo {
+  height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f1f1;
+}
+
+.BigLogo {
+  height: 100px; 
 }
 
 /* NavBar */
@@ -37,7 +55,7 @@ header {
     border-radius: 40px;
     border: 2px solid rgba(192, 192, 192, 0.616);
     box-shadow: 0px 4px 4px #797979;
-    justify-content: space-between; 
+    justify-content: space-between;
     margin: 10px 10px;
 
 }
@@ -99,6 +117,6 @@ main h1 {
 
 footer {
     color: white;
-    background-color: #000000;
+    background-color: #535953;
     text-align: center;
 }

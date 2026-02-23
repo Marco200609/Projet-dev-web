@@ -1,0 +1,119 @@
+<!doctype html>
+
+<html lang="fr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Juniors</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/accueil.css">
+  </head>
+
+  <body>
+    <header>
+        <div class="BoxBigLogo">
+        <img src="Images/LogoHead.png" alt="ImageHead" class="LogoHead">
+        </div>
+        <div class="Descendre">     </div>
+    </header>
+    <nav class="navBar">
+    <div class="LogoNav">
+        <img src="Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+        <img src="Images/LogoNav2.png" class="LogoNav2">
+    </div>
+    <div class="links">
+        <a href="index.html" class="active">Accueil</a>
+        <a href="Pages/Offres.html">Offre</a>
+        <a href="Pages/Entreprises.html">Entreprise</a>
+        <a href="#">Mon Compte</a>
+    </div>
+    </nav>
+    
+
+    <main>
+        <h1> Bienvenue chez nous</h1>
+        <!--mettre le caroussel ici-->
+
+        <h2>Rechercher une offre ou une entreprise :</h2>
+        <form action="Pages/Offres.html" method="get" class="truc">
+
+            <label for="nomOffre">Nom de l'offre :</label>
+            <input list="nomOffres" id="nomOffre" name="nomOffre" placeholder="Commencez à taper...">
+            <datalist id="nomOffres">
+                <option value="test">
+                <option value="test1">
+            </datalist>
+
+            <br>
+
+            <div class="dropdown">
+            <div class = "dropbtn">Contrat</div>
+            <div class="dropdown-content">
+                <button type="button">Stage</button>
+                <button type="button">Alternance</button>
+                <button type="button">CDI</button>
+                <button type="button">CDD</button>
+                <button type="button">Emploi saisonnier</button>
+                <button type="button">Contrat étudiant</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class = "dropbtn">Domaine</div>
+            <div class="dropdown-content">
+                <button type="button">Informatique</button>
+                <button type="button">BTP</button>
+                <button type="button">Finance</button>
+                <button type="button">Artisanat</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class = "dropbtn">Compétence</div>
+            <div class="dropdown-content">
+                <button type="button">Langues</button>
+                <button type="button">CSS</button>
+                <button type="button">HTML</button>
+                <button type="button">Javascript</button>
+                <button type="button">Python</button>
+                <button type="button">Machine Learning</button>
+            </div>
+        </div>
+
+        <br><br>
+        <label for="ville">Ville :</label>
+        <input list="villes" id="ville" name="ville" placeholder="Commencez à taper...">
+        <datalist id="villes">
+            <option value="Bordeaux">
+            <option value="Bruxelles">
+            <option value="Brest">
+            <option value="Lyon">
+            <option value="Paris">
+        </datalist>
+
+<!--        Rechercher une entreprise-->
+        <br><br>
+        <label for="ville">Entreprise :</label>
+        <input list="entreprises" id="entreprise" name="entreprise" placeholder="Commencez à taper...">
+        <datalist id="entreprises">
+            <option value="A">
+            <option value="B">
+            <option value="C">
+            <option value="D">
+            <option value="E">
+        </datalist>
+
+        <br><br> <!--enlever les br après-->
+        <button type="submit" >Rechercher</button>
+        <button type="reset">Réinitialiser</button>
+
+        </form>
+
+    </main>
+
+    <footer>
+      <p> © 2026 - All Right Reserved </p>
+    </footer>
+  </body>
+</html>

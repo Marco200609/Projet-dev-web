@@ -1,9 +1,5 @@
-*{
-    font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
 body {
-    min-height: 100vh;
+    min-height: auto;
 }
 
 main{
@@ -137,7 +133,7 @@ main{
 
 .offre-content {
     display: grid;
-    grid-template-columns: 1fr max(150px, 5%);
+    grid-template-columns: 1fr max(100px, 5%);
     gap: 24px;
     align-items: flex-start;
 }
@@ -205,6 +201,7 @@ main{
         min-width: 65%;
         width: 20%;
         margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     .pagination a {

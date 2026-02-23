@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recherche entreprises</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/entreprise.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/Recherche.css">
+</head>
+<body>
+<header>
+</header>
+<nav class="navBar">
+    <div class="LogoNav">
+        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+        <img src="../Images/LogoNav2.png" class="LogoNav2">
+    </div>
+    <div class="links">
+        <a href="../index.html" class="active">Accueil</a>
+        <a href="Offres.html">Offre</a>
+        <a href="Entreprises.html">Entreprise</a>
+        <a href="#">Mon Compte</a>
+    </div>
+</nav>
+
+
+<main>
+
+    <h1>Rechercher une entreprise :</h1>
+    <div class="truc">
+        <label for="ville">Ville :</label>
+        <input list="villes" id="ville" name="ville" placeholder="Commencez à taper...">
+        <datalist id="villes">
+            <option value="Bordeaux">
+            <option value="Bruxelles">
+            <option value="Brest">
+            <option value="Lyon">
+            <option value="Paris">
+        </datalist>
+
+        <!--        Rechercher une entreprise-->
+        <br><br>
+        <label for="ville">Entreprise :</label>
+        <input list="entreprises" id="entreprise" name="entreprise" placeholder="Commencez à taper...">
+        <datalist id="entreprises">
+            <option value="A">
+            <option value="B">
+            <option value="C">
+            <option value="D">
+            <option value="E">
+        </datalist>
+
+        <br><br> <!--enlever les br après-->
+        <form>
+            <button type="submit" >Rechercher</button>
+        </form>
+        <button>Réinitialiser</button>
+    </div>
+
+    <h1>Entreprises disponibles :</h1>
+
+    <section class="liste_entreprises">
+        <a href="#" class="entreprise-link">
+            <article class="entreprise">
+                <img src="../images/img-engie.png" alt="logo_entreprise" class="entreprise-logo">
+                <h2 class="entreprise-titre">Entreprise Y</h2>
+                <div class="entreprise-content">
+                    <span class="localisation"><i class="bi bi-geo-alt"></i> Paris</span>
+                    <span class="note"><i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-half"></i>
+                        <i class="bi bi-star"></i>
+                        </span>
+                    <span class="nb-offre">20 offres en cours</span>
+                </div>
+            </article>
+        </a>
+
+        <a href="#" class="entreprise-link">
+            <article class="entreprise">
+                <img src="../images/img-engie.png" alt="logo_entreprise" class="entreprise-logo">
+                <h2 class="entreprise-titre">Entreprise Y</h2>
+                <div class="entreprise-content">
+                    <span class="localisation"><i class="bi bi-geo-alt"></i> Paris</span>
+                    <span class="note"><i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                    <i class="bi bi-star"></i>
+                    </span>
+                    <span class="nb-offre">20 offres en cours</span>
+                </div>
+            </article>
+        </a>
+
+
+        <a href="#" class="entreprise-link">
+            <article class="entreprise">
+                <img src="../images/img-engie.png" alt="logo_entreprise" class="entreprise-logo">
+                <h2 class="entreprise-titre">Entreprise Y</h2>
+                <div class="entreprise-content">
+                    <span class="localisation"><i class="bi bi-geo-alt"></i> Paris</span>
+                    <span class="note"><i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-half"></i>
+                <i class="bi bi-star"></i>
+                </span>
+                    <span class="nb-offre">20 offres en cours</span>
+                </div>
+            </article>
+        </a>
+
+    </section>
+
+    <nav class="pagination navBar">
+        <a href="#">&laquo;</a>
+        <a href="#" class="page_active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">&raquo;</a>
+    </nav>
+</main>
+
+<footer>
+    <p> © 2026 - All Right Reserved </p>
+</footer>
+</body>
+</html>
+
+</body>
+</html>
