@@ -4,7 +4,6 @@ main {
 
 body {
     min-height: 200vh;
-    background: linear-gradient(135deg,#f8fbf1 5%, #c5c5a9 30%, #f8fbf1 30%,  #c5c5a9 95%);
 }
 
 .dropdown {
@@ -107,11 +106,18 @@ div, button {
     backdrop-filter: blur(25px);
     margin-bottom: 100px;
 }
+
 header {
-    position: relative;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+    position: sticky;
+    top: -100%; 
+    z-index: 1000;
+    background: transparent;
+}
+
+.BigLogo {
+  width: auto; 
+  height: auto;
+  max-height: 100%;
 }
 
 /* Conteneur de l'indicateur */
@@ -162,6 +168,9 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; /* Ajout pour le contexte de z-index */
+    background: transparent;
+
     animation: disparitionLogo linear both;
     animation-timeline: scroll();
     animation-range: 0px 100vh;
@@ -204,7 +213,7 @@ header {
     }
     100% {
         opacity: 1; 
-        z-index: 1;
+        z-index: 2;
         transform: translateY(0);
     }
 }
@@ -212,11 +221,12 @@ header {
 @keyframes disparitionLogo {
     0% {
         opacity: 1;
+        visibility: visible;
         transform: scale(1); 
     }
     100% {
         opacity: 0; 
-        z-index: 1;
+        visibility: hidden;
         transform: scale(0.8);
     }
 }

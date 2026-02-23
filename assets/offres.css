@@ -2,6 +2,10 @@ body {
     min-height: auto;
 }
 
+header {
+    display: none;
+}
+
 main{
     margin: 0;
     padding: 0;
