@@ -108,16 +108,29 @@ div, button {
 }
 
 header {
-    position: sticky;
-    top: -100%; 
-    z-index: 1000;
-    background: transparent;
+    position: relative;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.BoxBigLogo {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: disparitionLogo linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
 }
 
 .BigLogo {
-  width: auto; 
-  height: auto;
-  max-height: 100%;
+    max-height: 70vh; 
+    max-width: 85%;
+    width: auto;
+    height: auto;
+
 }
 
 /* Conteneur de l'indicateur */
@@ -133,12 +146,11 @@ header {
     gap: 10px;
 }
 
-/* Création de la flèche en pur CSS */
 .Descendre::before {
     content: "";
     width: 20px;
     height: 20px;
-    border-bottom: 3px solid #333; /* Couleur de la flèche */
+    border-bottom: 3px solid #333; 
     border-right: 3px solid #333;
     transform: rotate(45deg);
     animation: scroll-down 2s infinite;
@@ -162,28 +174,11 @@ header {
     }
 }
 
-/* Gros Logo*/
-.BoxBigLogo {
-    height: 100vh; /* Doit correspondre à la valeur négative du top */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative; /* Ajout pour le contexte de z-index */
-    background: transparent;
-
-    animation: disparitionLogo linear both;
-    animation-timeline: scroll();
-    animation-range: 0px 100vh;
-}
-
-.navBar {
-    
-  opacity: 0; 
-  animation: apparitionLogo linear both;
+.navBar {  
+    opacity: 0; 
+    animation: apparitionLogo linear both;
     animation-timeline: scroll();
     animation-range: 0px 80vh;
-    
-    z-index: 99;
 }
 
 
@@ -241,78 +236,7 @@ main {
     z-index: 1;
 }
 
-/* --- CONFIGURATION PC (Par défaut) --- */
-.menu-checkbox {
-    display: none;
-}
-
-.burger-label {
-    display: none;
-}
-
-/* --- CONFIGURATION MOBILE --- */
-@media (max-width: 768px) {
-
-
-    .navBar {
-        opacity: 1 !important; 
-        transform: none !important;
-        animation: none !important; 
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 20px;
-    }
-
-
-    .burger-label {
-        display: flex !important;
-        flex-direction: column;
-        gap: 5px;
-        z-index: 2000;
-        cursor: pointer;
-    }
-
-    .burger-label span {
-        width: 25px;
-        height: 3px;
-        background-color: black;
-        border-radius: 2px;
-    }
-
-    .links {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: -100%; 
-        width: 70%;
-        height: 100vh;
-        background-color: #f8fbf1;
-        padding-top: 80px;
-        transition: 0.4s ease-in-out;
-        z-index: 1500;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-    }
-
-
-    nav .links a {
-        margin: 10px 20px !important;
-        border: 2px solid black !important;
-        text-align: center;
-    }
-
-
-    .menu-checkbox:checked ~ .links {
-        right: 0;
-    }
-
-
-    .menu-checkbox:checked + .burger-label span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
-    .menu-checkbox:checked + .burger-label span:nth-child(2) { opacity: 0; }
-    .menu-checkbox:checked + .burger-label span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
-}
-
-
+/* Carrousel */
 /* Conteneur principal */
 .testimonial-slider {
   width: 100%;
