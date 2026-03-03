@@ -41,6 +41,31 @@
     <main>
         <h1> Bienvenue chez nous</h1>
         <!--mettre le caroussel ici-->
+        <section class="stats-carousel">
+            <input type="radio" name="slider" id="stat-1" checked>
+            <input type="radio" name="slider" id="stat-2">
+            <input type="radio" name="slider" id="stat-3">
+            
+            <div class="cards-container">
+                <label class="stat-card" for="stat-1" id="card-1">
+                    <div class="stat-icon">💼</div>
+                    <div class="stat-value">150+</div>
+                    <div class="stat-label">Offres actives</div>
+                </label>
+
+                <label class="stat-card" for="stat-2" id="card-2">
+                    <div class="stat-icon">🏢</div>
+                    <div class="stat-value">45</div>
+                    <div class="stat-label">Entreprises partenaires</div>
+                </label>
+
+                <label class="stat-card" for="stat-3" id="card-3">
+                    <div class="stat-icon">🎓</div>
+                    <div class="stat-value">1200</div>
+                    <div class="stat-label">Juniors recrutés</div>
+                </label>
+            </div>
+        </section>
 
         <h2>Rechercher une offre ou une entreprise :</h2>
         <form action="Pages/Offres.html" method="get" class="truc">
