@@ -234,6 +234,7 @@ main {
     
     z-index: 1;
 }
+
 /*Carrousel des stats*/
 
 .stats-carousel {
@@ -265,7 +266,7 @@ main {
     height: 200px;
     background-color: #F8FBF1; 
     border: 5px solid #C5C5A9;   
-    border-radius: 4px;          
+    border-radius: 8px;          
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -293,7 +294,7 @@ main {
     margin-top: 5px;
 }
 
-/* Logique de positionnement Flat (Simple translation) */
+
 #stat-1:checked ~ .cards-container #card-1,
 #stat-2:checked ~ .cards-container #card-2,
 #stat-3:checked ~ .cards-container #card-3 {
@@ -319,7 +320,7 @@ main {
     z-index: 1;
 }
 
-/* Responsive : On empile sur mobile */
+/* Responsive */
 @media (max-width: 768px) {
     .stats-carousel {
         height: auto; 
