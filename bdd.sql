@@ -7,6 +7,14 @@ create table competences
         unique (competence)
 );
 
+create table contact
+(
+    id_contact int auto_increment
+        primary key,
+    email      varchar(255) not null,
+    telephone  varchar(20)  null
+);
+
 create table contrat
 (
     id_contrat  int auto_increment
@@ -23,13 +31,6 @@ create table domaines
     nom_domaine int not null,
     constraint domaines_unique
         unique (nom_domaine)
-);
-
-create table email
-(
-    id_email int auto_increment
-        primary key,
-    email    varchar(255) not null
 );
 
 create table groupe
@@ -60,22 +61,6 @@ create table departement
         foreign key (id_pays_fk) references pays (id_pays)
 );
 
-create table permission
-(
-    id_permission  int auto_increment
-        primary key,
-    nom_permission varchar(50) not null,
-    constraint nom_permission
-        unique (nom_permission)
-);
-
-create table telephone
-(
-    id_telephone int auto_increment
-        primary key,
-    numero       varchar(20) not null
-);
-
 create table unite_temps
 (
     id_unite  int auto_increment
@@ -86,20 +71,15 @@ create table unite_temps
 
 create table utilisateur
 (
-    id_utilisateur   int auto_increment
+    id_utilisateur int auto_increment
         primary key,
-    nom              varchar(100) not null,
-    prenom           varchar(50)  not null,
-    mot_de_passe     varchar(255) not null,
-    id_email_fk      int          not null,
-    id_telephone_fk  int          null,
-    id_permission_fk int          not null,
-    constraint utilisateur_email_id_email_fk
-        foreign key (id_email_fk) references email (id_email),
-    constraint utilisateur_permission_id_permission_fk
-        foreign key (id_permission_fk) references permission (id_permission),
-    constraint utilisateur_telephone_id_telephone_fk
-        foreign key (id_telephone_fk) references telephone (id_telephone)
+    nom            varchar(100) not null,
+    prenom         varchar(50)  not null,
+    mot_de_passe   varchar(255) not null,
+    id_permission  int          not null,
+    id_contact_fk  int          not null,
+    constraint utilisateur_contact_id_contact_fk
+        foreign key (id_contact_fk) references contact (id_contact)
 );
 
 create table groupe_utilisateur
@@ -134,19 +114,18 @@ create table adresse
 
 create table entreprise
 (
-    id_entreprise   int auto_increment
+    id_entreprise int auto_increment
         primary key,
-    nom             varchar(255) not null,
-    logo            varchar(255) null,
-    id_telephone_fk int          not null,
-    id_adresse_fk   int          not null,
-    id_email_fk     int          not null,
+    nom           varchar(255) not null,
+    logo          varchar(255) null,
+    decriptif     text         null,
+    nb_employe    int          null,
+    id_adresse_fk int          not null,
+    id_contact_fk int          not null,
     constraint Entreprise_adresse_id_adresse_fk
         foreign key (id_adresse_fk) references adresse (id_adresse),
     constraint Entreprise_email_id_email_fk
-        foreign key (id_email_fk) references email (id_email),
-    constraint Entreprise_telephone_id_telephone_fk
-        foreign key (id_telephone_fk) references telephone (id_telephone)
+        foreign key (id_contact_fk) references contact (id_contact)
 );
 
 create table note_entreprise
@@ -162,25 +141,26 @@ create table note_entreprise
 
 create table offre
 (
-    id_offre                int auto_increment
+    id_offre                  int auto_increment
         primary key,
-    titre                   varchar(255) not null,
-    date_creation           date         not null,
-    remuneration            varchar(50)  not null,
-    duree                   int          null,
-    date_debut              date         null,
-    descriptif              text         not null,
-    id_contrat_fk           int          not null,
-    id_unite_duree_fk       int          null,
-    id_adresse_fk           int          null,
-    id_entreprise_fk        int          not null,
-    id_email_recrutement_fk int          not null,
+    titre                     varchar(255) not null,
+    date_creation             date         not null,
+    remuneration              varchar(50)  not null,
+    duree                     int          null,
+    date_debut                date         null,
+    descriptif                text         not null,
+    visible                   tinyint(1)   not null,
+    id_contrat_fk             int          not null,
+    id_unite_duree_fk         int          null,
+    id_adresse_fk             int          null,
+    id_entreprise_fk          int          not null,
+    id_contact_recrutement_fk int          not null,
     constraint offre_adresse_id_adresse_fk
         foreign key (id_adresse_fk) references adresse (id_adresse),
+    constraint offre_contact_id_contact_fk
+        foreign key (id_contact_recrutement_fk) references contact (id_contact),
     constraint offre_contrat_id_contrat_fk
         foreign key (id_contrat_fk) references contrat (id_contrat),
-    constraint offre_email_id_email_fk
-        foreign key (id_email_recrutement_fk) references email (id_email),
     constraint offre_entreprise_id_entreprise_fk
         foreign key (id_entreprise_fk) references entreprise (id_entreprise),
     constraint offre_unite_temps_id_unite_fk
@@ -212,6 +192,16 @@ create table competence_offre
         foreign key (id_offre_fk) references offre (id_offre)
 );
 
+create table groupe_offre
+(
+    id_offre_fk  int not null,
+    id_groupe_fk int not null,
+    constraint groupe_offre_groupe_id_groupe_fk
+        foreign key (id_groupe_fk) references groupe (id_groupe),
+    constraint groupe_offre_offre_id_offre_fk
+        foreign key (id_offre_fk) references offre (id_offre)
+);
+
 create table offre_domaine
 (
     id_offre_fk   int not null,
@@ -231,4 +221,3 @@ create table whishlist
     constraint Whishlist_utilisateur_id_utilisateur_fk
         foreign key (id_utilisateur_fk) references utilisateur (id_utilisateur)
 );
-
