@@ -1,0 +1,346 @@
+main {
+    padding: 0;
+}
+
+body {
+    min-height: 200vh;
+}
+
+.dropdown {
+    position: relative;
+    margin-top: 10px;
+    margin-right: 2px;
+    margin-left: 2px;
+    display: inline-block; /* important pour que le parent prenne la taille du bouton */
+    overflow: visible;     /* pour que le menu puisse dépasser */
+}
+
+/* bouton */
+.dropbtn {
+    padding: 5px 5px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+/* menu */
+.dropdown-content {
+    position: absolute;
+    top: 0;
+    left: 100%;           /* position à droite du bouton */
+    background-color: #F8FBF1;
+    min-width: 250px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+    padding: 10px 0;
+    z-index: 1000;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(0);
+    transition: opacity 0.3s ease;
+}
+
+/* apparition au hover */
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+.dropdown-content button {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.dropdown-content button:hover {
+    background-color: #c5c5a9;
+    transition: 0.5s;
+}
+
+button:not(.fleche-wrapper [type = "button"]) {
+    background-color: #C5C5A9;
+}
+
+
+button {
+    border : none;
+    border-radius: 5px;
+}
+
+input {
+    background-color: #F8FBF1;
+    border-radius: 8px;
+    border : 2px solid #989882;
+    margin: 5px;
+}
+
+h1 {
+    color: #464a46;
+}
+
+h2 {
+    color: #37463D;
+}
+
+div, button {
+    color: #2a332e;
+}
+
+.truc {
+
+    border: 5px solid rgba(83, 89, 83, 0.2);
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.27);
+    margin: 0 auto;
+    max-width: 700px;
+    padding: 10px;
+    backdrop-filter: blur(25px);
+    margin-bottom: 50px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: inline;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.BoxBigLogo {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: disparitionLogo linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
+}
+
+.BigLogo {
+    max-height: 70vh; 
+    max-width: 85%;
+    width: auto;
+    height: auto;
+
+}
+
+/* Conteneur de l'indicateur */
+.Descendre {
+    position: absolute;
+    bottom: 10%; /* Aligné en bas */
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.Descendre::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-bottom: 3px solid #333; 
+    border-right: 3px solid #333;
+    transform: rotate(45deg);
+    animation: scroll-down 2s infinite;
+}
+
+/* Animation de rebond */
+@keyframes scroll-down {
+    0% {
+        transform: rotate(45deg) translate(0, 0);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(45deg) translate(15px, 15px);
+        opacity: 0;
+    }
+}
+
+.navBar {  
+    opacity: 0; 
+    animation: apparitionLogo linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
+}
+
+
+/* L'animation LogoNavBar */
+@keyframes apparitionLogo {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); 
+    }
+    80% {
+        opacity: 0; 
+    }
+    100% {
+        opacity: 1; 
+        z-index: 99;
+        transform: translateY(0);
+    }
+}
+
+@keyframes apparitionMain {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); 
+    }
+    80% {
+        opacity: 0; 
+    }
+    100% {
+        opacity: 1; 
+        z-index: 2;
+        transform: translateY(0);
+    }
+}
+
+@keyframes disparitionLogo {
+    0% {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1); 
+    }
+    100% {
+        opacity: 0; 
+        visibility: hidden;
+        transform: scale(0.8);
+    }
+}
+
+main {
+    opacity: 0; 
+    animation: apparitionMain linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
+    
+    z-index: 1;
+}
+
+/*Carrousel des stats*/
+
+.stats-carousel {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    height: 350px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-carousel input[type="radio"] {
+    display: none;
+}
+
+.cards-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.stat-card {
+    position: absolute;
+    width: 280px;
+    height: 200px;
+    background-color: #F8FBF1; 
+    border: 5px solid #C5C5A9;   
+    border-radius: 8px;          
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor: pointer;
+    z-index: 0;
+    opacity: 0;
+}
+
+.stat-icon {
+    font-size: 2.5rem; margin-bottom: 10px; 
+    }
+.stat-value { 
+    font-size: 3rem; 
+    font-weight: 900; 
+    color: #37463D; 
+    line-height: 1;
+}
+.stat-label { 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    font-size: 0.9rem; 
+    color: #535953;
+    margin-top: 5px;
+}
+
+
+#stat-1:checked ~ .cards-container #card-1,
+#stat-2:checked ~ .cards-container #card-2,
+#stat-3:checked ~ .cards-container #card-3 {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+    background-color: #C5C5A9;
+}
+
+#stat-1:checked ~ .cards-container #card-2,
+#stat-2:checked ~ .cards-container #card-3,
+#stat-3:checked ~ .cards-container #card-1 {
+    transform: translateX(110%) scale(0.9);
+    opacity: 0.6;
+    z-index: 1;
+}
+
+#stat-1:checked ~ .cards-container #card-3,
+#stat-2:checked ~ .cards-container #card-1,
+#stat-3:checked ~ .cards-container #card-2 {
+    transform: translateX(-110%) scale(0.9);
+    opacity: 0.6;
+    z-index: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .stats-carousel {
+        height: auto; 
+    }
+    .cards-container { 
+        flex-direction: column; position: static; 
+    }
+    .stat-card { 
+        position: relative; 
+        opacity: 1; 
+        transform: none !important; 
+        width: 90%; 
+        margin-bottom: 20px;
+    }
+}
+

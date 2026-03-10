@@ -1,0 +1,188 @@
+@font-face {
+    font-family: NSD;
+    src: url("assets/Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth,wght.ttf");
+}
+
+html, body{
+    font-family: NSD, sans-serif;
+    height: 100%;
+    width: 100%;            
+    margin: 0;
+    padding: 0;
+    gap: 0;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+
+}
+
+@media screen and (max-width: 768px) {
+    html, body {
+        font-size: 0.9rem;
+        overflow-x: hidden;
+    }
+    
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    background: linear-gradient(135deg,#f8fbf1 5%, #c5c5a9 30%, #f8fbf1 30%,  #c5c5a9 95%);
+    background-attachment: fixed; /
+}
+
+
+/* NavBar */
+.navBar {
+    position: sticky;
+    top: 10px;
+    height: 60px; 
+    background-color: rgb(224, 224, 224); 
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: black;
+    border-radius: 40px;
+    border: 2px solid rgba(192, 192, 192, 0.616);
+    box-shadow: 0px 4px 4px #797979;
+    justify-content: space-between;
+    margin: 10px 10px;
+    z-index: 99;
+}
+
+
+/* Petit Logo  */
+.LogoNav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    height: 40px; 
+    width: auto;
+}
+
+.LogoNav1 {
+    height: 40px;
+}
+
+.LogoNav2 {
+    height: 20px;
+}
+
+nav .links a {
+    position: sticky;
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    border: 10px solid black;
+    border-radius: 40px;
+    background-color: black ;
+
+}
+
+nav .links a:hover {
+    border-radius: 40px;
+    box-shadow: 0px 0px 0px #525252;
+    box-shadow: 4px 4px 4px #525252;
+}
+
+nav .links .active{
+    font-weight: bold;
+    box-shadow: 0px 0px 0px #525252;
+}
+
+main {
+    flex: 1;
+    overflow: visible;
+    width: 100%;
+    text-align: start;
+    padding-left: 10px;
+    padding-right: 10px;
+    z-index: 1;
+}
+
+main h1 {
+    text-align: center;
+}
+
+footer {
+    color: white;
+    background-color: #535953;
+    text-align: center;
+}
+
+
+/* --- CONFIGURATION PC (Par défaut) --- */
+.menu-checkbox {
+    display: none;
+}
+
+.burger-label {
+    display: none;
+}
+
+
+/* --- CONFIGURATION MOBILE --- */
+@media (max-width: 768px) {
+    .navBar {
+        opacity: 1 !important;
+        animation: none !important;
+        transform: none !important;
+    }
+
+    main {
+        opacity: 1 !important;
+        animation: none !important;
+        transform: none !important;
+    }
+
+    /* Affichage du bouton burger */
+    .burger-label {
+        display: flex ;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        z-index: 2000;
+    }
+
+    .burger-label span {
+        width: 25px;
+        height: 3px;
+        background-color: black;
+        border-radius: 2px;
+        transition: 0.3s; /* Pour l'animation en X */
+    }
+
+    /* Animation du Burger en "X" quand on clique */
+    .menu-checkbox:checked + .burger-label span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 6px);
+    }
+    .menu-checkbox:checked + .burger-label span:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-checkbox:checked + .burger-label span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -6px);
+    }
+
+    /* Le menu latéral */
+    .links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%; /* Caché par défaut */
+        width: 70%;
+        height: 100vh;
+        background-color: #f8fbf1;
+        padding-top: 80px;
+        transition: 0.5s ease-in-out;
+        z-index: 1500;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    }
+
+    /* Ouverture du menu */
+    .menu-checkbox:checked ~ .links {
+        right: 0;
+    }
+}

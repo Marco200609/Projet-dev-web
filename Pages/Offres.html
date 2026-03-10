@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Offres</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/offres.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/Recherche.css">
+</head>
+<body>
+<nav class="navBar">
+    <div class="LogoNav">
+        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+        <img src="../Images/LogoNav2.png" class="LogoNav2">
+    </div>
+
+    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+    <label for="menu-toggle" class="burger-label">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+
+    <div class="links">
+        <a href="../index.html">Accueil</a>
+        <a href="Offres.html" class="active">Offre</a>
+        <a href="Entreprises.html">Entreprise</a>
+        <a href="Connexion.html">Mon Compte</a>
+    </div>
+</nav>
+
+
+<main>
+
+    <h1>Rechercher une offre :</h1>
+    <form action="../Pages/Offres.html" method="get" class="truc">
+
+        <label for="nomOffre">Nom de l'offre :</label>
+        <input list="nomOffres" id="nomOffre" name="nomOffre" placeholder="Commencez à taper...">
+        <datalist id="nomOffres">
+            <option value="test">
+            <option value="test1">
+        </datalist>
+
+        <br>
+
+        <div class="dropdown">
+            <div class = "dropbtn">Contrat</div>
+            <div class="dropdown-content">
+                <button type="button">Stage</button>
+                <button type="button">Alternance</button>
+                <button type="button">CDI</button>
+                <button type="button">CDD</button>
+                <button type="button">Emploi saisonnier</button>
+                <button type="button">Contrat étudiant</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class = "dropbtn">Domaine</div>
+            <div class="dropdown-content">
+                <button type="button">Informatique</button>
+                <button type="button">BTP</button>
+                <button type="button">Finance</button>
+                <button type="button">Artisanat</button>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <div class = "dropbtn">Compétence</div>
+            <div class="dropdown-content">
+                <button type="button">Langues</button>
+                <button type="button">CSS</button>
+                <button type="button">HTML</button>
+                <button type="button">Javascript</button>
+                <button type="button">Python</button>
+                <button type="button">Machine Learning</button>
+            </div>
+        </div>
+
+        <br><br>
+        <label for="ville">Ville :</label>
+        <input list="villes" id="ville" name="ville" placeholder="Commencez à taper...">
+        <datalist id="villes">
+            <option value="Bordeaux">
+            <option value="Bruxelles">
+            <option value="Brest">
+            <option value="Lyon">
+            <option value="Paris">
+        </datalist>
+
+        <!--        Rechercher une entreprise-->
+        <br><br>
+        <label for="ville">Entreprise :</label>
+        <input list="entreprises" id="entreprise" name="entreprise" placeholder="Commencez à taper...">
+        <datalist id="entreprises">
+            <option value="A">
+            <option value="B">
+            <option value="C">
+            <option value="D">
+            <option value="E">
+        </datalist>
+
+        <br><br> <!--enlever les br après-->
+        <button type="submit" >Rechercher</button>
+        <button type="reset">Réinitialiser</button>
+
+    </form>
+
+    <h1> Offres disponibles </h1>
+
+    <section class="liste_offres">
+        <a href="detail_offre.html" class="offre-link">
+            <article class="offre">
+                <div class="offre-header">
+                    <span class="date"><i class="bi bi-calendar"></i> 15/02/2026</span>
+                    <span class="nouveau">Nouveau</span>
+                    <input type="checkbox" id="wish1" class="wishlist-checkbox" />
+                    <label for="wish1" class="wishlist-label">
+                        <i class="bi bi-heart"></i>
+                    </label>
+                </div>
+                <h2 class="offre-titre">Offre 1 : Stage développement web</h2>
+                <div class="offre-content">
+                    <div class="offre-main">
+                        <div class="offre-info">
+                            <span class="entreprise">Entreprise X</span>
+                            <span class="domaine">Informatique</span>
+                        </div>
+                        <div class="offre-competences">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                        </div>
+                    </div>
+                    <div class="offre-details">
+                        <span class="localisation"><i class="bi bi-geo-alt"></i> Paris</span>
+                        <span class="salaire"><i class="bi bi-cash-stack"></i> 692€</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+
+        <a href="detail_offre.html" class="offre-link">
+            <article class="offre">
+                <div class="offre-header">
+                    <span class="date"><i class="bi bi-calendar"></i> 22/01/2026</span>
+                    <span class="nouveau"></span>
+                    <input type="checkbox" id="wish2" class="wishlist-checkbox" />
+                    <label for="wish2" class="wishlist-label">
+                        <i class="bi bi-heart"></i>
+                    </label>
+                </div>
+                <h2 class="offre-titre">Offre 2 : Stage marketing digital</h2>
+                <div class="offre-content">
+                    <div class="offre-main">
+                        <div class="offre-info">
+                            <span class="entreprise">Entreprise Y</span>
+                            <span class="domaine">Marketing</span>
+                        </div>
+                        <div class="offre-competences">
+                            <span>SEO</span>
+                            <span>Google Ads</span>
+                        </div>
+                    </div>
+                    <div class="offre-details">
+                        <span class="localisation"><i class="bi bi-geo-alt"></i> Lyon</span>
+                        <span class="salaire"><i class="bi bi-cash-stack"></i> 1200€</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+
+        <a href="detail_offre.html" class="offre-link">
+            <article class="offre">
+                <div class="offre-header">
+                    <span class="date"><i class="bi bi-calendar"></i> 20/01/2026</span>
+                    <span class="nouveau"></span>
+                    <input type="checkbox" id="wish3" class="wishlist-checkbox" />
+                    <label for="wish3" class="wishlist-label">
+                        <i class="bi bi-heart"></i>
+                    </label>
+                </div>
+                <h2 class="offre-titre">Offre 3 : Stage data science</h2>
+                <div class="offre-content">
+                    <div class="offre-main">
+                        <div class="offre-info">
+                            <span class="entreprise">Entreprise Z</span>
+                            <span class="domaine">Data Science</span>
+                        </div>
+                        <div class="offre-competences">
+                            <span>Python</span>
+                            <span>Machine Learning</span>
+                        </div>
+                    </div>
+                    <div class="offre-details">
+                        <span class="localisation"><i class="bi bi-geo-alt"></i> Marseille</span>
+                        <span class="salaire"><i class="bi bi-cash stack"></i> 900€</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+
+    <a href="detail_offre.html" class="offre-link">
+        <article class="offre">
+            <div class="offre-header">
+                <span class="date"><i class="bi bi-calendar"></i> 20/01/2026</span>
+                <span class="nouveau"></span>
+                <input type="checkbox" id="wish4" class="wishlist-checkbox" />
+                <label for="wish4" class="wishlist-label">
+                    <i class="bi bi-heart"></i>
+                </label>
+            </div>
+            <h2 class="offre-titre">Offre 3 : Stage data science</h2>
+            <div class="offre-content">
+                <div class="offre-main">
+                    <div class="offre-info">
+                        <span class="entreprise">Entreprise Z</span>
+                        <span class="domaine">Data Science</span>
+                    </div>
+                    <div class="offre-competences">
+                        <span>Python</span>
+                        <span>Machine Learning</span>
+                    </div>
+                </div>
+                <div class="offre-details">
+                    <span class="localisation"><i class="bi bi-geo-alt"></i> Marseille</span>
+                    <span class="salaire"><i class="bi bi-cash stack"></i> 900€</span>
+                </div>
+            </div>
+        </article>
+    </a>
+    </section>
+
+    <nav class="pagination navBar">
+        <a href="#">&laquo;</a>
+        <a href="#" class="page_active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">&raquo;</a>
+    </nav>
+
+</main>
+
+
+<footer>
+    <p> © 2026 - All Right Reserved </p>
+</footer>
+</body>
+</html>
