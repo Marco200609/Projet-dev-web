@@ -32,7 +32,7 @@ button:hover {
     padding-right: 40px;
 }
 
-#toggle-password {
+.toggle-password {
     position: absolute;
     top: 50%;
     right: 8px;
@@ -43,17 +43,17 @@ button:hover {
     padding: 0;
 }
 
-#toggle-password svg {
+.toggle-password svg {
     width: 20px;
     height: 20px;
     fill: #555;
 }
 
-#toggle-password:hover svg {
+.toggle-password:hover svg {
     fill: #000;
 }
 
-[hidden] {
+.hidden {
     display: none !important;
 }
 
