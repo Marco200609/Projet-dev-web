@@ -234,7 +234,6 @@ header {
 }
 
 main {
-    
     opacity: 0; 
     animation: apparitionMain linear both;
     animation-timeline: scroll();
@@ -243,88 +242,105 @@ main {
     z-index: 1;
 }
 
-/* Carrousel */
-/* Conteneur principal */
-.testimonial-slider {
-  width: 100%;
-  max-width: 800px;
-  margin: 50px auto;
-  text-align: center;
-  font-family: 'Segoe UI', sans-serif;
+/*Carrousel des stats*/
+
+.stats-carousel {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    height: 350px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* On cache les boutons radio */
-.testimonial-slider input[type="radio"] {
-  display: none;
+.stats-carousel input[type="radio"] {
+    display: none;
 }
 
-.cards {
-  position: relative;
-  width: 100%;
-  height: 300px;
-  margin-bottom: 20px;
+.cards-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Style de chaque carte */
-.card {
-  position: absolute;
-  width: 60%;
-  left: 0;
-  right: 0;
-  margin: auto;
-  background: #fff;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  cursor: pointer;
-  opacity: 0;
-  z-index: 0;
+
+.stat-card {
+    position: absolute;
+    width: 280px;
+    height: 200px;
+    background-color: #F8FBF1; 
+    border: 5px solid #C5C5A9;   
+    border-radius: 8px;          
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor: pointer;
+    z-index: 0;
+    opacity: 0;
 }
 
-.content p {
-  font-style: italic;
-  color: #555;
-  font-size: 1.1rem;
-  line-height: 1.6;
+.stat-icon {
+    font-size: 2.5rem; margin-bottom: 10px; 
+    }
+.stat-value { 
+    font-size: 3rem; 
+    font-weight: 900; 
+    color: #37463D; 
+    line-height: 1;
+}
+.stat-label { 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    font-size: 0.9rem; 
+    color: #535953;
+    margin-top: 5px;
 }
 
-.user {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
+
+#stat-1:checked ~ .cards-container #card-1,
+#stat-2:checked ~ .cards-container #card-2,
+#stat-3:checked ~ .cards-container #card-3 {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+    background-color: #C5C5A9;
 }
 
-.user img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
+#stat-1:checked ~ .cards-container #card-2,
+#stat-2:checked ~ .cards-container #card-3,
+#stat-3:checked ~ .cards-container #card-1 {
+    transform: translateX(110%) scale(0.9);
+    opacity: 0.6;
+    z-index: 1;
 }
 
-/* Logique d'affichage (Le "Cœur" du carrousel) */
-#item-1:checked ~ .cards #testimonial-1,
-#item-2:checked ~ .cards #testimonial-2,
-#item-3:checked ~ .cards #testimonial-3 {
-  transform: translateX(0) scale(1);
-  opacity: 1;
-  z-index: 2;
+#stat-1:checked ~ .cards-container #card-3,
+#stat-2:checked ~ .cards-container #card-1,
+#stat-3:checked ~ .cards-container #card-2 {
+    transform: translateX(-110%) scale(0.9);
+    opacity: 0.6;
+    z-index: 1;
 }
 
-#item-1:checked ~ .cards #testimonial-2,
-#item-2:checked ~ .cards #testimonial-3,
-#item-3:checked ~ .cards #testimonial-1 {
-  transform: translateX(30%) scale(0.8);
-  opacity: 0.5;
-  z-index: 1;
-}
-
-#item-1:checked ~ .cards #testimonial-3,
-#item-2:checked ~ .cards #testimonial-1,
-#item-3:checked ~ .cards #testimonial-2 {
-  transform: translateX(-30%) scale(0.8);
-  opacity: 0.5;
-  z-index: 1;
+/* Responsive */
+@media (max-width: 768px) {
+    .stats-carousel {
+        height: auto; 
+    }
+    .cards-container { 
+        flex-direction: column; position: static; 
+    }
+    .stat-card { 
+        position: relative; 
+        opacity: 1; 
+        transform: none !important; 
+        width: 90%; 
+        margin-bottom: 20px;
+    }
 }
 
