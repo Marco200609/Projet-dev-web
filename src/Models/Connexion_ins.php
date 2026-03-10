@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class Connexion_inscription
+class Connexion_ins
 {
 
 }

@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class Connexion_inscription
+class Connexion_ins
 {
 
 }
