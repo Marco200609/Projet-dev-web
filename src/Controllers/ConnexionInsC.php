@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class Connexion_ins
+class ConnexionInsC
 {
 
 }
