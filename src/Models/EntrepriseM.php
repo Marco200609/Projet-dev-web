@@ -169,10 +169,22 @@ class EntrepriseM extends PdoM
 
     public function setNote($note, $id_entreprise, $id_user)
     {
+        try{
+            $this->pdo->beginTransaction();
+            $rq = $this->pdo->prepare("DELETE FROM note_entreprise WHERE id_entreprise_fk = :id_entreprise AND id_user_fk = :id_user");
+            $rq->bindValue(':id_entreprise', (int)$id_entreprise, PDO::PARAM_INT);
+            $rq->bindValue(':id_user', (int)$id_user, PDO::PARAM_INT);
+            $rq->execute();
+            $this->pdo->commit();
+        } catch (\Exception $e) {
+            $this->pdo->rollBack();
+             return false;
+        }
         $rq = $this->pdo->prepare("INSERT INTO note_entreprise (note, id_entreprise_fk, id_user_fk) VALUES (:note, :id_entreprise, :id_user)");
         $rq->bindValue(':note', (int)$note, PDO::PARAM_INT);
         $rq->bindValue(':id_entreprise', (int)$id_entreprise, PDO::PARAM_INT);
         $rq->bindValue(':id_user', (int)$id_user, PDO::PARAM_INT);
         $rq->execute();
+        return true;
     }
 }
