@@ -5,4 +5,23 @@ namespace Controllers;
 class ConnexionInsC
 {
 
+    public function __construct($templateEngine) {
+
+    }
+
+    public function pageconnexion() {
+
+    }
+
+    public function page_connexion() {
+
+    }
+
+    public function form_inscription() {
+
+    }
+
+    public function form_connexion() {
+
+    }
 }
