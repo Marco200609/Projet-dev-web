@@ -1,7 +1,7 @@
 <?php
 
-namespace Controllers;
-use Models\EntrepriseM;
+namespace App\Controllers;
+use App\Models\EntrepriseM;
 
 class EntrepriseC
 {
@@ -14,10 +14,24 @@ class EntrepriseC
         $this->templateEngine = $templateEngine;
     }
 
-    public function PageEntreprise($page=1, $parpage=12, $nom = '', $ville = '')
+    public function PageEntreprise()
     {
-        $entreprises = $this->model->getEntreprises($page, $parpage, $nom, $ville);
-        echo $this->templateEngine->render('entreprise.html.twig', ['entreprises' => $entreprises]);
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $parpage = isset($_GET['parpage']) ? (int)$_GET['parpage'] : 12;
+        $entreprise = $_GET['entreprise'] ?? '';
+        $ville = $_GET['ville'] ?? '';
+
+        $entreprises = $this->model->getEntreprises($page, $parpage, $entreprise, $ville);
+        $total = $this->model->getNbEntreprises();
+
+        echo $this->templateEngine->render('entreprise.html.twig', [
+            'entreprises' => $entreprises,
+            'page' => $page,
+            'parpage' => $parpage,
+            'total' => $total,
+            'entreprise' => $entreprise,
+            'ville' => $ville
+        ]);
     }
 
     public function PageDetailEntreprise($id)
