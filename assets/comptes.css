@@ -205,9 +205,9 @@ footer {
     text-align: center;
 }
 
-/* --- EFFETS DE SURVOL (HOVER) AJOUTÉS --- */
+/* --- EFFETS DE SURVOL (HOVER) AJOUTï¿½S --- */
 
-/* Hover sur les petites cases de stats (Étudiant, Entreprise, Pilote) */
+/* Hover sur les petites cases de stats (ï¿½tudiant, Entreprise, Pilote) */
 .mini-stat:hover {
     background: rgba(255, 255, 255, 0.4);
     transform: translateY(-5px);
@@ -232,7 +232,7 @@ footer {
     cursor: pointer;
 }
 
-/* --- STYLES POUR LES BADGES (Optionnel si pas déjà défini) --- */
+/* --- STYLES POUR LES BADGES (Optionnel si pas dï¿½jï¿½ dï¿½fini) --- */
 .badge {
     padding: 5px 10px;
     border-radius: 12px;
@@ -256,25 +256,31 @@ footer {
 
 
 
-/* On cible le bouton qui contient le cœur */
+/* On cible le bouton qui contient le cï¿½ur */
 .heart-btn {
     background: none;      /* Supprime le fond gris */
     border: none;          /* Supprime les bordures du rectangle */
-    padding: 0;            /* Supprime l'espace interne qui fait grossir la boîte */
+    padding: 0;            /* Supprime l'espace interne qui fait grossir la boï¿½te */
     cursor: pointer;       /* Change le curseur en main au survol */
-    outline: none;         /* Supprime le contour bleu de sélection */
+    outline: none;         /* Supprime le contour bleu de sï¿½lection */
     
-    /* Optionnel : pour que le cœur soit plus joli */
-    font-size: 1.6rem;     /* Pour agrandir la taille du cœur */
+    /* Optionnel : pour que le cï¿½ur soit plus joli */
+    font-size: 1.6rem;     /* Pour agrandir la taille du cï¿½ur */
     transition: transform 0.2s ease; /* Pour un petit effet fluide */
 }
 
-/* Couleur du cœur quand il est actif */
+/* Couleur du cï¿½ur quand il est actif */
 .heart-btn.active i {
     color: #ff4757;        /* Un beau rouge vif */
 }
 
-/* Petit effet au survol : le cœur grossit un peu */
+/* Petit effet au survol : le cï¿½ur grossit un peu */
 .heart-btn:hover {
     transform: scale(1.2);
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
 }
