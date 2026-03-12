@@ -59,7 +59,10 @@
 
 
     <section class="glass-card table-section">
-        <h3><i class="bi bi-people-fill"></i> Liste étudiants </h3>
+        <h3><i class="bi bi-people-fill"></i> Liste étudiants <div class="table-search">
+            <input type="text" placeholder="Rechercher...">
+        </div>
+        </h3>
         <table class="stats-table">
             <thead>
                 <tr>
@@ -70,19 +73,19 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Johan durant</strong>
+                    <td><strong>Johan durant</strong><br>
                     <small>johan.durant@cesi.fr</small>
                     </td>
 
                     <td>CESI La Rochelle</td>
                     <td class="cell-actions">
-                        
-                        <button class="btn-action chat" title="Contacter">
-                            <i class="bi bi-chat-left-dots-fill"></i>
-                        </button>
 
                         <button class="btn-action folder" title="Modifier l'étudiant">
                             <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button class="btn-action chat" title="Contacter">
+                            <i class="bi bi-chat-left-dots-fill"></i>
                         </button>
 
                         <button class="btn-action folder" title="Réinitialiser le mot de passe" style="color: #f39c12;">
@@ -95,7 +98,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>Alice Martin</strong>
+                    <td><strong>Alice Martin</strong><br>
                     <small>alice.martin@esigelec.fr</small>
                     </td>
                     <td>ESIGELEC </td>
@@ -119,10 +122,22 @@
                 </tr>
             </tbody>
         </table>
+        <div class="pagination-numbers">
+            <a href="#" class="page active">1</a>
+            <a href="#" class="page">2</a>
+            <span class="dots">…</span>
+            <a href="#" class="page">15</a>
+            <a href="#" class="page">17</a>
+        </div>
     </section>
+    
 
     <section class="glass-card table-section">
-        <h3><i class="bi bi-building-fill"></i> Gestion des Entreprises</h3>
+        <h3><i class="bi bi-building-fill"></i> Gestion des Entreprises <div class="table-search">
+            <input type="text" placeholder="Rechercher...">
+        </div>
+        </h3> 
+
         <table class="stats-table">
             <thead>
                 <tr>
@@ -168,10 +183,21 @@
                 </tr>
             </tbody>
         </table>
+        <div class="pagination-numbers">
+            <a href="#" class="page active">1</a>
+            <a href="#" class="page">2</a>
+            <span class="dots">…</span>
+            <a href="#" class="page">5</a>
+            <a href="#" class="page">6</a>
+        </div>
     </section>
+    
 
     <section class="glass-card table-section">
-        <h3><i class="bi bi-person-badge-fill"></i> Gestion des Pilotes</h3>
+        <h3><i class="bi bi-person-badge-fill"></i> Gestion des Pilotes <div class="table-search">
+            <input type="text" placeholder="Rechercher...">
+        </div>
+        </h3>
 
         <table class="stats-table">
             <thead>
@@ -253,8 +279,17 @@
 
             </tbody>
         </table>
-
+        <div class="pagination-numbers">
+            <a href="#" class="page active">1</a>
+            <a href="#" class="page">2</a>
+            <!-- 
+            <span class="dots">…</span>
+            -->
+            <a href="#" class="page">3</a>
+            <a href="#" class="page">4</a>
+        </div>
     </section>
+    
 
 </main>
 

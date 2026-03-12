@@ -284,3 +284,68 @@ footer {
     border-collapse: collapse;
     table-layout: fixed;
 }
+
+.pagination-numbers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 0 30px 0;
+    flex-wrap: wrap;
+}
+
+.pagination-numbers .page,
+.pagination-numbers .dots {
+    display: inline-block;
+    min-width: 32px;
+    padding: 8px 12px;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.pagination-numbers .page {
+    background: rgba(55, 70, 61, 0.2);
+    color: #37463D;
+}
+
+.pagination-numbers .page:hover {
+    background: rgba(55, 70, 61, 0.4);
+    transform: translateY(-2px);
+}
+
+.pagination-numbers .page.active {
+    background: #522dcd;
+    color: #f8fbf1;
+}
+
+.pagination-numbers .dots {
+    background: transparent;
+    color: #37463D;
+    cursor: default;
+}
+
+.table-search {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 0 15px 0;
+}
+
+.table-search input {
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 2px solid rgba(83, 89, 83, 0.2);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.25);
+    outline: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    width: 200px;
+}
+
+.table-search input:focus {
+    border-color: #37463D;
+    background: rgba(255, 255, 255, 0.35);
+}
