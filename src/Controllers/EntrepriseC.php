@@ -23,6 +23,8 @@ class EntrepriseC
 
         $entreprises = $this->model->getEntreprises($page, $parpage, $entreprise, $ville);
         $total = $this->model->getNbEntreprises();
+        $nom_entreprises = $this->model->getNomEntreprises();
+        $ville_entreprises = $this->model->getVilleEntreprises();
 
         echo $this->templateEngine->render('entreprise.html.twig', [
             'entreprises' => $entreprises,
@@ -30,7 +32,9 @@ class EntrepriseC
             'parpage' => $parpage,
             'total' => $total,
             'entreprise' => $entreprise,
-            'ville' => $ville
+            'ville' => $ville,
+            'nom_entreprises' => $nom_entreprises,
+            'ville_entreprises' => $ville_entreprises
         ]);
     }
 

@@ -70,6 +70,22 @@ class EntrepriseM extends PdoM
         return $entreprise;
     }
 
+    public function getNomEntreprises() :array
+    {
+        $rq = $this->pdo->prepare("SELECT nom FROM entreprise");
+        $rq->execute();
+        return $rq->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getVilleEntreprises() :array
+    {
+        $rq = $this->pdo->prepare("SELECT DISTINCT villes.nom_ville FROM entreprise
+                                    LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
+                                    LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville");
+        $rq->execute();
+        return $rq->fetchAll(PDO::FETCH_COLUMN);
+    }
+
     public function setEntreprise($nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description) : bool
     {
         $rq = $this->pdo->prepare("SELECT id_entreprise FROM entreprise WHERE nom = :name");

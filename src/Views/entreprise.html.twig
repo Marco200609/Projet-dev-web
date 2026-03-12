@@ -44,11 +44,9 @@
             <input list="villes" id="ville" name="ville" value="{{ ville }}" placeholder="Commencez à taper...">
             <datalist id="villes">
                 <!-- Voir si l'on propose des villes ou si on laisse l'utilisateur taper librement-->
-                <option value="Bordeaux">
-                <option value="Bruxelles">
-                <option value="Brest">
-                <option value="Lyon">
-                <option value="Paris">
+                {% for ville in ville_entreprises %}
+                    <option value="{{ ville }}">
+                {% endfor %}
             </datalist>
 
             <!--        Rechercher une entreprise-->
@@ -56,11 +54,9 @@
             <label for="ville">Entreprise :</label>
             <input list="entreprises" id="entreprise" name="entreprise" value="{{ entreprise }}" placeholder="Commencez à taper...">
             <datalist id="entreprises">
-                <option value="A">
-                <option value="B">
-                <option value="C">
-                <option value="D">
-                <option value="E">
+                {% for nom in nom_entreprises %}
+                    <option value="{{ nom }}">
+                {% endfor %}
             </datalist>
 
 
