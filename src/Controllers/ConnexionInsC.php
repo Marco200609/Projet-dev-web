@@ -6,7 +6,7 @@ class ConnexionInsC
 {
 
     public function __construct($templateEngine) {
-
+    $this->templateEngine = $templateEngine;
     }
 
     public function pageconnexion() {
