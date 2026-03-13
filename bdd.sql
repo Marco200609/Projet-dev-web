@@ -24,15 +24,6 @@ create table contrat
         unique (nom_contrat)
 );
 
-create table domaines
-(
-    id_domaine  int auto_increment
-        primary key,
-    nom_domaine int not null,
-    constraint domaines_unique
-        unique (nom_domaine)
-);
-
 create table groupe
 (
     id_groupe  int auto_increment
@@ -118,7 +109,7 @@ create table entreprise
         primary key,
     nom           varchar(255) not null,
     logo          varchar(255) null,
-    decriptif     text         null,
+    descriptif    text         null,
     nb_employe    int          null,
     id_adresse_fk int          not null,
     id_contact_fk int          not null,
@@ -149,7 +140,7 @@ create table offre
     duree                     int          null,
     date_debut                date         null,
     descriptif                text         not null,
-    visible                   tinyint(1)   not null,
+    domaine                   varchar(100) not null,
     id_contrat_fk             int          not null,
     id_unite_duree_fk         int          null,
     id_adresse_fk             int          null,
@@ -199,16 +190,6 @@ create table groupe_offre
     constraint groupe_offre_groupe_id_groupe_fk
         foreign key (id_groupe_fk) references groupe (id_groupe),
     constraint groupe_offre_offre_id_offre_fk
-        foreign key (id_offre_fk) references offre (id_offre)
-);
-
-create table offre_domaine
-(
-    id_offre_fk   int not null,
-    id_domaine_fk int not null,
-    constraint offre_domaine_domaines_id_domaine_fk
-        foreign key (id_domaine_fk) references domaines (id_domaine),
-    constraint offre_domaine_offre_id_offre_fk
         foreign key (id_offre_fk) references offre (id_offre)
 );
 
