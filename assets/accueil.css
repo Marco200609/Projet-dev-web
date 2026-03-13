@@ -36,7 +36,7 @@ body {
     top: 0;
     left: 100%;           /* position à droite du bouton */
     margin-left: 10px;    /* petit espace */
-    background-color: #F8FBF1;
+    background-color: #e4ecee;
     min-width: 250px;
     border-radius: 12px;
     box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
@@ -78,7 +78,7 @@ button {
 }
 
 input {
-    background-color: #F8FBF1;
+    background-color: #e4ecee;
     border-radius: 8px;
     border : 2px solid #989882;
 }
@@ -108,6 +108,7 @@ div, button {
 }
 
 header {
+    background-color: #e4ecee;
     position: relative;
     width: 100%;
     justify-content: center;
@@ -174,7 +175,7 @@ header {
     }
 }
 
-.navBar {  
+.navBar > *{  
     opacity: 0; 
     animation: apparitionLogo linear both;
     animation-timeline: scroll();
@@ -257,16 +258,25 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+
+
+
 }
 
 
+
 .stat-card {
+     
+    background:#e4ecee;
+    border-radius:20px;
+    box-shadow:
+    0 20px 60px rgba(0,0,0,0.4);
+
     position: absolute;
     width: 280px;
     height: 200px;
-    background-color: #F8FBF1; 
-    border: 5px solid #C5C5A9;   
-    border-radius: 8px;          
+ 
+       
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -301,7 +311,7 @@ main {
     transform: translateX(0) scale(1);
     opacity: 1;
     z-index: 3;
-    background-color: #C5C5A9;
+    background-color: #709CA7;
 }
 
 #stat-1:checked ~ .cards-container #card-2,
