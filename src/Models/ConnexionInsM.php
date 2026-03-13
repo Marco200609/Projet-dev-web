@@ -5,12 +5,12 @@ namespace Models;
 class ConnexionInsM extends PdoM
 {
 
-    public function get_id_user($email, $password) {
-//    return ($this->connection ->);
+    public function get_id_user($email, $mot_de_passe) {
 
     }
 
-    public function set_id_user($nom, $prenom, $password, $id_permission, $email, $telephone, $groupe)
+    public function set_id_user($nom, $prenom, $mot_de_passe, $id_permission, $email, $telephone, $groupe)
+//        Pour quand l'utilisateur s'inscrit
     {
 
     }
