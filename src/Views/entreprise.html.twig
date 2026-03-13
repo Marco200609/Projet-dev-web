@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recherche entreprises</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/Assets/style.css">
+    <link rel="stylesheet" href="/Assets/entreprise.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/Assets/recherche.css">
+</head>
+<body>
+<nav class="navBar">
+    <div class="LogoNav">
+        <img src="/Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+        <img src="/Images/LogoNav2.png" class="LogoNav2">
+    </div>
+
+    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+    <label for="menu-toggle" class="burger-label">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+
+    <div class="links">
+        <a href="/index.html" >Accueil</a>
+        <a href="Offres.html">Offre</a>
+        <a href="Entreprises.html" class="active">Entreprise</a>
+        <a href="Connexion.html">Mon Compte</a>
+    </div>
+</nav>
+
+
+<main>
+
+    <h1>Rechercher une entreprise :</h1>
+    <div class="truc">
+        <form>
+            {% if parpage != 12 %}
+                <input type="hidden" name="parpage" value="{{ parpage }}">
+            {% endif %}
+            <label for="ville">Ville :</label>
+            <input list="villes" id="ville" name="ville" value="{{ ville }}" placeholder="Commencez à taper...">
+            <datalist id="villes">
+                <!-- Voir si l'on propose des villes ou si on laisse l'utilisateur taper librement-->
+                {% for ville in ville_entreprises %}
+                    <option value="{{ ville }}">
+                {% endfor %}
+            </datalist>
+
+            <!--        Rechercher une entreprise-->
+            <br><br>
+            <label for="ville">Entreprise :</label>
+            <input list="entreprises" id="entreprise" name="entreprise" value="{{ entreprise }}" placeholder="Commencez à taper...">
+            <datalist id="entreprises">
+                {% for nom in nom_entreprises %}
+                    <option value="{{ nom }}">
+                {% endfor %}
+            </datalist>
+
+
+            <br><br> <!--enlever les br après-->
+
+            <button type="submit" >Rechercher</button>
+            <button type="reset">Réinitialiser</button>
+        </form>
+
+    </div>
+
+    {#  Si aucune entreprise affichage message  #}
+    {% if entreprises is empty %}
+        <h1>Aucune entreprise disponible</h1>
+    {% else %}
+
+    <h1>Entreprises disponibles :</h1>
+
+    <section class="liste_entreprises">
+
+        {% for ent in entreprises %}
+            <a href="detail_entreprise/{{ ent.id }}.html" class="entreprise-link">
+                <article class="entreprise">
+                    <img src="{{ ent.logo }}" alt="logo_entreprise" class="entreprise-logo">
+                    <h2 class="entreprise-titre">{{ ent.nom }}</h2>
+                    <div class="entreprise-content">
+                        <span class="localisation"><i class="bi bi-geo-alt"></i> {{ ent.nom_ville }}</span>
+                        <span class="note">
+                            {% if ent.note is not null %}
+                                {% set nb = ent.note %}
+                                {% for i in 1..5 %}
+                                    {% if i >= 1 %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+                                    {% set nb = nb - 1 %}
+                                {% endfor %}
+                            {% endif %}
+                        </span>
+                        <span class="nb-offre">{{ ent.nb_offre }} offres en cours</span>
+                    </div>
+                </article>
+            </a>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    <nav class="pagination navBar">
+        {% set totalPages = parpage == -1 ? 1 : (total / parpage)|round(0, 'ceil') %}
+        {% set first = (page - 2) >= 1 ? (page - 2) : 1 %}
+        {% set nb = (totalPages < 5 ) ? totalPages : 5 %}
+
+        {# Lien page précédente #}
+        {% if page - 1 >= 1 %}
+            <a href="?page={{ page - 1 }}&parpage={{ parpage }}{% if nom!='' %}&nom={{ nom }}{% endif %}{% if ville!='' %}&ville={{ ville }}{% endif %}">&laquo;</a>
+        {% endif %}
+
+        {# Liens pages #}
+        {% for fi in first..nb %}
+            {% if fi == page %}
+                <a href="?page={{ fi }}&parpage={{ parpage }}{% if nom!='' %}&nom={{ nom }}{% endif %}{% if ville!='' %}&ville={{ ville }}{% endif %}" class="page_active">{{ fi }}</a>
+            {% else %}
+                <a href="?page={{ fi }}&parpage={{ parpage }}{% if nom!='' %}&nom={{ nom }}{% endif %}{% if ville!='' %}&ville={{ ville }}{% endif %}">{{ fi }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {# Lien page suivante #}
+        {% if page + 1 <= totalPages %}
+            <a href="?page={{ page + 1 }}&parpage={{ parpage }}{% if nom!='' %}&nom={{ nom }}{% endif %}{% if ville!='' %}&ville={{ ville }}{% endif %}">&raquo;</a>
+        {% endif %}
+
+        <form method="get" action="" class="pagination-form">
+            <input type="hidden" name="ville" value="{{ ville }}">
+            <input type="hidden" name="entreprise" value="{{ entreprise }}">
+            <select name="parpage" id="parpage" onchange="this.form.submit()">
+                <option value="12" {% if parpage == 12 %}selected{% endif %}>12</option>
+                <option value="24" {% if parpage == 24 %}selected{% endif %}>24</option>
+                <option value="48" {% if parpage == 48 %}selected{% endif %}>48</option>
+                <option value="96" {% if parpage == 96 %}selected{% endif %}>96</option>
+                <option value="-1" {% if parpage == -1 %}selected{% endif %}>illimité</option>
+            </select>
+        </form>
+    </nav>
+</main>
+
+<footer>
+    <p> © 2026 - All Right Reserved </p>
+</footer>
+</body>
+</html>
