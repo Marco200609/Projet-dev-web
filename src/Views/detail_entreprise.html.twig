@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recherche entreprises</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/Assets/style.css">
+    <link rel="stylesheet" href="/Assets/detail_offre.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<nav class="navBar">
+    <div class="LogoNav">
+        <img src="/Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+        <img src="/Images/LogoNav2.png" class="LogoNav2">
+    </div>
+
+    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+    <label for="menu-toggle" class="burger-label">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+
+    <div class="links">
+        <a href="/index.html" >Accueil</a>
+        <a href="Offres.html">Offre</a>
+        <a href="Entreprises.html" class="active">Entreprise</a>
+        <a href="Connexion.html">Mon Compte</a>
+    </div>
+</nav>
+
+
+<main>
+
+    <section class="offre-det">
+        <div class="logo-entreprise">
+            <img src="{{ entreprise.logo }}" alt="image entreprise">
+        </div>
+        <h1>{{ entreprise.nom }}</h1>
+        <div class="face_a_face">
+            <div class="offre-info">
+                <span class="mail-telephone"> <b> Mail : </b>{{ entreprise.email }}</span>
+                <span class="note">
+                    {% set nb = entreprise.note %}
+                        {% for i in 1..5 %}
+                            {% if session.id_utilisateur is defined %}
+                                <form method="post" action="/detail_entreprise/note" style="display:inline;">
+                                    <input type="hidden" name="id_entreprise" value="{{ entreprise.id_entreprise }}">
+                                    <input type="hidden" name="id_utilisateur" value="{{ session.id_utilisateur }}">
+                                    <button type="submit" name="note" value="{{ i }}" class="bouton_etoile">
+                                        <i class="bi {% if i <= nb %}bi-star-fill{% else %}bi-star{% endif %}"></i>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <i class="bi {% if i <= nb %}bi-star-fill{% else %}bi-star{% endif %}"></i>
+                            {% endif %}
+                        {% endfor %}
+                    <i>({{ nb_note }})</i>
+                    {% if note_user is not null %}
+                        <i>Votre note : {{ note_user }}</i>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="offre-details">
+                <span class="localisation"><i class="bi bi-geo-alt"></i> {{ entreprise.nom_ville }}</span>
+                <span class="salaire"><i class="bi bi-people"></i> {{ entreprise.nb_employe }}</span>
+            </div>
+        </div>
+        <p class="descriptif"><strong>Descriptif :</strong>
+           {{ entreprise.descriptif }}
+        </p>
+        <div class="competences-ligne-postuler">
+
+            {% if entreprise.nb_offre != 0 %}
+                <div class="gauche">
+                <strong>Domaines liés :</strong>
+                <div class="offre-competences">
+                    {% for comp in entreprise.domaines_offres.domaine %}
+                        <span>comp</span>
+                    {% endfor %}
+                </div>
+                </div>
+                <a href="www.juniors.fr/entreprise&nom={{ entreprise.nom }}" class="postuler-button">Voir les {{ entreprise.nb_offre}} offres</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <h2 class="titre-offre">Nos dernières offres</h2>
+
+    <section class="liste_offres">
+        <a href="detail_offre.html" class="offre-link">
+            <article class="offre">
+                <div class="offre-header">
+                    <span class="date"><i class="bi bi-calendar"></i> 15/02/2026</span>
+                    <span class="nouveau">Nouveau</span>
+                    <input type="checkbox" id="wish1" class="wishlist-checkbox" />
+                    <label for="wish1" class="wishlist-label">
+                        <i class="bi bi-heart"></i>
+                    </label>
+                </div>
+                <h2 class="offre-titre">Offre 1 : Stage développement web</h2>
+                <div class="offre-content">
+                    <div class="offre-main">
+                        <div class="offre-info">
+                            <span class="entreprise">Entreprise X</span>
+                            <span class="domaine">Informatique</span>
+                        </div>
+                        <div class="offre-competences">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                        </div>
+                    </div>
+                    <div class="offre-details">
+                        <span class="localisation"><i class="bi bi-geo-alt"></i> Paris</span>
+                        <span class="salaire"><i class="bi bi-cash-stack"></i> 692€</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+
+        <a href="detail_offre.html" class="offre-link">
+            <article class="offre">
+                <div class="offre-header">
+                    <span class="date"><i class="bi bi-calendar"></i> 22/01/2026</span>
+                    <span class="nouveau"></span>
+                    <input type="checkbox" id="wish2" class="wishlist-checkbox" />
+                    <label for="wish2" class="wishlist-label">
+                        <i class="bi bi-heart"></i>
+                    </label>
+                </div>
+                <h2 class="offre-titre">Offre 2 : Stage marketing digital</h2>
+                <div class="offre-content">
+                    <div class="offre-main">
+                        <div class="offre-info">
+                            <span class="entreprise">Entreprise Y</span>
+                            <span class="domaine">Marketing</span>
+                        </div>
+                        <div class="offre-competences">
+                            <span>SEO</span>
+                            <span>Google Ads</span>
+                        </div>
+                    </div>
+                    <div class="offre-details">
+                        <span class="localisation"><i class="bi bi-geo-alt"></i> Lyon</span>
+                        <span class="salaire"><i class="bi bi-cash-stack"></i> 1200€</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+
+    </section>
+
+</main>
+
+<footer>
+    <p> © 2026 - All Right Reserved </p>
+</footer>
+</body>
+</html>

@@ -19,20 +19,36 @@ $twig = new \Twig\Environment($loader, [
     'debug' => true
 ]);
 
+session_start();
+
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-switch ($uri) {
-    case '/':
-        echo 'Welcome page';
+if ($uri === '/') {
+    echo 'Welcome page';
 
-        break;
+} elseif ($uri === '/entreprises') {
+    $controllerEnt = new EntrepriseC($twig);
+    $controllerEnt->PageEntreprise();
 
-    case '/entreprises':
-        $controllerEnt = new EntrepriseC($twig);
-        $controllerEnt->PageEntreprise();
-        break;
-    default:
-        // TODO : return a 404 error
-        echo '404 Not Found';
-        break;
+} elseif (preg_match('#^/detail_entreprise/(\d+)(/)?$#', $uri, $matches)) {
+    $controllerEnt = new EntrepriseC($twig);
+    $controllerEnt->PageDetailEntreprise($matches[1]);
+
+} elseif ($uri === '/detail_entreprise/note') {
+    $controllerEnt = new EntrepriseC($twig);
+    $controllerEnt->FormAddNote();
+
+} elseif ($uri === '/entreprises/add') {
+    $controllerEnt = new EntrepriseC($twig);
+    $controllerEnt->PageAddEntreprise();
+} elseif ($uri === '/entreprises/formadd') {
+    $controllerEnt = new EntrepriseC($twig);
+    $controllerEnt->FormAddEntreprise();
+}
+
+
+
+else {
+    // 404
+    echo '404 Not Found';
 }

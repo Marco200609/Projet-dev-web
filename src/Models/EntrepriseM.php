@@ -13,7 +13,7 @@ class EntrepriseM extends PdoM
         }
         $start = ($page - 1) * $parpage;
 
-        $rq = $this->pdo->prepare("SELECT entreprise.nom, entreprise.logo, villes.nom_ville, AVG(note_entreprise.note)AS note, COUNT(offre.id_offre) AS nb_offre FROM entreprise
+        $rq = $this->pdo->prepare("SELECT entreprise.id_entreprise, entreprise.nom, entreprise.logo, villes.nom_ville, AVG(note_entreprise.note)AS note, COUNT(offre.id_offre) AS nb_offre FROM entreprise
                                     LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
                                     LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
                                     LEFT JOIN note_entreprise ON entreprise.id_entreprise = note_entreprise.id_entreprise_fk
@@ -58,10 +58,13 @@ class EntrepriseM extends PdoM
         $entreprise = $rq->fetch(PDO::FETCH_ASSOC);
         // 3 domaines différents des 3 dernières offres
         $rq2 = $this->pdo->prepare("SELECT DISTINCT domaine
-                                FROM offre
-                                WHERE id_entreprise_fk = :id
-                                ORDER BY date_offre DESC, id_offre DESC
-                                LIMIT 3");
+                                    FROM (
+                                             SELECT domaine
+                                             FROM offre
+                                             WHERE id_entreprise_fk = :id
+                                             ORDER BY date_debut DESC, id_offre DESC
+                                         ) AS last_offres
+                                    LIMIT 3");
         $rq2->bindValue(':id', (int)$id, PDO::PARAM_INT);
         $rq2->execute();
         $domaines = $rq2->fetchAll(PDO::FETCH_COLUMN);
@@ -86,7 +89,7 @@ class EntrepriseM extends PdoM
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    public function setEntreprise($nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description) : bool
+    public function addEntreprise($nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description) : bool
     {
         $rq = $this->pdo->prepare("SELECT id_entreprise FROM entreprise WHERE nom = :name");
         $rq->bindValue(':name', $nom, PDO::PARAM_STR);
@@ -178,11 +181,20 @@ class EntrepriseM extends PdoM
         }
     }
 
-    public function getNote($id_entreprise, $id_user) {
-        $rq = $this->pdo->prepare("SELECT note FROM note_entreprise WHERE id_entreprise_fk = :id_entreprise AND id_user_fk = :id_user");
+    public function getNoteUser($id_entreprise, $id_user) {
+        $rq = $this->pdo->prepare("SELECT note FROM note_entreprise WHERE id_entreprise_fk = :id_entreprise AND id_utilisateur_fk = :id_user");
         $rq->bindValue(':id_entreprise', (int)$id_entreprise, PDO::PARAM_INT);
         $rq->bindValue(':id_user', (int)$id_user, PDO::PARAM_INT);
         $rq->execute();
+        return $rq->fetchColumn();
+    }
+
+    public function getNbNote($id_entreprise)
+    {
+        $rq = $this->pdo->prepare("SELECT COUNT(*) FROM note_entreprise WHERE id_entreprise_fk = :id_entreprise");
+        $rq->bindValue(':id_entreprise', (int)$id_entreprise, PDO::PARAM_INT);
+        $rq->execute();
+        return $rq->fetchColumn();
     }
 
     public function setNote($note, $id_entreprise, $id_user) : bool

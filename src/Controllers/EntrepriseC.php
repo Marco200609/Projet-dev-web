@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\EntrepriseM;
+use JetBrains\PhpStorm\NoReturn;
 
 class EntrepriseC
 {
@@ -14,7 +15,7 @@ class EntrepriseC
         $this->templateEngine = $templateEngine;
     }
 
-    public function PageEntreprise()
+    public function PageEntreprise(): void
     {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $parpage = isset($_GET['parpage']) ? (int)$_GET['parpage'] : 12;
@@ -38,18 +39,29 @@ class EntrepriseC
         ]);
     }
 
-    public function PageDetailEntreprise($id)
+    public function PageDetailEntreprise($id): void
     {
         $entreprise = $this->model->getDetailEntreprise($id);
-        echo $this->templateEngine->render('detail_entreprise.html.twig', ['entreprise' => $entreprise]);
+        $nb_note = $this->model->getNbNote($id);
+        if ($_SESSION['id_utilisateur'] ?? null) {
+            $note_user = $this->model->getNoteUser($id, $_SESSION['id_utilisateur']);
+        } else {
+            $note_user = null;
+        }
+        echo $this->templateEngine->render('detail_entreprise.html.twig', [
+            'entreprise' => $entreprise,
+            'nb_note' => $nb_note,
+            'note_user' => $note_user,
+            'session' => $_SESSION
+        ]);
     }
 
-    public function PageAddEntreprise()
+    public function PageAddEntreprise(): void
     {
         echo $this->templateEngine->render('add_entreprise.html.twig');
     }
 
-    public function FormRechercheEntreprise(){
+/*    public function FormRechercheEntreprise(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nom = $_POST['nom'] ?? '';
             $ville = $_POST['ville'] ?? '';
@@ -57,16 +69,14 @@ class EntrepriseC
             exit();
         }
         header('Location: /entreprises');
-    }
+    }*/
 
-    public function FormAddEntreprise(){
+    public function FormAddEntreprise(): void
+    {
         // $nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!isset($_POST['nom']) || !isset($_POST['logo']) || !isset($_POST['pays']) || !isset($_POST['departement']) || !isset($_POST['ville']) || !isset($_POST['adresse']) || !isset($_POST['mail']) || !isset($_POST['telephone']) || !isset($_POST['nb_employe']) || !isset($_POST['description'])) {
-                header('Location: /entreprises/add');
-                exit();
-            }
+            $errors = [];
+
             $nom = $_POST['nom'] ?? '';
             $logo = $_POST['logo'] ?? '';
             $pays = $_POST['pays'] ?? '';
@@ -77,17 +87,59 @@ class EntrepriseC
             $telephone = $_POST['telephone'] ?? '';
             $nb_employe = $_POST['nb_employe'] ?? '';
             $description = $_POST['description'] ?? '';
-            if ($this->model->setEntreprise($nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description)) {
+
+            // Validation
+            if (strlen($nom) < 1 || strlen($nom) > 100) {
+                $errors[] = "Nom invalide";
+            }
+            if (!filter_var($logo, FILTER_VALIDATE_URL)) {
+                $errors[] = "URL du logo invalide";
+            }
+            if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "Email invalide";
+            }
+            if (!preg_match('/^[0-9]{10}$/', $telephone)) {
+                $errors[] = "Téléphone invalide";
+            }
+            if (!is_numeric($nb_employe) || (int)$nb_employe <= 0) {
+                $errors[] = "Nombre d'employés invalide";
+            }
+            if (strlen($description) < 20) {
+                $errors[] = "Description trop courte";
+            }
+            foreach (['pays', 'departement', 'ville', 'adresse'] as $field) {
+                if (empty($$field) || strlen($$field) > 255) {
+                    $errors[] = ucfirst($field) . " invalide";
+                }
+            }
+
+            if (!empty($errors)) {
+                echo $this->templateEngine->render('add_entreprise.html.twig', [
+                    'errors' => $errors
+                ]);
+                exit();
+            }
+
+            // Stockage des données brutes
+            echo "youpi";
+            if ($this->model->addEntreprise($nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description)) {
                 header('Location: /compte/entreprise');
                 exit();
             } else {
-                header('Location: /entreprises/add');
+                $errors[] = "L'entreprise existe déjà ou une erreur est survenue";
+                echo $this->templateEngine->render('add_entreprise.html.twig', [
+                    'errors' => $errors
+                ]);
                 exit();
             }
+        } else {
+            echo $this->templateEngine->render('add_entreprise.html.twig');
+            exit();
         }
     }
 
-    public function FormAddNote(){
+    public function FormAddNote(): void
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!isset($_POST['id_entreprise']) || !isset($_POST['note']) || !isset($_POST['id_utilisateur'])) {
                 header('Location: /entreprises');
