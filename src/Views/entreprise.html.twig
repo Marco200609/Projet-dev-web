@@ -78,7 +78,7 @@
     <section class="liste_entreprises">
 
         {% for ent in entreprises %}
-            <a href="detail_entreprise/{{ ent.id }}.html" class="entreprise-link">
+            <a href="detail_entreprise/{{ ent.id_entreprise }}" class="entreprise-link">
                 <article class="entreprise">
                     <img src="{{ ent.logo }}" alt="logo_entreprise" class="entreprise-logo">
                     <h2 class="entreprise-titre">{{ ent.nom }}</h2>
