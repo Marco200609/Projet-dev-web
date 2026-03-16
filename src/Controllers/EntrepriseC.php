@@ -15,6 +15,52 @@ class EntrepriseC
         $this->templateEngine = $templateEngine;
     }
 
+    public function TestsFormEntreprise() : array
+    {
+        $errors = [];
+
+        $nom = $_POST['nom'] ?? '';
+        $logo = $_POST['logo'] ?? '';
+        $pays = $_POST['pays'] ?? '';
+        $departement = $_POST['departement'] ?? '';
+        $ville = $_POST['ville'] ?? '';
+        $adresse = $_POST['adresse'] ?? '';
+        $mail = $_POST['mail'] ?? '';
+        $telephone = $_POST['telephone'] ?? '';
+        $nb_employe = $_POST['nb_employe'] ?? '';
+        $description = $_POST['description'] ?? '';
+
+        // Validation
+        if (strlen($nom) < 1 || strlen($nom) > 100) {
+            $errors[] = "Nom invalide";
+        }
+        if (!filter_var($logo, FILTER_VALIDATE_URL)) {
+            $errors[] = "URL du logo invalide";
+        }
+        if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Email invalide";
+        }
+        if (!preg_match('/^[0-9]{10}$/', $telephone)) {
+            $errors[] = "Téléphone invalide";
+        }
+        if (!is_numeric($nb_employe) || (int)$nb_employe <= 0) {
+            $errors[] = "Nombre d'employés invalide";
+        }
+        if (strlen($description) < 20) {
+            $errors[] = "Description trop courte";
+        }
+        foreach (['pays', 'departement', 'ville', 'adresse'] as $field) {
+            if (empty($$field) || strlen($$field) > 255) {
+                $errors[] = ucfirst($field) . " invalide";
+            }
+        }
+
+        if (!empty($errors)) {
+            return ["error" => $errors];
+            }
+        return [ 'nom' => $nom, 'logo' => $logo , 'pays' => $pays, 'departement' => $departement, 'nom_ville' => $ville, 'adresse' => $adresse, 'email' => $mail, 'telephone' => $telephone, 'nb_employe' => $nb_employe, 'description' => $description ];
+    }
+
     public function PageEntreprise(): void
     {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -61,68 +107,31 @@ class EntrepriseC
         echo $this->templateEngine->render('add_entreprise.html.twig');
     }
 
-/*    public function FormRechercheEntreprise(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = $_POST['nom'] ?? '';
-            $ville = $_POST['ville'] ?? '';
-            header('Location: /entreprises?nom=' . urlencode($nom) . '&ville=' . urlencode($ville));
-            exit();
-        }
-        header('Location: /entreprises');
-    }*/
+    public function PageUpdateEntreprise($id): void
+    {
+        $entreprise = $this->model->getFormEntreprises($id);
+        echo $this->templateEngine->render('add_entreprise.html.twig',
+            ['ent' => $entreprise,
+            'update' => true,
+            'id_entreprise' => $id]);
+
+    }
 
     public function FormAddEntreprise(): void
     {
         // $nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $errors = [];
-
-            $nom = $_POST['nom'] ?? '';
-            $logo = $_POST['logo'] ?? '';
-            $pays = $_POST['pays'] ?? '';
-            $departement = $_POST['departement'] ?? '';
-            $ville = $_POST['ville'] ?? '';
-            $adresse = $_POST['adresse'] ?? '';
-            $mail = $_POST['mail'] ?? '';
-            $telephone = $_POST['telephone'] ?? '';
-            $nb_employe = $_POST['nb_employe'] ?? '';
-            $description = $_POST['description'] ?? '';
-
-            // Validation
-            if (strlen($nom) < 1 || strlen($nom) > 100) {
-                $errors[] = "Nom invalide";
-            }
-            if (!filter_var($logo, FILTER_VALIDATE_URL)) {
-                $errors[] = "URL du logo invalide";
-            }
-            if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-                $errors[] = "Email invalide";
-            }
-            if (!preg_match('/^[0-9]{10}$/', $telephone)) {
-                $errors[] = "Téléphone invalide";
-            }
-            if (!is_numeric($nb_employe) || (int)$nb_employe <= 0) {
-                $errors[] = "Nombre d'employés invalide";
-            }
-            if (strlen($description) < 20) {
-                $errors[] = "Description trop courte";
-            }
-            foreach (['pays', 'departement', 'ville', 'adresse'] as $field) {
-                if (empty($$field) || strlen($$field) > 255) {
-                    $errors[] = ucfirst($field) . " invalide";
-                }
-            }
-
-            if (!empty($errors)) {
+            $var = $this->TestsFormEntreprise();
+            if (isset($var['error'])) {
                 echo $this->templateEngine->render('add_entreprise.html.twig', [
-                    'errors' => $errors
+                    'errors' => $var['error']
                 ]);
                 exit();
             }
 
             // Stockage des données brutes
-            echo "youpi";
-            if ($this->model->addEntreprise($nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description)) {
+            if ($this->model->addEntreprise($var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
+                // ToDo modifier le lien
                 header('Location: /compte/entreprise');
                 exit();
             } else {
@@ -152,6 +161,44 @@ class EntrepriseC
                 header('Location: /entreprises/' . $_POST['id_entreprise']);
                 exit();
             }
+        }
+    }
+
+    public function FormUpdateEntreprise(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id_entreprise'] ?? '';
+            $var = $this->TestsFormEntreprise();
+            if (isset($var['error'])) {
+                $entreprise = $this->model->getDetailEntreprise($id);
+                echo $this->templateEngine->render('add_entreprise.html.twig', [
+                    'errors' => $var['error'],
+                    'id_entreprise' => $_POST['id_entreprise'],
+                    'update' => false,
+                    'ent' => $entreprise,
+                ]);
+                exit();
+            }
+
+            // Stockage des données brutes
+            if ($this->model->updateEntreprise($id, $var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
+                // ToDo modifier le lien
+                header('Location: /compte/entreprise');
+                exit();
+            } else {
+                $errors[] = "Une erreur est survenue";
+                $entreprise = $this->model->getDetailEntreprise($id);
+                echo $this->templateEngine->render('add_entreprise.html.twig', [
+                    'errors' => $errors,
+                    'update' => true,
+                    'id_entreprise' => $_POST['id_entreprise'],
+                    'ent' => $entreprise
+                ]);
+                exit();
+            }
+        } else {
+            echo $this->templateEngine->render('add_entreprise.html.twig');
+            exit();
         }
     }
 }

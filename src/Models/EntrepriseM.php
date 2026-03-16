@@ -89,6 +89,20 @@ class EntrepriseM extends PdoM
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    public function getFormEntreprises($id) :array
+    {
+        $rq = $this->pdo->prepare("SELECT entreprise.nom, entreprise.logo, adresse.adresse, villes.nom_ville, departement.departement, pays.nom_pays, entreprise.descriptif, entreprise.nb_employe, contact.email, contact.telephone FROM entreprise
+                                    LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
+                                    LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
+                                    LEFT JOIN departement ON villes.id_departement_fk = departement.id_departement
+                                    LEFT JOIN pays ON departement.id_pays_fk = pays.id_pays
+                                    LEFT JOIN contact ON entreprise.id_contact_fk = contact.id_contact
+                                    WHERE entreprise.id_entreprise = :id");
+        $rq->bindParam(':id', $id, PDO::PARAM_INT);
+        $rq->execute();
+        return $rq->fetch();
+    }
+
     public function addEntreprise($nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description) : bool
     {
         $rq = $this->pdo->prepare("SELECT id_entreprise FROM entreprise WHERE nom = :name");
@@ -142,14 +156,21 @@ class EntrepriseM extends PdoM
                 $id_ville = $this->pdo->lastInsertId();
             }
 
-            // 4. Adresse (toujours insérée car souvent unique)
-            $rq = $this->pdo->prepare("INSERT INTO adresse (adresse, id_ville_fk) VALUES (:adresse, :ville)");
+            // 4. Adresse
+            $rq = $this->pdo->prepare("SELECT id_adresse FROM adresse WHERE adresse = :adresse AND id_ville_fk = :ville");
             $rq->bindValue(':adresse', $adresse, PDO::PARAM_STR);
             $rq->bindValue(':ville', $id_ville, PDO::PARAM_INT);
             $rq->execute();
-            $id_adresse = $this->pdo->lastInsertId();
+            $id_adresse = $rq->fetchColumn();
+            if (!$id_adresse) {
+                $rq = $this->pdo->prepare("INSERT INTO adresse (adresse, id_ville_fk) VALUES (:adresse, :ville)");
+                $rq->bindValue(':adresse', $adresse, PDO::PARAM_STR);
+                $rq->bindValue(':ville', $id_ville, PDO::PARAM_INT);
+                $rq->execute();
+                $id_adresse = $this->pdo->lastInsertId();
+            }
 
-            // 5. Contact (on vérifie si mail+tel existent déjà)
+            // 5. Contact
             $rq = $this->pdo->prepare("SELECT id_contact FROM contact WHERE email = :mail AND telephone = :telephone");
             $rq->bindValue(':mail', $mail, PDO::PARAM_STR);
             $rq->bindValue(':telephone', $telephone, PDO::PARAM_STR);
@@ -171,6 +192,101 @@ class EntrepriseM extends PdoM
             $rq->bindValue(':nb_employe', $nb_employe, PDO::PARAM_INT);
             $rq->bindValue(':id_adresse', $id_adresse, PDO::PARAM_INT);
             $rq->bindValue(':id_contact', $id_contact, PDO::PARAM_INT);
+            $rq->execute();
+
+            $this->pdo->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+    public function updateEntreprise($id, $nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description): bool
+    {
+
+        try {
+            $this->pdo->beginTransaction();
+
+            // 1. Pays
+            $rq = $this->pdo->prepare("SELECT id_pays FROM pays WHERE nom_pays = :pays");
+            $rq->bindValue(':pays', $pays, PDO::PARAM_STR);
+            $rq->execute();
+            $id_pays = $rq->fetchColumn();
+            if (!$id_pays) {
+                $rq = $this->pdo->prepare("INSERT INTO pays (nom_pays) VALUES (:pays)");
+                $rq->bindValue(':pays', $pays, PDO::PARAM_STR);
+                $rq->execute();
+                $id_pays = $this->pdo->lastInsertId();
+            }
+
+            // 2. Département
+            $rq = $this->pdo->prepare("SELECT id_departement FROM departement WHERE departement = :departement AND id_pays_fk = :pays");
+            $rq->bindValue(':departement', $departement, PDO::PARAM_STR);
+            $rq->bindValue(':pays', $id_pays, PDO::PARAM_INT);
+            $rq->execute();
+            $id_departement = $rq->fetchColumn();
+            if (!$id_departement) {
+                $rq = $this->pdo->prepare("INSERT INTO departement (departement, id_pays_fk) VALUES (:departement, :pays)");
+                $rq->bindValue(':departement', $departement, PDO::PARAM_STR);
+                $rq->bindValue(':pays', $id_pays, PDO::PARAM_INT);
+                $rq->execute();
+                $id_departement = $this->pdo->lastInsertId();
+            }
+
+            // 3. Ville
+            $rq = $this->pdo->prepare("SELECT id_ville FROM villes WHERE nom_ville = :ville AND id_departement_fk = :departement");
+            $rq->bindValue(':ville', $ville, PDO::PARAM_STR);
+            $rq->bindValue(':departement', $id_departement, PDO::PARAM_INT);
+            $rq->execute();
+            $id_ville = $rq->fetchColumn();
+            if (!$id_ville) {
+                $rq = $this->pdo->prepare("INSERT INTO villes (nom_ville, id_departement_fk) VALUES (:ville, :departement)");
+                $rq->bindValue(':ville', $ville, PDO::PARAM_STR);
+                $rq->bindValue(':departement', $id_departement, PDO::PARAM_INT);
+                $rq->execute();
+                $id_ville = $this->pdo->lastInsertId();
+            }
+
+            // 4. Adresse
+            $rq = $this->pdo->prepare("SELECT id_adresse FROM adresse WHERE adresse = :adresse AND id_ville_fk = :ville");
+            $rq->bindValue(':adresse', $adresse, PDO::PARAM_STR);
+            $rq->bindValue(':ville', $id_ville, PDO::PARAM_INT);
+            $rq->execute();
+            $id_adresse = $rq->fetchColumn();
+            if (!$id_adresse) {
+                $rq = $this->pdo->prepare("INSERT INTO adresse (adresse, id_ville_fk) VALUES (:adresse, :ville)");
+                $rq->bindValue(':adresse', $adresse, PDO::PARAM_STR);
+                $rq->bindValue(':ville', $id_ville, PDO::PARAM_INT);
+                $rq->execute();
+                $id_adresse = $this->pdo->lastInsertId();
+            }
+
+            // 5. Contact
+            $rq = $this->pdo->prepare("SELECT id_contact FROM contact WHERE email = :mail AND telephone = :telephone");
+            $rq->bindValue(':mail', $mail, PDO::PARAM_STR);
+            $rq->bindValue(':telephone', $telephone, PDO::PARAM_STR);
+            $rq->execute();
+            $id_contact = $rq->fetchColumn();
+            if (!$id_contact) {
+                $rq = $this->pdo->prepare("INSERT INTO contact (email, telephone) VALUES (:mail, :telephone)");
+                $rq->bindValue(':mail', $mail, PDO::PARAM_STR);
+                $rq->bindValue(':telephone', $telephone, PDO::PARAM_STR);
+                $rq->execute();
+                $id_contact = $this->pdo->lastInsertId();
+            }
+
+            // 6. Entreprise
+            $rq = $this->pdo->prepare("UPDATE entreprise
+                                        SET nom = :nom, logo = :logo, descriptif = :description, nb_employe = :nb_employe, id_adresse_fk = :id_adresse, id_contact_fk = :id_contact
+                                        WHERE id_entreprise = :id");
+            $rq->bindValue(':nom', $nom, PDO::PARAM_STR);
+            $rq->bindValue(':logo', $logo, PDO::PARAM_STR);
+            $rq->bindValue(':description', $description, PDO::PARAM_STR);
+            $rq->bindValue(':nb_employe', $nb_employe, PDO::PARAM_INT);
+            $rq->bindValue(':id_adresse', $id_adresse, PDO::PARAM_INT);
+            $rq->bindValue(':id_contact', $id_contact, PDO::PARAM_INT);
+            $rq->bindValue(':id', $id, PDO::PARAM_INT);
             $rq->execute();
 
             $this->pdo->commit();
