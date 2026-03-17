@@ -38,12 +38,21 @@ if ($uri === '/') {
     $controllerEnt = new EntrepriseC($twig);
     $controllerEnt->FormAddNote();
 
-} elseif ($uri === '/entreprises/add') {
+} elseif ($uri === '/entreprises/add' || $uri === '/entreprises/add/') {
     $controllerEnt = new EntrepriseC($twig);
     $controllerEnt->PageAddEntreprise();
-} elseif ($uri === '/entreprises/formadd') {
+
+} elseif ($uri === '/entreprises/formadd' || $uri === '/entreprises/formadd/') {
     $controllerEnt = new EntrepriseC($twig);
     $controllerEnt->FormAddEntreprise();
+
+} elseif (preg_match('#^/entreprises/update/(\d+)(/)?$#', $uri, $matches)) {
+    $controllerEnt = new EntrepriseC($twig);
+    $controllerEnt->PageUpdateEntreprise($matches[1]);
+
+}elseif (preg_match('#^/entreprises/formupdate/(\d+)(/)?$#', $uri, $matches)) {
+    $controllerEnt = new EntrepriseC($twig);
+    $controllerEnt->FormUpdateEntreprise();
 }
 
 

@@ -44,54 +44,51 @@
 
         <h1>Ajouter votre entreprise</h1>
 
-        <form method="post" action="/entreprises/{{ update ? 'formupdate' : 'formadd' }}/{{ id_entreprise|default('') }}">
-
-            <input type="hidden" name="id_entreprise" value="{{ id_entreprise }}">
-
+        <form method="post" action="/entreprises/formadd">
             <div class="form-group">
                 <label>
-                    <input type="text" name="nom" placeholder="entreprise" value="{{ ent.nom }}" minlength="1" required>
+                    <input type="text" name="nom" placeholder="entreprise" minlength="1" required>
                 </label>
                 <label>
-                    <input type="url" name="logo" placeholder="URL logo" value="{{ ent.logo }}" minlength="1" required>
+                    <input type="url" name="logo" placeholder="URL logo" minlength="1" required>
                 </label>
             </div>
 
             <div class="form-group">
                 <label>
-                    <input type="email" name="mail" placeholder="Adresse e-mail" value="{{ ent.email }}" required>
+                    <input type="email" name="mail" placeholder="Adresse e-mail" required>
                 </label>
                 <label>
-                    <input type="tel" name="telephone" placeholder="Numéro de téléphone" value="{{ ent.telephone }}" pattern="[0-9]{10}" title="Veuillez entrer un numéro de téléphone valide à 10 chiffres" required>
-                </label>
-            </div>
-
-            <div class="form-group">
-                <label>
-                    <input type="text" name="nb_employe" placeholder="nombre d'employé" value="{{ ent.nb_employe }}" required>
+                    <input type="tel" name="telephone" placeholder="Numéro de téléphone" pattern="[0-9]{10}" title="Veuillez entrer un numéro de téléphone valide à 10 chiffres" required>
                 </label>
             </div>
 
             <div class="form-group">
                 <label>
-                    <textarea name="description" rows="10" cols="75" placeholder="Description de votre entreprise" minlength="20" required>{{ ent.descriptif }}</textarea>
+                    <input type="text" name="nb_employe" placeholder="nombre d'employé" required>
                 </label>
             </div>
 
             <div class="form-group">
                 <label>
-                    <input type="text" name="pays" placeholder="pays" value="{{ ent.nom_pays }}" required>
+                    <textarea name="description" rows="10" cols="75" placeholder="Description de votre entreprise" minlength="20" required></textarea>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="text" name="pays" placeholder="pays" required>
                 </label>
                 <label>
-                    <input type="text" name="departement" placeholder="département" value="{{ ent.departement }}" required>
+                    <input type="text" name="departement" placeholder="département" required>
                 </label>
             </div>
             <div class="form-group">
                 <label>
-                    <input type="text" name="ville" placeholder="ville" value="{{ ent.nom_ville }}" required>
+                    <input type="text" name="ville" placeholder="ville" required>
                 </label>
                 <label>
-                    <input type="text" name="adresse" placeholder="adresse" value="{{ ent.adresse }}" required>
+                    <input type="text" name="adresse" placeholder="adresse" required>
                 </label>
             </div>
 
