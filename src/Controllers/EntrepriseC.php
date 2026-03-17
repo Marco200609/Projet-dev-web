@@ -1,17 +1,24 @@
 <?php
 
 namespace App\Controllers;
+use AllowDynamicProperties;
 use App\Models\EntrepriseM;
+use App\Models\NoteM;
+use App\Models\VilleM;
 use JetBrains\PhpStorm\NoReturn;
 
 class EntrepriseC
 {
-    private $model;
+    private $modelEntreprise;
     private $templateEngine;
+    private $modelNote;
 
     public function __construct($templateEngine)
     {
-        $this->model = new EntrepriseM();
+        $this->modelEntreprise = new EntrepriseM();
+
+        $this->modelNote = new NoteM();
+
         $this->templateEngine = $templateEngine;
     }
 
@@ -68,10 +75,12 @@ class EntrepriseC
         $entreprise = $_GET['entreprise'] ?? '';
         $ville = $_GET['ville'] ?? '';
 
-        $entreprises = $this->model->getEntreprises($page, $parpage, $entreprise, $ville);
-        $total = $this->model->getNbEntreprises();
-        $nom_entreprises = $this->model->getNomEntreprises();
-        $ville_entreprises = $this->model->getVilleEntreprises();
+        $entreprises = $this->modelEntreprise->getEntreprises($page, $parpage, $entreprise, $ville);
+        $total = $this->modelEntreprise->getNbEntreprises();
+        $nom_entreprises = $this->modelEntreprise->getNomEntreprises();
+
+        $modelVille = new VilleM();
+        $ville_entreprises = $modelVille->getVilleEntreprises();
 
         echo $this->templateEngine->render('entreprise.html.twig', [
             'entreprises' => $entreprises,
@@ -87,10 +96,10 @@ class EntrepriseC
 
     public function PageDetailEntreprise($id): void
     {
-        $entreprise = $this->model->getDetailEntreprise($id);
-        $nb_note = $this->model->getNbNote($id);
+        $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
+        $nb_note = $this->modelNote->getNbNote($id);
         if ($_SESSION['id_utilisateur'] ?? null) {
-            $note_user = $this->model->getNoteUser($id, $_SESSION['id_utilisateur']);
+            $note_user = $this->modelNote->getNoteUser($id, $_SESSION['id_utilisateur']);
         } else {
             $note_user = null;
         }
@@ -109,7 +118,7 @@ class EntrepriseC
 
     public function PageUpdateEntreprise($id): void
     {
-        $entreprise = $this->model->getFormEntreprises($id);
+        $entreprise = $this->modelEntreprise->getFormEntreprises($id);
         echo $this->templateEngine->render('add_entreprise.html.twig',
             ['ent' => $entreprise,
             'update' => true,
@@ -130,7 +139,7 @@ class EntrepriseC
             }
 
             // Stockage des données brutes
-            if ($this->model->addEntreprise($var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
+            if ($this->modelEntreprise->addEntreprise($var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
                 // ToDo modifier le lien
                 header('Location: /compte/entreprise');
                 exit();
@@ -154,7 +163,7 @@ class EntrepriseC
                 header('Location: /entreprises');
                 exit();
             }
-            if ($this->model->setNote($_POST['note'], $_POST['id_entreprise'], $_POST['id_utilisateur'] )) {
+            if ($this->modelNote->setNote($_POST['note'], $_POST['id_entreprise'], $_POST['id_utilisateur'] )) {
                 header('Location: /entreprises/' . $_POST['id_entreprise']);
                 exit();
             } else {
@@ -170,7 +179,7 @@ class EntrepriseC
             $id = $_POST['id_entreprise'] ?? '';
             $var = $this->TestsFormEntreprise();
             if (isset($var['error'])) {
-                $entreprise = $this->model->getDetailEntreprise($id);
+                $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
                 echo $this->templateEngine->render('add_entreprise.html.twig', [
                     'errors' => $var['error'],
                     'id_entreprise' => $_POST['id_entreprise'],
@@ -181,13 +190,13 @@ class EntrepriseC
             }
 
             // Stockage des données brutes
-            if ($this->model->updateEntreprise($id, $var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
+            if ($this->modelEntreprise->updateEntreprise($id, $var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
                 // ToDo modifier le lien
                 header('Location: /compte/entreprise');
                 exit();
             } else {
                 $errors[] = "Une erreur est survenue";
-                $entreprise = $this->model->getDetailEntreprise($id);
+                $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
                 echo $this->templateEngine->render('add_entreprise.html.twig', [
                     'errors' => $errors,
                     'update' => true,
