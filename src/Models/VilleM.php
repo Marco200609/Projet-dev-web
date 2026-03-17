@@ -5,7 +5,7 @@ use PDO;
 
 class VilleM extends PdoM
 {
-    public function getIdVille($ville, $id_departement) : array
+    public function getIdVille($ville, $id_departement) : int
     {
         $rq = $this->pdo->prepare("SELECT id_ville FROM villes WHERE nom_ville = :ville AND id_departement_fk = :departement");
         $rq->bindValue(':ville', $ville, PDO::PARAM_STR);

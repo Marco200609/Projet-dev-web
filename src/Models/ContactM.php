@@ -5,7 +5,7 @@ use PDO;
 
 class ContactM extends PdoM
 {
-    public function getIdContact($mail, $telephone) : array
+    public function getIdContact($mail, $telephone) : int
     {
         $rq = $this->pdo->prepare("SELECT id_contact FROM contact WHERE email = :mail AND telephone = :telephone");
         $rq->bindValue(':mail', $mail, PDO::PARAM_STR);
@@ -16,7 +16,7 @@ class ContactM extends PdoM
 
     public function getContactById($id_contact) : array
     {
-        $rq = $this->pdo->prepare("SELECT id_contact FROM contact WHERE id_contact = :id");
+        $rq = $this->pdo->prepare("SELECT contact.email, contact.email FROM contact WHERE id_contact = :id");
         $rq->bindValue(':id', $id_contact, PDO::PARAM_INT);
         $rq->execute();
         return $rq->fetchColumn();

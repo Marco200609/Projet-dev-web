@@ -5,7 +5,7 @@ Use PDO;
 
 class DepartementM extends PdoM
 {
-    public function getIdDepartement($departement, $id_pays) : array
+    public function getIdDepartement($departement, $id_pays) : int
     {
         $rq = $this->pdo->prepare("SELECT id_departement FROM departement WHERE departement = :departement AND id_pays_fk = :pays");
         $rq->bindValue(':departement', $departement, PDO::PARAM_STR);

@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Controllers;
-use AllowDynamicProperties;
 use App\Models\EntrepriseM;
 use App\Models\NoteM;
 use App\Models\VilleM;
-use JetBrains\PhpStorm\NoReturn;
 
 class EntrepriseC
 {

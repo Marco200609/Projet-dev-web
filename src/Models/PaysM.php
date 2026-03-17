@@ -5,7 +5,7 @@ Use PDO;
 
 class PaysM extends PdoM
 {
-    public function getIdPays($pays) : array
+    public function getIdPays($pays) : int
     {
         $rq = $this->pdo->prepare("SELECT id_pays FROM pays WHERE nom_pays = :pays");
         $rq->bindValue(':pays', $pays, PDO::PARAM_STR);

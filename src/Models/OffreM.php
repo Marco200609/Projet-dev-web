@@ -7,7 +7,7 @@ use PDO;
 class OffreM extends PdoM
 {
 
-    public function getNbOffre()
+    public function getNbOffre() : int
     {
         $stmt = $this->pdo->query("SELECT COUNT(*) FROM offre");
         return (int)$stmt->fetchColumn();

@@ -5,7 +5,7 @@ use PDO;
 
 class AdresseM extends PdoM
 {
-    public function getIdAdresse($adresse, $id_ville) : array
+    public function getIdAdresse($adresse, $id_ville) : int
     {
         $rq = $this->pdo->prepare("SELECT id_adresse FROM adresse WHERE adresse = :adresse AND id_ville_fk = :ville");
         $rq->bindValue(':adresse', $adresse, PDO::PARAM_STR);
