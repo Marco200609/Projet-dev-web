@@ -64,21 +64,34 @@ class ConnexionInsM extends PdoM
         return $id_user;
     }
 
-    public function set_user_entreprise($id_entreprise) {
-
-    }
-
-    public function set_user_etudiant($id_etudiant)
-    {
-
-    }
-
-    public function set_user_pilote($id_pilote)
-    {
-
-    }
 
     public function set_user_admin($id_admin) {
+        //$id_permission = 4
 
     }
+
+    public function set_user_pilote($id_pilote) {
+        //$id_permission = 3
+
+        $sql = "UPDATE utilisateur
+            SET id_permission = 3
+            WHERE id_utilisateur = :id";
+
+        $rq = $this->pdo->prepare($sql);
+        $rq->execute(['id' => $id_pilote]);
+    }
+
+    public function set_user_entreprise($id_entreprise) {
+        //$id_permission = 2
+
+    }
+    public function set_user_etudiant($id_etudiant) {
+        //$id_permission = 1
+        //si c un étudiant il a un nom de groupe obligatoire à remplir --> nom de groupe à vérifier
+        //--> le pilote pourra tej l'étudiant si finalement il est pas dans son groupe
+
+
+    }
+
+    //si l'utilisateur n'est pas connecté --> on s'en fiche
 }
