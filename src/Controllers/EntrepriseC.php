@@ -74,7 +74,7 @@ class EntrepriseC
         $ville = $_GET['ville'] ?? '';
 
         $entreprises = $this->modelEntreprise->getEntreprises($page, $parpage, $entreprise, $ville);
-        $total = $this->modelEntreprise->getNbEntreprises();
+        $total = $this->modelEntreprise->getNbEntreprises($entreprise, $ville);
         $nom_entreprises = $this->modelEntreprise->getNomEntreprises();
 
         $modelVille = new VilleM();
