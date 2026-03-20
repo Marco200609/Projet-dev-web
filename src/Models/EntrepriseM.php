@@ -89,7 +89,7 @@ class EntrepriseM extends PdoM
                                     LEFT JOIN pays ON departement.id_pays_fk = pays.id_pays
                                     LEFT JOIN contact ON entreprise.id_contact_fk = contact.id_contact
                                     WHERE entreprise.id_entreprise = :id");
-        $rq->bindParam(':id', $id, PDO::PARAM_INT);
+        $rq->bindValue(':id', $id, PDO::PARAM_INT);
         $rq->execute();
         return $rq->fetch();
     }
@@ -189,6 +189,7 @@ class EntrepriseM extends PdoM
         } catch (\Exception $e) {
             $this->pdo->rollBack();
             return false;
+
         }
     }
     /*

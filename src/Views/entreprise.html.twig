@@ -105,28 +105,28 @@
     </section>
     {% endif %}
 
+    {% set queryParams = '&parpage=' ~ parpage ~
+        (nom != '' ? '&nom=' ~ nom : '') ~
+        (ville != '' ? '&ville=' ~ ville : '') %}
+
     <nav class="pagination navBar">
         {% set totalPages = parpage == -1 ? 1 : (total / parpage)|round(0, 'ceil') %}
-        {% set first = (page - 2) >= 1 ? (page - 2) : 1 %}
-        {% set nb = (totalPages < 5 ) ? totalPages : 5 %}
+        {% set startPage = page - 2 > 1 ? page - 2 : 1 %}
+        {% set endPage = (startPage + 4 < totalPages ? startPage + 4 : totalPages) == 0 ? 1 : (startPage + 4 < totalPages ? startPage + 4 : totalPages)  %}
 
         {# Lien page précédente #}
-        {% if page - 1 >= 1 %}
-            <a href="?page={{ page - 1 }}&parpage={{ parpage }}{% if nom!='' %}&nom={{ nom }}{% endif %}{% if ville!='' %}&ville={{ ville }}{% endif %}">&laquo;</a>
+        {% if page > 1 %}
+            <a href="?page={{ page - 1 }}{{ queryParams }}">&laquo;</a>
         {% endif %}
 
         {# Liens pages #}
-        {% for fi in first..nb %}
-            {% if fi == page %}
-                <a href="?page={{ fi }}&parpage={{ parpage }}{% if nom!='' %}&nom={{ nom }}{% endif %}{% if ville!='' %}&ville={{ ville }}{% endif %}" class="page_active">{{ fi }}</a>
-            {% else %}
-                <a href="?page={{ fi }}&parpage={{ parpage }}{% if nom!='' %}&nom={{ nom }}{% endif %}{% if ville!='' %}&ville={{ ville }}{% endif %}">{{ fi }}</a>
-            {% endif %}
+        {% for p in startPage..endPage %}
+            <a href="?page={{ p }}{{ queryParams }}" {% if p == page %}class="page_active"{% endif %}>{{ p }}</a>
         {% endfor %}
 
         {# Lien page suivante #}
-        {% if page + 1 <= totalPages %}
-            <a href="?page={{ page + 1 }}&parpage={{ parpage }}{% if nom!='' %}&nom={{ nom }}{% endif %}{% if ville!='' %}&ville={{ ville }}{% endif %}">&raquo;</a>
+        {% if page < totalPages %}
+            <a href="?page={{ page + 1 }}{{ queryParams }}">&raquo;</a>
         {% endif %}
 
         <form method="get" action="" class="pagination-form">

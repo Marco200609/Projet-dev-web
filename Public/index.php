@@ -53,6 +53,11 @@ if ($uri === '/') {
 }elseif (preg_match('#^/entreprises/formupdate/(\d+)(/)?$#', $uri, $matches)) {
     $controllerEnt = new EntrepriseC($twig);
     $controllerEnt->FormUpdateEntreprise();
+
+} elseif ($uri === '/offres') {
+    $controllerOffre = new App\Controllers\OffreC($twig);
+    $controllerOffre->PageOffres();
+
 }
 
 
