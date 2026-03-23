@@ -10,7 +10,7 @@ class EntrepriseM extends PdoM
     public function getEntreprises($page, $parpage, $nom = '', $ville = '') : array
     {
         if ($parpage ==-1) {
-            $parpage = $this->getNbEntreprises();
+            $parpage = $this->getNbEntreprises($nom, $ville);
         }
         $start = ($page - 1) * $parpage;
 
@@ -19,7 +19,7 @@ class EntrepriseM extends PdoM
                                     LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
                                     LEFT JOIN note_entreprise ON entreprise.id_entreprise = note_entreprise.id_entreprise_fk
                                     LEFT JOIN offre ON entreprise.id_entreprise = offre.id_entreprise_fk
-                                    WHERE entreprise.nom LIKE :nom AND villes.nom_ville LIKE :ville
+                                    WHERE entreprise.nom LIKE :nom AND villes.nom_ville LIKE :ville AND entreprise.visible = 1
                                     GROUP BY entreprise.id_entreprise
                                     ORDER BY entreprise.nom asc
                                     LIMIT :start, :parpage
@@ -32,8 +32,15 @@ class EntrepriseM extends PdoM
         return $rq->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getNbEntreprises() {
-        return $this->pdo->query("SELECT COUNT(*) FROM entreprise")->fetchColumn();
+    public function getNbEntreprises( $nom = '', $ville = '') {
+        $rq = $this->pdo->prepare("SELECT COUNT(*) FROM entreprise
+                                    LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
+                                    LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
+                                    WHERE entreprise.nom LIKE :nom AND villes.nom_ville LIKE :ville AND entreprise.visible = 1");
+        $rq->bindValue(':nom', '%' . $nom . '%', PDO::PARAM_STR);
+        $rq->bindValue(':ville', '%' . $ville . '%', PDO::PARAM_STR);
+        $rq->execute();
+        return $rq->fetchColumn();
     }
 
     public function getDetailEntreprise($id) : array
@@ -43,7 +50,7 @@ class EntrepriseM extends PdoM
                                     LEFT JOIN note_entreprise ON entreprise.id_entreprise = note_entreprise.id_entreprise_fk
                                     LEFT JOIN offre ON entreprise.id_entreprise = offre.id_entreprise_fk
                                     LEFT JOIN contact ON entreprise.id_contact_fk = contact.id_contact
-                                    WHERE entreprise.id_entreprise = :id
+                                    WHERE entreprise.id_entreprise = :id AND entreprise.visible = 1
                                     GROUP BY entreprise.id_entreprise");
         $rq->bindValue(':id', (int)$id, PDO::PARAM_INT);
         $rq->execute();
@@ -67,7 +74,8 @@ class EntrepriseM extends PdoM
 
     public function getNomEntreprises() :array
     {
-        $rq = $this->pdo->prepare("SELECT nom FROM entreprise");
+        $rq = $this->pdo->prepare("SELECT nom FROM entreprise
+                                    WHERE visible = 1");
         $rq->execute();
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
@@ -81,7 +89,7 @@ class EntrepriseM extends PdoM
                                     LEFT JOIN pays ON departement.id_pays_fk = pays.id_pays
                                     LEFT JOIN contact ON entreprise.id_contact_fk = contact.id_contact
                                     WHERE entreprise.id_entreprise = :id");
-        $rq->bindParam(':id', $id, PDO::PARAM_INT);
+        $rq->bindValue(':id', $id, PDO::PARAM_INT);
         $rq->execute();
         return $rq->fetch();
     }
@@ -181,6 +189,7 @@ class EntrepriseM extends PdoM
         } catch (\Exception $e) {
             $this->pdo->rollBack();
             return false;
+
         }
     }
     /*

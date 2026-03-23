@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Controllers;
-use AllowDynamicProperties;
 use App\Models\EntrepriseM;
 use App\Models\NoteM;
 use App\Models\VilleM;
-use JetBrains\PhpStorm\NoReturn;
 
 class EntrepriseC
 {
@@ -76,7 +74,7 @@ class EntrepriseC
         $ville = $_GET['ville'] ?? '';
 
         $entreprises = $this->modelEntreprise->getEntreprises($page, $parpage, $entreprise, $ville);
-        $total = $this->modelEntreprise->getNbEntreprises();
+        $total = $this->modelEntreprise->getNbEntreprises($entreprise, $ville);
         $nom_entreprises = $this->modelEntreprise->getNomEntreprises();
 
         $modelVille = new VilleM();
