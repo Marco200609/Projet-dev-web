@@ -5,8 +5,13 @@ namespace App\Models;
 class ConnexionInsM extends PdoM
 {
 
-    public function get_id_user($email, $mot_de_passe) {
-        $sql = "SELECT utilisateur.id, utilisateur.mot_de_passe 
+    const ROLE_ETUDIANT = 1;
+    const ROLE_ENTREPRISE = 2;
+    const ROLE_PILOTE = 3;
+    const ROLE_ADMIN = 4;
+
+    public function get_id_user($email, $mot_de_passe, $_permission) {
+        $sql = "SELECT utilisateur.id_utilisateur, utilisateur.mot_de_passe, utilisateur.id_permission
                 FROM utilisateur
                 JOIN contact ON utilisateur.id_contact_fk = contact.id_contact
                 WHERE contact.email = :email";
@@ -19,7 +24,7 @@ class ConnexionInsM extends PdoM
         $user = $rq->fetch();
 
         if ($user && password_verify($mot_de_passe, $user['mot_de_passe'])) {
-            return $user['id_utilisateur'];
+            return $user;
         }
 
         return false;
@@ -37,7 +42,7 @@ class ConnexionInsM extends PdoM
         $rq->execute(['email' => $email,
                         'telephone' => $telephone]);
 
-        $id_contact = $this-> pdo->lastInsertId();
+        $id_contact = $this->pdo->lastInsertId();
 
         $sql_user = "INSERT INTO utilisateur (nom, prenom, mot_de_passe, id_permission,id_contact_fk)
                     VALUES (:nom, :prenom, :mot_de_passe, :id_permission, :id_contact)";
@@ -64,9 +69,14 @@ class ConnexionInsM extends PdoM
         return $id_user;
     }
 
-
     public function set_user_admin($id_admin) {
         //$id_permission = 4
+        $sql = "UPDATE utilisateur
+            SET id_permission = 4
+            WHERE id_utilisateur = :id";
+
+        $rq = $this->pdo->prepare($sql);
+        $rq->execute(['id' => $id_admin]);
 
     }
 
@@ -83,15 +93,24 @@ class ConnexionInsM extends PdoM
 
     public function set_user_entreprise($id_entreprise) {
         //$id_permission = 2
+        $sql = "UPDATE utilisateur
+            SET id_permission = 2
+            WHERE id_utilisateur = :id";
 
+        $rq = $this->pdo->prepare($sql);
+        $rq->execute(['id' => $id_entreprise]);
     }
+
     public function set_user_etudiant($id_etudiant) {
         //$id_permission = 1
-        //si c un étudiant il a un nom de groupe obligatoire à remplir --> nom de groupe à vérifier
-        //--> le pilote pourra tej l'étudiant si finalement il est pas dans son groupe
+        // si c un étudiant il a un nom de groupe obligatoire à remplir --> nom de groupe du pilote à vérifier
+        // --> le pilote pourra supprimer l'étudiant si finalement il est pas dans son groupe
 
+        $sql = "UPDATE utilisateur
+            SET id_permission = 1
+            WHERE id_utilisateur = :id";
 
+        $rq = $this->pdo->prepare($sql);
+        $rq->execute(['id' => $id_etudiant]);
     }
-
-    //si l'utilisateur n'est pas connecté --> on s'en fiche
 }
