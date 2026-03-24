@@ -4,8 +4,7 @@ namespace App\Controllers;
 
 class ConnexionInsC
 {
-
-
+    private $templateEngine;
 
     public function __construct($templateEngine) {
         $this->templateEngine = $templateEngine;
@@ -13,6 +12,29 @@ class ConnexionInsC
 
     public function page_connexion() {
         echo $this->templateEngine->render('Connexion.html.twig');
+    }
+
+    public function page_inscription() {
+        echo $this->templateEngine->render('ChoixInscription.html.twig');
+    }
+
+    public function page_inscription_pilote()
+    {
+        echo $this->templateEngine->render('InscriptionPilote.html.twig');
+    }
+
+    public function page_inscription_etudiant()
+    {
+        echo $this->templateEngine->render('InscriptionEtudiant.html.twig');
+    }
+
+    public function page_inscription_entreprise()
+    {
+        echo $this->templateEngine->render('InscriptionEntreprise.html.twig');
+    }
+
+    public function page_inscription_attente() {
+        echo $this->templateEngine->render('InscriptionAttente.html.twig');
     }
 
     public function form_inscription() {
@@ -35,7 +57,7 @@ class ConnexionInsC
             null
         );
 
-        header("Location: /connexion");
+        header("Location: /CompteInscription/Attente");
         exit;
     }
 

@@ -69,6 +69,7 @@ class ConnexionInsM extends PdoM
         return $id_user;
     }
 
+    //si y a que 1 admin --> ne sert à rien
     public function set_user_admin($id_admin) {
         //$id_permission = 4
         $sql = "UPDATE utilisateur
@@ -80,6 +81,7 @@ class ConnexionInsM extends PdoM
 
     }
 
+    //--> sert potentiellement  si l'admin veut changer la permission d'1 compte
     public function set_user_pilote($id_pilote) {
         //$id_permission = 3
 

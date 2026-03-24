@@ -57,12 +57,62 @@ if ($uri === '/') {
 } elseif ($uri === '/offres') {
     $controllerOffre = new App\Controllers\OffreC($twig);
     $controllerOffre->PageOffres();
-
 }
 
+elseif ($uri ==='/CompteConnexion') {
+    $controllerConnexion = new App\Controllers\ConnexionInsC($twig);
+    $controllerConnexion -> page_connexion();
+}
 
+//elseif ($uri.startsWith('https://CompteInscription')) {
+//check si y a ça dans l'url (in machin) rentrer dans cette condition --> après check pour tel ou tel suite d'URL
+elseif ($uri === '/CompteInscription') {
+//    if ($uri === '/CompteInscription/Pilote') {
+//        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+//        $controllerInscription->page_inscription_pilote();
+//    }
+//
+//    elseif ($uri === '/CompteInscription/Etudiant') {
+//        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+//        $controllerInscription->page_inscription_etudiant();
+//    }
+//
+//    elseif ($uri === '/CompteInscription/Entreprise') {
+//        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+//        $controllerInscription->page_inscription_entreprise();
+//    }
+//
+//    else {
+        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+        $controllerInscription->page_inscription();
+//    }
+}
+
+elseif ($uri==='/CompteInscription/Pilote') {
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->page_inscription_pilote();
+}
+
+elseif ($uri === '/CompteInscription/Etudiant') {
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->page_inscription_etudiant();
+}
+
+elseif ($uri === '/CompteInscription/Entreprise') {
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->page_inscription_entreprise();
+}
+
+elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->form_inscription();
+}
+
+elseif ($uri ==='/CompteInscription/Attente'){
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->page_inscription_attente();
+}
 
 else {
-    // 404
     echo '404 Not Found';
 }
