@@ -82,15 +82,16 @@ create table adresse
 
 create table entreprise
 (
-    id_entreprise int auto_increment
+    id_entreprise   int auto_increment
         primary key,
-    nom           varchar(255)         not null,
-    logo          varchar(255)         null,
-    descriptif    text                 null,
-    nb_employe    int                  null,
-    visible       tinyint(1) default 0 not null,
-    id_adresse_fk int                  not null,
-    id_contact_fk int                  not null,
+    nom             varchar(255)         not null,
+    logo            varchar(255)         null,
+    descriptif      text                 null,
+    nb_employe      int                  null,
+    visible         tinyint(1) default 0 not null,
+    code_entreprise varchar(100)         not null,
+    id_adresse_fk   int                  not null,
+    id_contact_fk   int                  not null,
     constraint Entreprise_adresse_id_adresse_fk
         foreign key (id_adresse_fk) references adresse (id_adresse),
     constraint Entreprise_email_id_email_fk
@@ -144,6 +145,7 @@ create table utilisateur
     mot_de_passe    varchar(255)         not null,
     id_permission   int                  not null,
     approuve        tinyint(1) default 0 not null,
+    linkedin        varchar(255)         null,
     id_contact_fk   int                  not null,
     id_entrprise_fk int                  null,
     constraint utilisateur_contact_id_contact_fk
@@ -197,6 +199,3 @@ create table whishlist
     constraint Whishlist_utilisateur_id_utilisateur_fk
         foreign key (id_utilisateur_fk) references utilisateur (id_utilisateur)
 );
-
-create index idx_wishlist_offre_user
-    on whishlist (id_offre_fk, id_utilisateur_fk);
