@@ -47,8 +47,8 @@ class CandidatureC
 
     public function PageCandidature($id_offre) : void
     {
-        if (!session_status() || isset($_SESSION['id_user'])) {
-            header('Location: /login');
+        if (!session_status() || !isset($_SESSION['id_user'])) {
+            header('Location: /CompteConnexion');
             exit();
         }
         $offre = (new OffreM())->getCandidatOffre($id_offre);
@@ -63,11 +63,11 @@ class CandidatureC
     {
         $id_offre = $_POST['id_offre'] ?? '';
 
-        if (!session_status() || isset($_SESSION['id_user'])) {
-            header('Location: /login');
+        if (!session_status() || !isset($_SESSION['id_user'])) {
+            header('Location: /CompteConnexion');
             exit();
         } else {
-            $id_user = 1; // $_SESSION['id_user'];
+            $id_user = $_SESSION['id_user'];
         }
         if (!isset($_FILES['cv'])) {
             $offre = (new OffreM())->getCandidatOffre($id_offre);
