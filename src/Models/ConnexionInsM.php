@@ -78,7 +78,6 @@ class ConnexionInsM extends PdoM
 
         $rq = $this->pdo->prepare($sql);
         $rq->execute(['id' => $id_admin]);
-
     }
 
     //--> sert potentiellement  si l'admin veut changer la permission d'1 compte

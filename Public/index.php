@@ -24,7 +24,7 @@ session_start();
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 if ($uri === '/') {
-    echo 'Welcome page';
+    echo $twig->render('Accueil.html.twig');
 
 } elseif ($uri === '/entreprises') {
     $controllerEnt = new EntrepriseC($twig);
@@ -106,6 +106,11 @@ elseif ($uri === '/CompteInscription/Entreprise') {
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->form_inscription();
+}
+
+elseif ($uri === '/CompteConnexion/Traitement' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $controllerConnexion = new App\Controllers\ConnexionInsC($twig);
+    $controllerConnexion->form_connexion();
 }
 
 elseif ($uri ==='/CompteInscription/Attente'){

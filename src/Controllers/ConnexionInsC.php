@@ -13,7 +13,6 @@ class ConnexionInsC
     public function page_connexion() {
         echo $this->templateEngine->render('Connexion.html.twig');
     }
-
     public function page_inscription() {
         echo $this->templateEngine->render('ChoixInscription.html.twig');
     }
@@ -67,15 +66,18 @@ class ConnexionInsC
 
         $model = new \App\Models\ConnexionInsM();
 
-        $user = $model->get_id_user($email, $mot_de_passe);
+        $user = $model->get_id_user($email, $mot_de_passe, null);
 
         if ($user) {
-            session_start();
-
             $_SESSION['id'] = $user['id_utilisateur'];
             $_SESSION['role'] = $user['id_permission'];
 
-            header("Location: /accueil");
+            header("Location: /");
+            exit;
+        }
+
+        else {
+            header("Location: /CompteConnexion");
             exit;
         }
 
