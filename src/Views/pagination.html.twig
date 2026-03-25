@@ -1,18 +1,9 @@
-{% set totalPages = parpage == -1 ? 1 : (total / parpage)|round(0, 'ceil') %}
-{% set startPage = page - 2 > 1 ? page - 2 : 1 %}
-{% set endPage = (startPage + 4 < totalPages ? startPage + 4 : totalPages) == 0 ? 1 : (startPage + 4 < totalPages ? startPage + 4 : totalPages)  %}
-
-{# Lien page précédente #}
-{% if page > 1 %}
-    <a href="?page={{ page - 1 }}{{ queryParams }}">&laquo;</a>
+{% if pagination.prevUrl %}
+    <a href="{{ pagination.prevUrl }}">&laquo;</a>
 {% endif %}
-
-{# Liens pages #}
-{% for p in startPage..endPage %}
-    <a href="?page={{ p }}{{ queryParams }}" {% if p == page %}class="page_active"{% endif %}>{{ p }}</a>
+{% for link in pagination.links %}
+    <a href="{{ link.url }}" {% if link.active %}class="page_active"{% endif %}>{{ link.page }}</a>
 {% endfor %}
-
-{# Lien page suivante #}
-{% if page < totalPages %}
-    <a href="?page={{ page + 1 }}{{ queryParams }}">&raquo;</a>
+{% if pagination.nextUrl %}
+    <a href="{{ pagination.nextUrl }}">&raquo;</a>
 {% endif %}

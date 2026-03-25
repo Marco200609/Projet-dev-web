@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/Connexion-Inscription.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<nav class="navBar">
+    <div class="LogoNav">
+        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+        <img src="../Images/LogoNav2.png" class="LogoNav2">
+    </div>
+
+    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+    <label for="menu-toggle" class="burger-label">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+
+    <div class="links">
+        <a href="../index.html" >Accueil</a>
+        <a href="Offres.html">Offre</a>
+        <a href="Entreprises.html">Entreprise</a>
+        <a href="Connexion.html" class="active">Mon Compte</a>
+    </div>
+</nav>
+<main>
+{#    <p>DEBUG - Le referer est : {{ app.request.headers.get('referer') }}</p>#}
+
+{#    #}{# marche pas car l'url de provenance est vide car faire le header('Location:...') ne transmet pas proprement l'info d'où ça vient #}
+{#    {% if app.request.referer is not empty %}#}
+{#        {% set referer = app.request.referer %}#}
+{#        {% if 'Pilote' in app.request.referer %}#}
+{#            <p>Vous vous êtes inscrit. Attendez la confirmation d'un administrateur pour vous connecter</p>#}
+{#        {% elseif 'Etudiant' in app.request.referer %}#}
+{#            <p>Vous vous êtes inscrit. Attendez la confirmation de votre pilote pour vous connecter</p>#}
+{#        {% endif %}#}
+{#    {% else %}#}
+{#        <p>Accès refusé.</p>#}
+{#    {% endif %}#}
+
+    <p>Attendre l'autorisation de votre pilote ou administrateur et connectez vous ultérieurement.</p>
+
+</main>
+
+<footer>
+    <p> © 2026 - All Right Reserved </p>
+</footer>
+</body>
+</html>

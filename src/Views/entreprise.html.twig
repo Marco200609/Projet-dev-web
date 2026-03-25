@@ -105,33 +105,16 @@
     </section>
     {% endif %}
 
-    {% set queryParams = '&parpage=' ~ parpage ~
-        (nom != '' ? '&nom=' ~ nom : '') ~
-        (ville != '' ? '&ville=' ~ ville : '') %}
-
     <nav class="pagination navBar">
-        {% set totalPages = parpage == -1 ? 1 : (total / parpage)|round(0, 'ceil') %}
-        {% set startPage = page - 2 > 1 ? page - 2 : 1 %}
-        {% set endPage = (startPage + 4 < totalPages ? startPage + 4 : totalPages) == 0 ? 1 : (startPage + 4 < totalPages ? startPage + 4 : totalPages)  %}
 
-        {# Lien page précédente #}
-        {% if page > 1 %}
-            <a href="?page={{ page - 1 }}{{ queryParams }}">&laquo;</a>
-        {% endif %}
-
-        {# Liens pages #}
-        {% for p in startPage..endPage %}
-            <a href="?page={{ p }}{{ queryParams }}" {% if p == page %}class="page_active"{% endif %}>{{ p }}</a>
-        {% endfor %}
-
-        {# Lien page suivante #}
-        {% if page < totalPages %}
-            <a href="?page={{ page + 1 }}{{ queryParams }}">&raquo;</a>
-        {% endif %}
+        {% include 'pagination.html.twig' with {
+            pagination: pagination
+        } %}
 
         <form method="get" action="" class="pagination-form">
             <input type="hidden" name="ville" value="{{ ville }}">
             <input type="hidden" name="entreprise" value="{{ entreprise }}">
+
             <select name="parpage" id="parpage" onchange="this.form.submit()">
                 <option value="12" {% if parpage == 12 %}selected{% endif %}>12</option>
                 <option value="24" {% if parpage == 24 %}selected{% endif %}>24</option>
