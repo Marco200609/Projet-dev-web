@@ -59,6 +59,12 @@ if ($uri === '/') {
     $controllerOffre->PageOffres();
 }
 
+elseif ($uri ==='/CompteEntreprise') {
+    $controllerConnexion = new App\Controllers\CompteEntrepriseC($twig);
+    $controllerConnexion -> CompteEntreprise();
+
+}
+
 elseif ($uri ==='/CompteConnexion') {
     $controllerConnexion = new App\Controllers\ConnexionInsC($twig);
     $controllerConnexion -> page_connexion();
