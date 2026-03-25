@@ -87,12 +87,12 @@ class OffreC
 
     public function ChangeWishlist() : void
     {
-        if (!isset($_SESSION['id_user'])) {
+        if (!isset($_SESSION['id'])) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit;
         }
         $id_offre = isset($_POST['id_offre']) ? (int)$_POST['id_offre'] : 0;
-        $id_user = (int)$_SESSION['id_user'];
+        $id_user = (int)$_SESSION['id'];
         if ($id_offre > 0) {
             $this->modelOffre->changewishlist($id_offre, $id_user);
         }
