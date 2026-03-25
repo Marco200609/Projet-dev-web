@@ -5,7 +5,8 @@ use PDO;
 
 class NoteM extends PdoM
 {
-    public function getNoteUser($id_entreprise, $id_user) {
+    public function getNoteUser($id_entreprise, $id_user) : ?int
+    {
         $rq = $this->pdo->prepare("SELECT note FROM note_entreprise WHERE id_entreprise_fk = :id_entreprise AND id_utilisateur_fk = :id_user");
         $rq->bindValue(':id_entreprise', (int)$id_entreprise, PDO::PARAM_INT);
         $rq->bindValue(':id_user', (int)$id_user, PDO::PARAM_INT);
@@ -13,7 +14,7 @@ class NoteM extends PdoM
         return $rq->fetchColumn();
     }
 
-    public function getNbNote($id_entreprise)
+    public function getNbNote($id_entreprise) : ?int
     {
         $rq = $this->pdo->prepare("SELECT COUNT(*) FROM note_entreprise WHERE id_entreprise_fk = :id_entreprise");
         $rq->bindValue(':id_entreprise', (int)$id_entreprise, PDO::PARAM_INT);
@@ -42,11 +43,20 @@ class NoteM extends PdoM
             $this->pdo->rollBack();
             return false;
         }
-        $rq = $this->pdo->prepare("INSERT INTO note_entreprise (note, id_entreprise_fk, id_utilisateur_fk) VALUES (:note, :id_entreprise, :id_user)");
-        $rq->bindValue(':note', (int)$note, PDO::PARAM_INT);
-        $rq->bindValue(':id_entreprise', (int)$id_entreprise, PDO::PARAM_INT);
-        $rq->bindValue(':id_user', (int)$id_user, PDO::PARAM_INT);
-        $rq->execute();
-        return true;
+        try {
+            $this->pdo->beginTransaction();
+            $rq = $this->pdo->prepare("INSERT INTO note_entreprise (note, id_entreprise_fk, id_utilisateur_fk) VALUES (:note, :id_entreprise, :id_user)");
+            $rq->bindValue(':note', (int)$note, PDO::PARAM_INT);
+            $rq->bindValue(':id_entreprise', (int)$id_entreprise, PDO::PARAM_INT);
+            $rq->bindValue(':id_user', (int)$id_user, PDO::PARAM_INT);
+            $rq->execute();
+            $this->pdo->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->pdo->rollBack();
+            echo $e->getMessage();
+            return false;
+        }
+
     }
 }

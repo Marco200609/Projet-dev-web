@@ -42,23 +42,21 @@
             <div class="offre-info">
                 <span class="mail-telephone"> <b> Mail : </b>{{ entreprise.email }}</span>
                 <span class="note">
-                    {% set nb = entreprise.note %}
-                        {% for i in 1..5 %}
-                            {% if session.id_utilisateur is defined %}
-                                <form method="post" action="/detail_entreprise/note" style="display:inline;">
-                                    <input type="hidden" name="id_entreprise" value="{{ entreprise.id_entreprise }}">
-                                    <input type="hidden" name="id_utilisateur" value="{{ session.id_utilisateur }}">
-                                    <button type="submit" name="note" value="{{ i }}" class="bouton_etoile">
-                                        <i class="bi {% if i <= nb %}bi-star-fill{% else %}bi-star{% endif %}"></i>
-                                    </button>
-                                </form>
-                            {% else %}
-                                <i class="bi {% if i <= nb %}bi-star-fill{% else %}bi-star{% endif %}"></i>
-                            {% endif %}
-                        {% endfor %}
+                    {% for i in 1..5 %}
+                        {% if session.id_user != 0 %}
+                            <form method="post" action="/detail_entreprise/note" style="display:inline;">
+                                <input type="hidden" name="id_entreprise" value="{{ entreprise.id_entreprise }}">
+                                <button type="submit" name="note" value="{{ i }}" class="bouton_etoile">
+                                    <i class="bi {% if i <= entreprise.note %}bi-star-fill{% else %}bi-star{% endif %}"></i>
+                                </button>
+                            </form>
+                        {% else %}
+                            <i class="bi {% if i <= entreprise.note %}bi-star-fill{% else %}bi-star{% endif %}"></i>
+                        {% endif %}
+                    {% endfor %}
                     <i>({{ nb_note }})</i>
-                    {% if note_user is not null %}
-                        <i>Votre note : {{ note_user }}</i>
+                    {% if note_user != false %}
+                        <i class="bi bi-bookmark-check"> {{ note_user }}</i>
                     {% endif %}
                 </span>
             </div>
@@ -81,7 +79,7 @@
                     {% endfor %}
                 </div>
                 </div>
-                <a href="www.juniors.fr/entreprise&nom={{ entreprise.nom }}" class="postuler-button">Voir les {{ entreprise.nb_offre}} offres</a>
+                <a href="/offres?&entreprise={{ entreprise.nom }}" class="postuler-button">Voir les {{ entreprise.nb_offre}} offres</a>
             {% endif %}
         </div>
     </section>

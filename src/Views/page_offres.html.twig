@@ -24,9 +24,9 @@
     </label>
 
     <div class="links">
-        <a href="../index.html">Accueil</a>
-        <a href="Offres.html" class="active">Offre</a>
-        <a href="Entreprises.html">Entreprise</a>
+        <a href="/">Accueil</a>
+        <a href="/offres" class="active">Offre</a>
+        <a href="/entreprises">Entreprise</a>
         <a href="Connexion.html">Mon Compte</a>
     </div>
 </nav>
@@ -60,7 +60,8 @@
     <section class="liste_offres">
         {% for off in offres %}
             {% include 'offre.html.twig' with {
-                off: off
+                off: off,
+                session: session
             } %}
         {% endfor %}
 

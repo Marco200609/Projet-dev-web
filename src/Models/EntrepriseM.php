@@ -44,7 +44,7 @@ class EntrepriseM extends PdoM
     }
 
     public function getDetailEntreprise($id) : array
-    {        $rq = $this->pdo->prepare("SELECT entreprise.nom, entreprise.logo, villes.nom_ville, AVG(note_entreprise.note)AS note, COUNT(offre.id_offre) AS nb_offre, entreprise.descriptif, entreprise.nb_employe, contact.email FROM entreprise
+    {        $rq = $this->pdo->prepare("SELECT entreprise.id_entreprise, entreprise.nom, entreprise.logo, villes.nom_ville, AVG(note_entreprise.note)AS note, COUNT(offre.id_offre) AS nb_offre, entreprise.descriptif, entreprise.nb_employe, contact.email FROM entreprise
                                     LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
                                     LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
                                     LEFT JOIN note_entreprise ON entreprise.id_entreprise = note_entreprise.id_entreprise_fk
