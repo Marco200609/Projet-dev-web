@@ -64,6 +64,11 @@ elseif ($uri ==='/CompteConnexion') {
     $controllerConnexion -> page_connexion();
 }
 
+elseif ($uri ==='/CompteEntreprise') {
+    $controllerConnexion = new App\Controllers\CompteEntrepriseC($twig);
+    $controllerConnexion -> CompteEntreprise();
+}
+
 //elseif ($uri.startsWith('https://CompteInscription')) {
 //check si y a ça dans l'url (in machin) rentrer dans cette condition --> après check pour tel ou tel suite d'URL
 elseif ($uri === '/CompteInscription') {
@@ -118,6 +123,7 @@ elseif ($uri ==='/CompteInscription/Attente'){
     $controllerInscription->page_inscription_attente();
 }
 
+
 else {
-    echo '404 Not Found';
+    echo '404 Not Foundddd';
 }
