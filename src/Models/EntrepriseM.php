@@ -137,11 +137,15 @@ class EntrepriseM extends PdoM
             $id_contact = $contactModel->getOrCreateContact($mail, $telephone);
 
             // 6. Entreprise
-            $rq = $this->pdo->prepare("INSERT INTO entreprise (nom, logo, descriptif, nb_employe, id_adresse_fk, id_contact_fk) VALUES (:nom, :logo, :description, :nb_employe, :id_adresse, :id_contact)");
+
+            $code_entreprise = $nom . '-' . bin2hex(random_bytes(12)); // 24 caractères aléatoires
+
+            $rq = $this->pdo->prepare("INSERT INTO entreprise (nom, logo, descriptif, nb_employe, code_entreprise ,id_adresse_fk, id_contact_fk) VALUES (:nom, :logo, :description, :nb_employe, :code_entreprise, :id_adresse, :id_contact)");
             $rq->bindValue(':nom', $nom, PDO::PARAM_STR);
             $rq->bindValue(':logo', $logo, PDO::PARAM_STR);
             $rq->bindValue(':description', $description, PDO::PARAM_STR);
             $rq->bindValue(':nb_employe', $nb_employe, PDO::PARAM_INT);
+            $rq->bindValue(':code_entreprise', $code_entreprise, PDO::PARAM_STR);
             $rq->bindValue(':id_adresse', $id_adresse, PDO::PARAM_INT);
             $rq->bindValue(':id_contact', $id_contact, PDO::PARAM_INT);
             $rq->execute();

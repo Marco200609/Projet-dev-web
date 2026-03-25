@@ -51,7 +51,7 @@ class CandidatureC
             header('Location: /CompteConnexion');
             exit();
         } elseif ($_SESSION['role'] !== 1) {
-            header('Location: /Offres');
+            header('Location: /offres');
             exit();
         }
         $offre = (new OffreM())->getCandidatOffre($id_offre);
@@ -70,7 +70,7 @@ class CandidatureC
             header('Location: /CompteConnexion');
             exit();
         } elseif ($_SESSION['role'] !== 1) {
-            header('Location: /Offres');
+            header('Location: /offres');
             exit();
         } else {
             $id_user = $_SESSION['id'];
