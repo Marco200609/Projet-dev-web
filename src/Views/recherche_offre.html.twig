@@ -30,7 +30,7 @@
     <div class="dropdown-content">
         {% for contrat in liste_contrats %}
             <label>
-                <input type="checkbox" name="contrat[]" value="{{ contrat }}"
+                <input type="checkbox" name="contrats[]" value="{{ contrat }}"
                        {% if contrat in contrats %}checked{% endif %}>
                 {{ contrat }}
             </label><br>
@@ -60,7 +60,7 @@
     <div class="dropdown-content">
         {% for domaine in liste_domaines %}
             <label>
-                <input type="checkbox" name="domaine[]" value="{{ domaine }}"
+                <input type="checkbox" name="domaines[]" value="{{ domaine }}"
                        {% if domaine in domaines %}checked{% endif %}>
                 {{ domaine }}
             </label><br>
@@ -91,7 +91,7 @@
     <div class="dropdown-content">
         {% for competence in liste_competences %}
             <label>
-                <input type="checkbox" name="competence[]" value="{{ competence }}"
+                <input type="checkbox" name="competences[]" value="{{ competence }}"
                        {% if competence in competences %}checked{% endif %}>
                 {{ competence }}
             </label><br>
@@ -123,5 +123,5 @@
 <br><br> <!--enlever les br après-->
 
 <button type="submit" >Rechercher</button>
-<button type="reset">Réinitialiser</button>
+    <a href="/offres" class="btn">Réinitialiser</a>
 </form>

@@ -61,7 +61,7 @@ class EntrepriseM extends PdoM
                                              SELECT domaine
                                              FROM offre
                                              WHERE id_entreprise_fk = :id
-                                             ORDER BY date_debut DESC, id_offre DESC
+                                             ORDER BY offre.date_creation DESC, id_offre DESC
                                          ) AS last_offres
                                     LIMIT 3");
         $rq2->bindValue(':id', (int)$id, PDO::PARAM_INT);
@@ -78,6 +78,15 @@ class EntrepriseM extends PdoM
                                     WHERE visible = 1");
         $rq->execute();
         return $rq->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getIdEntreprise($nom) : ?int
+    {
+        $rq = $this->pdo->prepare("SELECT id_entreprise FROM entreprise WHERE nom = :nom");
+        $rq->bindValue(':nom', $nom, PDO::PARAM_STR);
+        $rq->execute();
+        $id = $rq->fetchColumn();
+        return $id ? (int)$id : null;
     }
 
     public function getFormEntreprises($id) :array
@@ -189,7 +198,6 @@ class EntrepriseM extends PdoM
         } catch (\Exception $e) {
             $this->pdo->rollBack();
             return false;
-
         }
     }
     /*

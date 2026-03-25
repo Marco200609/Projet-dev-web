@@ -62,11 +62,42 @@ if ($uri === '/') {
 elseif ($uri ==='/CompteConnexion') {
     $controllerConnexion = new App\Controllers\ConnexionInsC($twig);
     $controllerConnexion -> page_connexion();
+
+} elseif (preg_match('#^/detail_offre/(\d+)(/)?$#', $uri, $matches)) {
+    $controllerOffre = new App\Controllers\OffreC($twig);
+    $controllerOffre->PageDetailOffre($matches[1]);
+
+} elseif ($uri === '/offres/add' || $uri === '/offres/add/') {
+    $controllerOffre = new App\Controllers\OffreC($twig);
+    $controllerOffre->PageFormAddOffre();
+
+} elseif($uri === '/offres/formadd' || $uri === '/offres/formadd/') {
+    $controllerOffre = new App\Controllers\OffreC($twig);
+    $controllerOffre->FormAddOffre();
+
+} elseif (preg_match('#^/offres/update/(\d+)(/)?$#', $uri, $matches)) {
+    $controllerOffre = new App\Controllers\OffreC($twig);
+    $controllerOffre->PageFormUpdateOffre($matches[1]);
+
+} elseif (preg_match('#^/offres/formupdate/(\d+)(/)?$#', $uri, $matches)) {
+    $controllerOffre = new App\Controllers\OffreC($twig);
+    $controllerOffre->FormUpdateOffre($matches[1]);
+
+} elseif (preg_match('#^/offres/postuler/(\d+)(/)?$#', $uri, $matches)) {
+    $controllerCandidature = new App\Controllers\CandidatureC($twig);
+    $controllerCandidature->PageCandidature($matches[1]);
+
+} elseif ($uri === '/offres/formcandidature' || $uri === '/offres/formcandidature/') {
+    $controllerCandidature = new App\Controllers\CandidatureC($twig);
+    $controllerCandidature->FormAddCandidature();
 }
+
+
 
 //elseif ($uri.startsWith('https://CompteInscription')) {
 //check si y a ça dans l'url (in machin) rentrer dans cette condition --> après check pour tel ou tel suite d'URL
-elseif ($uri === '/CompteInscription') {
+
+elseif ($uri === '/CompteInscription'){
 //    if ($uri === '/CompteInscription/Pilote') {
 //        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
 //        $controllerInscription->page_inscription_pilote();
@@ -83,8 +114,8 @@ elseif ($uri === '/CompteInscription') {
 //    }
 //
 //    else {
-        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-        $controllerInscription->page_inscription();
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->page_inscription();
 //    }
 }
 
@@ -119,5 +150,6 @@ elseif ($uri ==='/CompteInscription/Attente'){
 }
 
 else {
+    // 404
     echo '404 Not Found';
 }

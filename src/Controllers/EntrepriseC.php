@@ -3,7 +3,10 @@
 namespace App\Controllers;
 use App\Models\EntrepriseM;
 use App\Models\NoteM;
+use App\Models\OffreM;
 use App\Models\VilleM;
+
+use function App\Services\pagination;
 
 class EntrepriseC
 {
@@ -80,6 +83,8 @@ class EntrepriseC
         $modelVille = new VilleM();
         $ville_entreprises = $modelVille->getVilleEntreprises();
 
+        $pagination = pagination($total, $page, $parpage, '/entreprises', $_GET);
+
         echo $this->templateEngine->render('entreprise.html.twig', [
             'entreprises' => $entreprises,
             'page' => $page,
@@ -88,24 +93,34 @@ class EntrepriseC
             'entreprise' => $entreprise,
             'ville' => $ville,
             'nom_entreprises' => $nom_entreprises,
-            'ville_entreprises' => $ville_entreprises
+            'ville_entreprises' => $ville_entreprises,
+
+            'pagination' => $pagination,
         ]);
     }
 
     public function PageDetailEntreprise($id): void
     {
+        $modelOffre = new OffreM();
         $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
+        if (empty($entreprise['nom'])) {
+            header('location: /404');
+        }
         $nb_note = $this->modelNote->getNbNote($id);
         if ($_SESSION['id_utilisateur'] ?? null) {
             $note_user = $this->modelNote->getNoteUser($id, $_SESSION['id_utilisateur']);
         } else {
             $note_user = null;
         }
+
+        $offres = $modelOffre->getOffres(1, 2, nom_entreprise:$entreprise['nom'], id:$_SESSION['id_utilisateur'] ?? 0);
+
         echo $this->templateEngine->render('detail_entreprise.html.twig', [
             'entreprise' => $entreprise,
             'nb_note' => $nb_note,
             'note_user' => $note_user,
-            'session' => $_SESSION
+            'session' => $_SESSION,
+            'offres' => $offres
         ]);
     }
 

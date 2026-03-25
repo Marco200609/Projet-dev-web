@@ -11,7 +11,7 @@ class OffreM extends PdoM
     {
         $sql = "SELECT COUNT(*) FROM offre
                                 LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
-                                LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
+                                LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
                                 LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
                                 LEFT JOIN competence_offre ON offre.id_offre = competence_offre.id_offre_fk
                                 LEFT JOIN competences ON competence_offre.id_competence_fk = competences.competence
@@ -66,7 +66,7 @@ class OffreM extends PdoM
                    (SELECT COUNT(*) FROM whishlist w WHERE w.id_offre_fk = offre.id_offre AND w.id_utilisateur_fk = ?) AS in_wishlist
             FROM offre
                      LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
-                     LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
+                     LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
                      LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
                      LEFT JOIN competence_offre ON offre.id_offre = competence_offre.id_offre_fk
                      LEFT JOIN competences ON competence_offre.id_competence_fk = competences.id_competence
@@ -108,7 +108,260 @@ class OffreM extends PdoM
         return $rq->fetchAll();
     }
 
+    public function getDetailOffre($id_offre, $id_user=0) : array
+    {
+        $rq = $this->pdo->prepare("SELECT offre.id_offre, offre.titre, offre.date_creation, offre.descriptif,
+                                   IF(offre.date_creation > NOW() - INTERVAL 3 DAY, 1, 0) AS new,
+                                   entreprise.nom,
+                                   villes.nom_ville,
+                                   offre.domaine,
+                                   contrat.nom_contrat,
+                                   GROUP_CONCAT(competences.competence) AS competences,
+                                   (SELECT COUNT(*) FROM whishlist w WHERE w.id_offre_fk = offre.id_offre AND w.id_utilisateur_fk = :id_user) AS in_wishlist
+                                FROM offre
+                                     LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
+                                     LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
+                                     LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
+                                     LEFT JOIN competence_offre ON offre.id_offre = competence_offre.id_offre_fk
+                                     LEFT JOIN competences ON competence_offre.id_competence_fk = competences.id_competence
+                                     LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
+                                WHERE offre.id_offre = :id_offre");
+        $rq->bindValue(':id_user', $id_user, PDO::PARAM_INT);
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+        return $rq->fetch();
+    }
 
+    public function getFormOffre($id_offre) : array
+    {
+        $rq = $this->pdo->prepare("SELECT offre.titre,
+                                offre.descriptif,
+                                entreprise.nom,
+                                adresse.adresse,
+                                villes.nom_ville,
+                                departement.departement,
+                                pays.nom_pays,
+                                offre.domaine,
+                                contrat.nom_contrat,
+                                contact.email,
+                                contact.telephone,
+                                offre.duree,
+                                unite_temps.nom_unite,
+                                GROUP_CONCAT(competences.competence) AS competences
+                                FROM offre
+                                    LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
+                                    LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
+                                    LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
+                                    LEFT JOIN departement ON villes.id_departement_fk = departement.id_departement
+                                    LEFT JOIN pays ON departement.id_pays_fk = pays.id_pays
+                                    LEFT JOIN competence_offre ON offre.id_offre = competence_offre.id_offre_fk
+                                    LEFT JOIN competences ON competence_offre.id_competence_fk = competences.id_competence
+                                    LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
+                                    LEFT JOIN contact ON offre.id_contact_recrutement_fk = contact.id_contact
+                                    LEFT JOIN unite_temps ON offre.id_unite_duree_fk = unite_temps.id_unite
+                                WHERE offre.id_offre = :id_offre");
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+        return $rq->fetch();
+    }
+
+    public function getCandidatOffre($id_offre) : ?array
+    {
+        $rq = $this->pdo->prepare("SELECT offre.titre, offre.id_offre, offre.domaine, villes.nom_ville, entreprise.nom
+                                FROM offre
+                                LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
+                                LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
+                                LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
+                                WHERE offre.id_offre = :id_offre");
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+        $result = $rq->fetch();
+        return $result === false ? null : $result;
+    }
+
+    public function changewishlist($id_offre, $id_utilisateur) : void
+    {
+        $rq = $this->pdo->prepare("SELECT COUNT(*) FROM whishlist WHERE id_offre_fk = :id_offre AND id_utilisateur_fk = :id_utilisateur");
+        $rq->execute([':id_offre' => $id_offre, ':id_utilisateur' => $id_utilisateur]);
+        if ($rq->fetchColumn() == 0) {
+            $rq = $this->pdo->prepare("INSERT INTO whishlist (id_offre_fk, id_utilisateur_fk) VALUES (:id_offre, :id_utilisateur)");
+        } else {
+            $rq = $this->pdo->prepare("DELETE FROM whishlist WHERE id_offre_fk = :id_offre AND id_utilisateur_fk = :id_utilisateur");
+        }
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->bindValue(':id_utilisateur', $id_utilisateur);
+        $rq->execute();
+    }
+
+    public function addOffre($titre, $pays, $departement, $ville, $adresse, $domaine, $contrat, $entreprise, $mail, $telephone, $competences, $unite_dure=null, $duree=null, $descriptif=null) : bool
+    {
+        try {
+            $this->pdo->beginTransaction();
+
+            // 1. Pays
+            $paysModel = new PaysM();
+            $id_pays = $paysModel->getOrCreatePays($pays);
+
+            // 2. Département
+            $departementModel = new DepartementM();
+            $id_departement = $departementModel->getOrCreateDepartement($departement, $id_pays);
+
+            // 3. Ville
+            $villeModel = new VilleM();
+            $id_ville = $villeModel->getOrCreateVille($ville, $id_departement);
+
+            // 4. Adresse
+            $adresseModel = new AdresseM();
+            $id_adresse = $adresseModel->getOrCreateAdresse($adresse, $id_ville);
+
+            // 5. Contact
+            $contactModel = new ContactM();
+            $id_contact = $contactModel->getOrCreateContact($mail, $telephone);
+
+            //6. Contrat
+            $contratModel = new ContratM();
+            $id_contrat = $contratModel->getIdContrat($contrat);
+
+            //7. Entreprise
+            $entrepriseModel = new EntrepriseM();
+            $id_entreprise = $entrepriseModel->getIdEntreprise($entreprise);
+            if (!$id_entreprise) {
+                return false;
+            }
+
+            //8. unite durée
+            if ($unite_dure !== null) {
+                $rq = $this->pdo->prepare("SELECT id_unite FROM unite_temps WHERE nom_unite = :unite");
+                $rq->bindValue(':unite', $unite_dure);
+                $rq->execute();
+                $id_unite_dure = $rq->fetchColumn() ?: null; // null si non trouvée
+            } else {
+                $id_unite_dure = null;
+            }
+
+            // 9. offre
+            if ($duree === '' || !isset($duree)) {
+                $duree = null;
+            }
+
+            $rq = $this->pdo->prepare("INSERT INTO offre (titre, date_creation, duree, descriptif, domaine, id_contrat_fk, id_unite_duree_fk, id_adresse_fk, id_entreprise_fk, id_contact_recrutement_fk)
+                                        VALUES (:titre, NOW(), :duree, :descriptif, :domaine, :id_contrat_fk, :id_unite_duree_fk, :id_adresse_fk, :id_entreprise_fk, :id_contact_recrutement_fk)");
+            $rq->bindValue(':titre', $titre);
+            $rq->bindValue(':duree', $duree, is_null($duree) ? PDO::PARAM_NULL : PDO::PARAM_INT);
+            $rq->bindValue(':descriptif', $descriptif);
+            $rq->bindValue(':domaine', $domaine);
+
+            $rq->bindValue(':id_contrat_fk', $id_contrat);
+            $rq->bindValue(':id_unite_duree_fk', $id_unite_dure);
+            $rq->bindValue(':id_adresse_fk', $id_adresse);
+            $rq->bindValue(':id_entreprise_fk', $id_entreprise);
+            $rq->bindValue(':id_contact_recrutement_fk', $id_contact);
+            if (!$rq->execute()) {
+                $this->pdo->rollBack();
+                echo $rq->errorInfo()[2];
+                return false;
+            }
+            $id_offre = $this->pdo->lastInsertId();
+
+            //10. competences
+            $competencesModel = new CompetenceM();
+            $competencesModel->addCompetencesOffre($id_offre, $competences, $this->pdo);
+
+            $this->pdo->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->pdo->rollBack();
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function updateOffre($id_offre, $titre, $pays, $departement, $ville, $adresse, $domaine, $contrat, $entreprise, $mail, $telephone, $competences, $unite_dure=null, $duree=null, $descriptif=null) : bool
+    {
+        try {
+            $this->pdo->beginTransaction();
+
+            // 1. Pays
+            $paysModel = new PaysM();
+            $id_pays = $paysModel->getOrCreatePays($pays);
+
+            // 2. Département
+            $departementModel = new DepartementM();
+            $id_departement = $departementModel->getOrCreateDepartement($departement, $id_pays);
+
+            // 3. Ville
+            $villeModel = new VilleM();
+            $id_ville = $villeModel->getOrCreateVille($ville, $id_departement);
+
+            // 4. Adresse
+            $adresseModel = new AdresseM();
+            $id_adresse = $adresseModel->getOrCreateAdresse($adresse, $id_ville);
+
+            // 5. Contact
+            $contactModel = new ContactM();
+            $id_contact = $contactModel->getOrCreateContact($mail, $telephone);
+
+            //6. Contrat
+            $contratModel = new ContratM();
+            $id_contrat = $contratModel->getIdContrat($contrat);
+
+            //7. Entreprise
+            $entrepriseModel = new EntrepriseM();
+            $id_entreprise = $entrepriseModel->getIdEntreprise($entreprise);
+            if (!$id_entreprise) {
+                return false;
+            }
+
+            //8. unite durée
+            if ($unite_dure !== null) {
+                $rq = $this->pdo->prepare("SELECT id_unite FROM unite_temps WHERE nom_unite = :unite");
+                $rq->bindValue(':unite', $unite_dure);
+                $rq->execute();
+                $id_unite_dure = $rq->fetchColumn() ?: null; // null si non trouvée
+            } else {
+                $id_unite_dure = null;
+            }
+
+            // 9. offre
+            $rq = $this->pdo->prepare("UPDATE offre SET titre = :titre, duree = :duree, descriptif = :descriptif, domaine = :domaine, id_contrat_fk = :id_contrat_fk, id_unite_duree_fk = :id_unite_duree_fk, id_adresse_fk = :id_adresse_fk, id_entreprise_fk = :id_entreprise_fk, id_contact_recrutement_fk = :id_contact_recrutement_fk WHERE id_offre = :id_offre");
+            $rq->bindValue(':titre', $titre);
+            $rq->bindValue(':duree', $duree);
+            $rq->bindValue(':descriptif', $descriptif);
+            $rq->bindValue(':domaine', $domaine);
+
+            $rq->bindValue(':id_contrat_fk', $id_contrat);
+            $rq->bindValue(':id_unite_duree_fk', $id_unite_dure);
+            $rq->bindValue(':id_adresse_fk', $id_adresse);
+            $rq->bindValue(':id_entreprise_fk', $id_entreprise);
+            $rq->bindValue(':id_contact_recrutement_fk', $id_contact);
+            $rq->bindValue(':id_offre', $id_offre);
+            $rq->execute();
+
+            //10. competences
+            $competencesModel = new CompetenceM();
+            $competencesModel->addCompetencesOffre($id_offre, $competences, $this->pdo);
+
+            $this->pdo->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+
+    }
+
+    public function deleteOffre($id_offre) : void
+    {
+        //delete wishlist
+        $rq = $this->pdo->prepare("DELETE FROM whishlist WHERE id_offre_fk = :id_offre");
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+
+        //delete offre
+        $rq = $this->pdo->prepare("DELETE FROM offre WHERE id_offre = :id_offre");
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+    }
 
 
     public function getDomaine() : array
@@ -117,21 +370,15 @@ class OffreM extends PdoM
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    public function getContrat() : array
-    {
-        $rq = $this->pdo->query("SELECT DISTINCT nom_contrat FROM contrat");
-        return $rq->fetchAll(PDO::FETCH_COLUMN);
-    }
-
-    public function getCompetence() : array
-    {
-        $rq = $this->pdo->query("SELECT DISTINCT competence FROM competences");
-        return $rq->fetchAll(PDO::FETCH_COLUMN);
-    }
-
     public function getOffre() : array
     {
         $rq = $this->pdo->query("SELECT DISTINCT titre FROM offre ");
+        return $rq->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getUnitesDurees() : array
+    {
+        $rq = $this->pdo->query("SELECT DISTINCT nom_unite FROM unite_temps");
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 }

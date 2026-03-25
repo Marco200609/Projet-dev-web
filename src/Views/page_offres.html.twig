@@ -66,31 +66,24 @@
 
     </section>
 
-    {% set queryParams = '&parpage=' ~ parpage ~
-        (nom_offre != '' ? '&nomOffre=' ~ nom_offre : '') ~
-        (ville != '' ? '&ville=' ~ ville : '') ~
-        (entreprise != '' ? '&entreprise=' ~ entreprise : '') ~
-        (domaines is not empty ? '&domaines=' ~ domaines|join(',') : '') ~
-        (contrats is not empty ? '&contrats=' ~ contrats|join(',') : '') ~
-        (competences is not empty ? '&competences=' ~ competences|join(',') : '')
-
-    %}
-
     <nav class="pagination navBar">
         {% include 'pagination.html.twig' with {
-            page: page,
-            parpage: parpage,
-            total: total,
-            queryParams: queryParams,
+            pagination: pagination
         } %}
 
         <form method="get" action="" class="pagination-form">
             <input type="hidden" name="nomOffre" value="{{ nom_offre }}">
             <input type="hidden" name="ville" value="{{ ville }}">
             <input type="hidden" name="entreprise" value="{{ entreprise }}">
-            <input type="hidden" name="domaines" value="{{ domaines|join(',') }}">
-            <input type="hidden" name="contrats" value="{{ contrats|join(',') }}">
-            <input type="hidden" name="competences" value="{{ competences|join(',') }}">
+            {% for c in contrats %}
+                <input type="hidden" name="contrats[]" value="{{ c }}">
+            {% endfor %}
+            {% for d in domaines %}
+                <input type="hidden" name="domaines[]" value="{{ d }}">
+            {% endfor %}
+            {% for comp in competences %}
+                <input type="hidden" name="competences[]" value="{{ comp }}">
+            {% endfor %}
 
             <select name="parpage" id="parpage" onchange="this.form.submit()">
                 <option value="12" {% if parpage == 12 %}selected{% endif %}>12</option>
