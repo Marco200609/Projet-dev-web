@@ -7,8 +7,9 @@ use PDO;
 class OffreM extends PdoM
 {
 
-    public function getNbOffre($nom_offre = '', $ville = '', $nom_entreprise = '', $domaines = [], $contrats = [], $competence = []) : int
+    public function getNbOffre($nom_offre = '', $ville = '', $nom_entreprise = '', $domaines = [], $contrats = [], $competence = [], $id=0) : int
     {
+        //ToDo offre id user
         $sql = "SELECT COUNT(*) FROM offre
                                 LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
                                 LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse

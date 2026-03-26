@@ -8,16 +8,18 @@
 
             {# ToDo whislist #}
 
-            {% if off.in_wishlist %}
-                <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" checked />
-                <label for="wish{{ off.id_offre }}" class="wishlist-label">
-                    <i class="bi bi-heart-fill"></i>
-                </label>
-            {% else %}
-                <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" />
-                <label for="wish{{ off.id_offre }}" class="wishlist-label">
-                    <i class="bi bi-heart"></i>
-                </label>
+            {% if session.id_user != 0 %}
+                {% if off.in_wishlist %}
+                    <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" checked />
+                    <label for="wish{{ off.id_offre }}" class="wishlist-label">
+                        <i class="bi bi-heart-fill"></i>
+                    </label>
+                {% else %}
+                    <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" />
+                    <label for="wish{{ off.id_offre }}" class="wishlist-label">
+                        <i class="bi bi-heart"></i>
+                    </label>
+                {% endif %}
             {% endif %}
 
         </div>

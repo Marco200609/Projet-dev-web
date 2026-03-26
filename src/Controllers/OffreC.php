@@ -87,7 +87,7 @@ class OffreC
 
     public function ChangeWishlist() : void
     {
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit;
         }
@@ -96,7 +96,6 @@ class OffreC
         if ($id_offre > 0) {
             $this->modelOffre->changewishlist($id_offre, $id_user);
         }
-        // Redirige vers la page précédente (offres)
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }
@@ -106,8 +105,8 @@ class OffreC
         $modelVille = new VilleM();
         $modelEntreprise = new EntrepriseM();
 
-        if (session_status()) {
-            $id_user = $_SESSION['id_user'] ?? 0;
+        if (session_status() and isset($_SESSION['id'])) {
+            $id_user = $_SESSION['id'];
         } else {
             $id_user = 0;
         }
@@ -140,6 +139,7 @@ class OffreC
 
         echo $this->templateEngine->render('page_offres.html.twig', [
             'offres' => $offres,
+            'session' => ['id_user' => $id_user, 'id_perm' => $_SESSION['role'] ?? 0],
 
             'page' => $page,
             'parpage' => $parpage,
@@ -299,8 +299,6 @@ class OffreC
             // Stockage des données brutes
             if ($this->modelOffre->updateOffre($id, $var['titre'], $var['pays'], $var['departement'], $var['ville'], $var['adresse'], $var['domaine'], $var['contrat'], $var['entreprise'], $var['mail'], $var['telephone'], $var['competences'], $var['unite_duree'], $var['duree'], $var['descriptif'])) {
                 // ToDo modifier le lien
-                echo $var['contrat'];
-                exit();
                 header('Location: /compte/entreprise');
                 exit();
             } else {

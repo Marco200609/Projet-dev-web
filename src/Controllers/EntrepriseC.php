@@ -107,19 +107,19 @@ class EntrepriseC
             header('location: /404');
         }
         $nb_note = $this->modelNote->getNbNote($id);
-        if ($_SESSION['id_utilisateur'] ?? null) {
-            $note_user = $this->modelNote->getNoteUser($id, $_SESSION['id_utilisateur']);
+        if (isset($_SESSION['id'])) {
+            $note_user = $this->modelNote->getNoteUser($id, $_SESSION['id']);
         } else {
-            $note_user = null;
+            $note_user = false;
         }
 
-        $offres = $modelOffre->getOffres(1, 2, nom_entreprise:$entreprise['nom'], id:$_SESSION['id_utilisateur'] ?? 0);
+        $offres = $modelOffre->getOffres(1, 2, nom_entreprise:$entreprise['nom'], id:$_SESSION['id'] ?? 0);
 
         echo $this->templateEngine->render('detail_entreprise.html.twig', [
             'entreprise' => $entreprise,
             'nb_note' => $nb_note,
             'note_user' => $note_user,
-            'session' => $_SESSION,
+            'session' => ['id_user' => $_SESSION['id'] ?? 0, 'id_perm' => $_SESSION['role'] ?? 0],
             'offres' => $offres
         ]);
     }
@@ -172,17 +172,19 @@ class EntrepriseC
     public function FormAddNote(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!isset($_POST['id_entreprise']) || !isset($_POST['note']) || !isset($_POST['id_utilisateur'])) {
+            if (!isset($_POST['id_entreprise']) || !session_status() || !isset($_POST['note']) || !isset($_SESSION['id']) || ($_SESSION['role'] != 1 && $_SESSION['role'] != 2)) {
                 header('Location: /entreprises');
                 exit();
             }
-            if ($this->modelNote->setNote($_POST['note'], $_POST['id_entreprise'], $_POST['id_utilisateur'] )) {
-                header('Location: /entreprises/' . $_POST['id_entreprise']);
+            if ($this->modelNote->setNote($_POST['note'], $_POST['id_entreprise'], $_SESSION['id'] )) {
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
                 exit();
             } else {
-                header('Location: /entreprises/' . $_POST['id_entreprise']);
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
                 exit();
             }
+        } else {
+            header('Location: /entreprises');
         }
     }
 

@@ -28,8 +28,7 @@ class CompetenceM extends PdoM
         $rq = $this->pdo->prepare("SELECT id_competence FROM competences WHERE competence = :competence");
         $rq->bindValue(':competence', $competence);
         $rq->execute();
-        $id = $rq->fetch()['id_competence'];
-        return $id;
+        return $rq->fetch()['id_competence'];
     }
 
     /**
