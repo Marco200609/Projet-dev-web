@@ -30,7 +30,7 @@ class ConnexionInsM extends PdoM
         return false;
     }
 
-    public function set_id_user($nom, $prenom, $mot_de_passe, $id_permission, $email, $telephone, $groupe)
+    public function set_id_user($nom, $prenom, $mot_de_passe, $id_permission, $email, $telephone, $groupe, $linkedin)
 //        Pour quand l'utilisateur s'inscrit
     {
         $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
@@ -66,8 +66,28 @@ class ConnexionInsM extends PdoM
                 'groupe' => $groupe
             ]);
         }
+
+        if ($linkedin !== null && $linkedin !== "") {
+            $sql_linkedin = "UPDATE utilisateur SET linkedin = :linkedin WHERE id_utilisateur = :id_user";
+            $rq = $this->pdo->prepare($sql_linkedin);
+            $rq->execute([
+                'id_user' => $id_user,
+                'linkedin' => $linkedin
+            ]);
+        }
+
+        if ($telephone !== null && $telephone !== "") {
+            $sql_telephone = "UPDATE contact SET telephone = :telephone WHERE id_contact = :id_contact";
+            $rq = $this->pdo->prepare($sql_telephone);
+            $rq->execute([
+                'id_user' => $id_user,
+                'telephone' => $telephone
+            ]);
+        }
+
         return $id_user;
     }
+
 
     //si y a que 1 admin --> ne sert à rien
     public function set_user_admin($id_admin) {
@@ -104,8 +124,6 @@ class ConnexionInsM extends PdoM
 
     public function set_user_etudiant($id_etudiant) {
         //$id_permission = 1
-        // si c un étudiant il a un nom de groupe obligatoire à remplir --> nom de groupe du pilote à vérifier
-        // --> le pilote pourra supprimer l'étudiant si finalement il est pas dans son groupe
 
         $sql = "UPDATE utilisateur
             SET id_permission = 1

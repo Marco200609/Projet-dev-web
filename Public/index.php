@@ -140,6 +140,12 @@ elseif ($uri === '/CompteInscription/Entreprise') {
     $controllerInscription->page_inscription_entreprise();
 }
 
+elseif ($uri === '/CompteInscription/Admin') {
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->page_inscription_admin();
+}
+
+
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->form_inscription();
@@ -153,6 +159,11 @@ elseif ($uri === '/CompteConnexion/Traitement' && $_SERVER['REQUEST_METHOD'] ===
 elseif ($uri ==='/CompteInscription/Attente'){
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->page_inscription_attente();
+}
+
+elseif ($uri === '/deconnexion') {
+    $controller = new App\Controllers\ConnexionInsC($twig);
+    $controller->form_deconnexion();
 }
 
 else {

@@ -34,7 +34,7 @@
         <input type="hidden" name="role" value="1">
 
         <section>
-            <label for="nom">Nom</label>
+            <label for="nom">Nom *</label>
             <input
                     id="nom"
                     name="nom"
@@ -43,7 +43,7 @@
         </section>
         <br>
         <section>
-            <label for="prenom">Prénom</label>
+            <label for="prenom">Prénom *</label>
             <input
                     id="prenom"
                     name="prenom"
@@ -54,7 +54,7 @@
         <h2>Vous êtes : un/e étudiant/e</h2>
 
         <section>
-            <label for="email">Email</label>
+            <label for="email">Email *</label>
             <input
                     id="email"
                     name="email"
@@ -74,7 +74,7 @@
 
         <br>
         <section>
-            <label for="current-password">Mot de passe</label>
+            <label for="current-password">Mot de passe *</label>
 
             <div class="password-wrapper">
                 <input
@@ -108,8 +108,12 @@
             </div>
 
             <section>
-                <label>Numéro de votre groupe :</label>
-                <input id="groupe" required>
+                <label>Numéro de votre groupe * :</label>
+                <input
+                        id="groupe"
+                        name="groupe"
+                        type="number"
+                        required>
             </section>
 
 
