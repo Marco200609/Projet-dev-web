@@ -5,38 +5,37 @@
     <title>Offres</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../assets/style.css">
-    <link rel="stylesheet" href="../assets/offres.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/Recherche.css">
 </head>
 <body>
-<nav class="navBar">
-    <div class="LogoNav">
-        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
-        <img src="../Images/LogoNav2.png" class="LogoNav2">
-    </div>
+    <nav class="navBar">
+        <div class="LogoNav">
+            <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+            <img src="../Images/LogoNav2.png" class="LogoNav2">
+        </div>
 
-    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
-    <label for="menu-toggle" class="burger-label">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
+        <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+        <label for="menu-toggle" class="burger-label">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
 
-    <div class="links">
-        <a href="../index.html">Accueil</a>
-        <a href="Offres.html" class="active">Offre</a>
-        <a href="Entreprises.html">Entreprise</a>
-        <a href="Connexion.html">Mon Compte</a>
-    </div>
-</nav>
+        <div class="links">
+            <a href="../index.html">Accueil</a>
+            <a href="Offres.html" class="active">Offre</a>
+            <a href="Entreprises.html">Entreprise</a>
+            <a href="Connexion.html">Mon Compte</a>
+        </div>
+    </nav>
 
 
 <main>
 
     <h1>Rechercher une offre :</h1>
-    <form action="../Pages/Offres.html" method="get" class="truc">
+    <form action="Pages/Offres.html" method="get" class="Finder">
 
+        <h3>A propos de l'offre</h3>
         <label for="nomOffre">Nom de l'offre :</label>
         <input list="nomOffres" id="nomOffre" name="nomOffre" placeholder="Commencez à taper...">
         <datalist id="nomOffres">
@@ -44,43 +43,95 @@
             <option value="test1">
         </datalist>
 
-        <br>
+        <div class="dropdown fleche-wrapper">
+            <button
+                    type="button"
+                    class="toggle-fleche">
 
-        <div class="dropdown">
-            <div class = "dropbtn">Contrat</div>
+                <svg class="bi bi-chevron-compact-down hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67"/>
+                </svg>
+
+                <svg class="bi bi-chevron-compact-up visible" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894z"/>
+                </svg>
+            </button>
+
+            <div class="dropbtn">Contrat</div>
             <div class="dropdown-content">
-                <button type="button">Stage</button>
-                <button type="button">Alternance</button>
-                <button type="button">CDI</button>
-                <button type="button">CDD</button>
-                <button type="button">Emploi saisonnier</button>
-                <button type="button">Contrat étudiant</button>
+                <label><input type="checkbox" name="contrat[]" value="Stage"> Stage</label><br>
+                <label><input type="checkbox" name="contrat[]" value="Alternance"> Alternance</label><br>
+                <label><input type="checkbox" name="contrat[]" value="CDI"> CDI</label><br>
+                <label><input type="checkbox" name="contrat[]" value="CDD"> CDD</label><br>
+                <label><input type="checkbox" name="contrat[]" value="Saisonnier"> Emploi saisonnier</label><br>
+                <label><input type="checkbox" name="contrat[]" value="Etudiant"> Contrat étudiant</label>
             </div>
         </div>
 
-        <div class="dropdown">
-            <div class = "dropbtn">Domaine</div>
+        <div class="dropdown fleche-wrapper">
+            <button
+                    type="button"
+                    class="toggle-fleche">
+
+                <svg class="bi bi-chevron-compact-down hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67"/>
+                </svg>
+
+                <svg class="bi bi-chevron-compact-up visible" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894z"/>
+                </svg>
+            </button>
+
+            <div class="dropbtn">Domaine</div>
             <div class="dropdown-content">
-                <button type="button">Informatique</button>
-                <button type="button">BTP</button>
-                <button type="button">Finance</button>
-                <button type="button">Artisanat</button>
+                <label><input type="checkbox" name="domaine[]" value="Informatique"> Informatique</label><br>
+                <label><input type="checkbox" name="domaine[]" value="BTP"> BTP</label><br>
+                <label><input type="checkbox" name="domaine[]" value="Finance"> Finance</label><br>
+                <label><input type="checkbox" name="domaine[]" value="Artisanat"> Artisanat</label>
             </div>
         </div>
 
-        <div class="dropdown">
-            <div class = "dropbtn">Compétence</div>
+        <div class="dropdown fleche-wrapper">
+
+            <button
+                    type="button"
+                    class="toggle-fleche">
+
+                <svg class="bi bi-chevron-compact-down icon1 hidden" xmlns="http://www.w3.org/2000/svg" width="16"
+                     height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67"/>
+                </svg>
+
+                <svg class="bi bi-chevron-compact-up icon2 visible" xmlns="http://www.w3.org/2000/svg" width="16"
+                     height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894z"/>
+                </svg>
+            </button>
+
+            <div class="dropbtn">Compétence</div>
             <div class="dropdown-content">
-                <button type="button">Langues</button>
-                <button type="button">CSS</button>
-                <button type="button">HTML</button>
-                <button type="button">Javascript</button>
-                <button type="button">Python</button>
-                <button type="button">Machine Learning</button>
+                <label><input type="checkbox" name="competence[]" value="Langues"> Langues</label><br>
+                <label><input type="checkbox" name="competence[]" value="CSS"> CSS</label><br>
+                <label><input type="checkbox" name="competence[]" value="HTML"> HTML</label><br>
+                <label><input type="checkbox" name="competence[]" value="Javascript"> Javascript</label><br>
+                <label><input type="checkbox" name="competence[]" value="Python"> Python</label><br>
+                <label><input type="checkbox" name="competence[]" value="Machine Learning"> Machine Learning</label>
             </div>
         </div>
 
         <br><br>
+        <h3>Où</h3>
+
         <label for="ville">Ville :</label>
         <input list="villes" id="ville" name="ville" placeholder="Commencez à taper...">
         <datalist id="villes">
@@ -93,6 +144,8 @@
 
         <!--        Rechercher une entreprise-->
         <br><br>
+        <h3>A propos de l'entreprise</h3>
+
         <label for="ville">Entreprise :</label>
         <input list="entreprises" id="entreprise" name="entreprise" placeholder="Commencez à taper...">
         <datalist id="entreprises">
@@ -104,16 +157,16 @@
         </datalist>
 
         <br><br> <!--enlever les br après-->
-        <button type="submit" >Rechercher</button>
+        <button type="submit">Rechercher</button>
         <button type="reset">Réinitialiser</button>
 
     </form>
 
     <h1> Offres disponibles </h1>
 
-    <section class="liste_offres">
-        <a href="detail_offre.html" class="offre-link">
-            <article class="offre">
+    <section class="liste-annonce">
+        <a href="detail_offre.html" class="link-annonce">
+            <article class="box-annonce">
                 <div class="offre-header">
                     <span class="date"><i class="bi bi-calendar"></i> 15/02/2026</span>
                     <span class="nouveau">Nouveau</span>
@@ -142,8 +195,8 @@
             </article>
         </a>
 
-        <a href="detail_offre.html" class="offre-link">
-            <article class="offre">
+        <a href="detail_offre.html" class="link-annonce">
+            <article class="box-annonce">
                 <div class="offre-header">
                     <span class="date"><i class="bi bi-calendar"></i> 22/01/2026</span>
                     <span class="nouveau"></span>
@@ -172,8 +225,8 @@
             </article>
         </a>
 
-        <a href="detail_offre.html" class="offre-link">
-            <article class="offre">
+        <a href="detail_offre.html" class="link-annonce">
+            <article class="box-annonce">
                 <div class="offre-header">
                     <span class="date"><i class="bi bi-calendar"></i> 20/01/2026</span>
                     <span class="nouveau"></span>
@@ -202,8 +255,8 @@
             </article>
         </a>
 
-    <a href="detail_offre.html" class="offre-link">
-        <article class="offre">
+    <a href="detail_offre.html" class="link-annonce">
+        <article class="box-annonce">
             <div class="offre-header">
                 <span class="date"><i class="bi bi-calendar"></i> 20/01/2026</span>
                 <span class="nouveau"></span>
@@ -233,7 +286,7 @@
     </a>
     </section>
 
-    <nav class="pagination navBar">
+    <nav class="pagination">
         <a href="#">&laquo;</a>
         <a href="#" class="page_active">1</a>
         <a href="#">2</a>
@@ -242,7 +295,6 @@
         <a href="#">5</a>
         <a href="#">&raquo;</a>
     </nav>
-
 </main>
 
 
