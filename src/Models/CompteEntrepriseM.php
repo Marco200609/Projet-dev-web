@@ -1,13 +1,11 @@
 <?php
+
 namespace App\Models;
 
 use PDO;
 
 class CompteEntrepriseM extends PdoM
 {
-    /**
-     * Stats dashboard
-     */
     public function getStats($id_entreprise): array
     {
         $rq = $this->pdo->prepare("
@@ -21,9 +19,7 @@ class CompteEntrepriseM extends PdoM
         return $rq->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Offres entreprise
-     */
+
     public function getOffresEnCours($id_entreprise): array
     {
         $rq = $this->pdo->prepare("

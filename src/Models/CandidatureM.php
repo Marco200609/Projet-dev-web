@@ -30,9 +30,10 @@ class CandidatureM extends PdoM
 
     public function getCandidaturesUtilisateur($id_user) : array
     {
-        $rq = $this->pdo->prepare("SELECT candidature.id_candidature, offre.titre, entreprise.nom, offre.domaine, candidature.date_candidature FROM candidature
+        $rq = $this->pdo->prepare("SELECT candidature.id_candidature, offre.titre, entreprise.nom, contrat.nom_contrat, candidature.date_candidature FROM candidature
                                         JOIN offre ON candidature.id_offre_fk = offre.id_offre
                                         JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
+                                        JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
                                         WHERE candidature.id_utilisateur_fk = :id_user");
         $rq->bindValue(':id_user', $id_user, PDO::PARAM_INT);
         $rq->execute();
@@ -49,6 +50,15 @@ class CandidatureM extends PdoM
         $rq->bindValue(':id_candidature', $id_candidature, PDO::PARAM_INT);
         $rq->execute();
         return $rq->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getNbCandidature($id_candidature) : array
+    {
+        $rq = $this->pdo->prepare("SELECT COUNT(*) FROM candidature
+                                        WHERE candidature.id_candidature = :id_candidature");
+        $rq->bindValue(':id_candidature', $id_candidature, PDO::PARAM_INT);
+        $rq->execute();
+        return $rq->fetchColumn();
     }
 
     public function AddCandidature($id_user, $id_offre, $cv, $lettre_motivation) : bool

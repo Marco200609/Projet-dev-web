@@ -11,7 +11,7 @@ ini_set('display_startup_errors', 1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Controllers\EntrepriseC;
+use App\Models\EntrepriseC;
 
 
 $loader = new \Twig\Loader\FilesystemLoader('../src/Views');
@@ -61,8 +61,16 @@ if ($uri === '/') {
 
 elseif ($uri ==='/CompteEntreprise') {
     $controllerConnexion = new App\Controllers\CompteEntrepriseC($twig);
-    $controllerConnexion -> CompteEntreprise();
-
+    $controllerConnexion -> PageCompteEntreprise();
+} elseif ($uri ==='/CompteEtudiant') {
+    $controllerConnexion = new App\Controllers\CompteEtudiantC($twig);
+    $controllerConnexion -> PageCompteEtudiant();
+} elseif ($uri ==='/CompteAdmin') {
+    $controllerConnexion = new App\Controllers\CompteAdminC($twig);
+    $controllerConnexion -> PageCompteAdmin();
+} elseif ($uri ==='/ComptePilote') {
+    $controllerConnexion = new App\Controllers\ComptePiloteC($twig);
+    $controllerConnexion -> PageComptePilote();
 }
 
 elseif ($uri ==='/CompteConnexion') {
