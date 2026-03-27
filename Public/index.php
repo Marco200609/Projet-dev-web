@@ -62,7 +62,6 @@ if ($uri === '/') {
 elseif ($uri ==='/CompteEntreprise') {
     $controllerConnexion = new App\Controllers\CompteEntrepriseC($twig);
     $controllerConnexion -> CompteEntreprise();
-
 }
 
 elseif ($uri ==='/CompteConnexion') {
@@ -136,8 +135,14 @@ elseif ($uri === '/CompteInscription/Etudiant') {
 }
 
 elseif ($uri === '/CompteInscription/Entreprise') {
+//    renvoie à la page intermédiaire d'inscription du compte entreprise : soit un compte de l'entreprise existe déjà, soit aucun compte n'existe encore
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->page_inscription_entreprise();
+    $controllerInscription->pageIntermediaire_inscription_entreprise();
+}
+
+elseif ($uri === '/CompteInscription/Entreprise/Recherche') {
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->page_inscription_recherche_entreprise();
 }
 
 elseif ($uri === '/CompteInscription/Admin') {

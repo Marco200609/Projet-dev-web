@@ -27,9 +27,14 @@ class ConnexionInsC
         echo $this->templateEngine->render('InscriptionEtudiant.html.twig');
     }
 
-    public function page_inscription_entreprise()
+    public function pageIntermediaire_inscription_entreprise()
     {
-        echo $this->templateEngine->render('InscriptionEntreprise.html.twig');
+        echo $this->templateEngine->render('ChoixIntermediaireEntreprise.html.twig');
+    }
+
+    public function page_inscription_recherche_entreprise()
+    {
+        echo $this->templateEngine->render('InscriptionRechercheEntreprise.html.twig');
     }
 
     public function page_inscription_admin()
