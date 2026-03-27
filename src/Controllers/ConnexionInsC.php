@@ -27,9 +27,19 @@ class ConnexionInsC
         echo $this->templateEngine->render('InscriptionEtudiant.html.twig');
     }
 
-    public function page_inscription_entreprise()
+    public function pageIntermediaire_inscription_entreprise()
     {
-        echo $this->templateEngine->render('InscriptionEntreprise.html.twig');
+        echo $this->templateEngine->render('ChoixIntermediaireEntreprise.html.twig');
+    }
+
+    public function page_inscription_recherche_entreprise()
+    {
+        echo $this->templateEngine->render('InscriptionRechercheEntreprise.html.twig');
+    }
+
+    public function page_inscription_admin()
+    {
+        echo $this->templateEngine->render('InscriptionAdmin.html.twig');
     }
 
     public function page_inscription_attente() {
@@ -40,9 +50,11 @@ class ConnexionInsC
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
         $email = $_POST['email'];
-        $telephone = $_POST['telephone'];
+        $telephone = $_POST['telephone'] ?? null;
         $mot_de_passe = $_POST['password'];
         $role = $_POST['role'];
+        $groupe = $_POST['groupe'] ?? null;
+        $linkedin = $_POST['linkedin'] ?? null;
 
         $model = new \App\Models\ConnexionInsM();
 
@@ -53,8 +65,8 @@ class ConnexionInsC
             $role,
             $email,
             $telephone,
-            null
-        );
+            $groupe,
+            $linkedin);
 
         header("Location: /CompteInscription/Attente");
         exit;
@@ -82,4 +94,13 @@ class ConnexionInsC
         }
 
     }
+
+    public function form_deconnexion() {
+        $_SESSION = [];
+        session_destroy();
+        header("Location: /");
+        exit;
+    }
+
+
 }

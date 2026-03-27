@@ -7,9 +7,8 @@ use PDO;
 class OffreM extends PdoM
 {
 
-    public function getNbOffre($nom_offre = '', $ville = '', $nom_entreprise = '', $domaines = [], $contrats = [], $competence = [], $id=0) : int
+    public function getNbOffre($nom_offre = '', $ville = '', $nom_entreprise = '', $domaines = [], $contrats = [], $competence = []) : int
     {
-        //ToDo offre id user
         $sql = "SELECT COUNT(*) FROM offre
                                 LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
                                 LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
@@ -362,6 +361,75 @@ class OffreM extends PdoM
         $rq = $this->pdo->prepare("DELETE FROM offre WHERE id_offre = :id_offre");
         $rq->bindValue(':id_offre', $id_offre);
         $rq->execute();
+    }
+
+
+    /**
+     * Permet de savoir si l'offre est approuvé
+     *
+     * @param $id_offre
+     * @return bool
+     */
+    public function getOffreVisible($id_offre) : bool
+    {
+        $rq = $this->pdo->prepare("SELECT visible FROM offre WHERE id_offre = :id_offre");
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+        return (bool) $rq->fetchColumn();
+    }
+
+    /**
+     * Permet à l'admin ou le pilote d'aprouver une offre
+     *
+     * @param $id_offre
+     * @return void
+     */
+    public function setOffreVisible($id_offre) : void
+    {
+        $rq = $this->pdo->prepare("UPDATE offre SET visible = 1 WHERE id_offre = :id_offre");
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+    }
+
+    /**
+     * Permet de récuperer si l'offre est en pause ou non (invisible ou non sur le site)
+     *
+     * @param $id_offre
+     * @return bool
+     */
+    public function getOffrePause($id_offre) : bool
+    {
+        $rq = $this->pdo->prepare("SELECT Pause FROM offre WHERE id_offre = :id_offre");
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+        return (bool) $rq->fetchColumn();
+    }
+
+    /**
+     * Permet de rendre une offre invisible sur le site sans la supprimer
+     *
+     * @param $id_offre
+     * @return void
+     */
+    public function setOffrePause($id_offre) : void
+    {
+        $rq = $this->pdo->prepare("UPDATE offre SET Pause = 1 WHERE id_offre = :id_offre");
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+    }
+
+    /**
+     * Permet de rendre une offre visible sur le site
+     *
+     * @param $id_offre
+     * @return void
+     */
+    public function unsetOffrePause($id_offre) : void
+    {
+        $rq = $this->pdo->prepare("UPDATE offre SET Pause = 0 WHERE id_offre = :id_offre");
+        $rq->bindValue(':id_offre', $id_offre);
+        $rq->execute();
+
     }
 
 

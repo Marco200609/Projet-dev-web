@@ -11,7 +11,7 @@ ini_set('display_startup_errors', 1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Models\EntrepriseC;
+use App\Controllers\EntrepriseC;
 
 
 $loader = new \Twig\Loader\FilesystemLoader('../src/Views');
@@ -61,16 +61,7 @@ if ($uri === '/') {
 
 elseif ($uri ==='/CompteEntreprise') {
     $controllerConnexion = new App\Controllers\CompteEntrepriseC($twig);
-    $controllerConnexion -> PageCompteEntreprise();
-} elseif ($uri ==='/CompteEtudiant') {
-    $controllerConnexion = new App\Controllers\CompteEtudiantC($twig);
-    $controllerConnexion -> PageCompteEtudiant();
-} elseif ($uri ==='/CompteAdmin') {
-    $controllerConnexion = new App\Controllers\CompteAdminC($twig);
-    $controllerConnexion -> PageCompteAdmin();
-} elseif ($uri ==='/ComptePilote') {
-    $controllerConnexion = new App\Controllers\ComptePiloteC($twig);
-    $controllerConnexion -> PageComptePilote();
+    $controllerConnexion -> CompteEntreprise();
 }
 
 elseif ($uri ==='/CompteConnexion') {
@@ -144,9 +135,21 @@ elseif ($uri === '/CompteInscription/Etudiant') {
 }
 
 elseif ($uri === '/CompteInscription/Entreprise') {
+//    renvoie à la page intermédiaire d'inscription du compte entreprise : soit un compte de l'entreprise existe déjà, soit aucun compte n'existe encore
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->page_inscription_entreprise();
+    $controllerInscription->pageIntermediaire_inscription_entreprise();
 }
+
+elseif ($uri === '/CompteInscription/Entreprise/Recherche') {
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->page_inscription_recherche_entreprise();
+}
+
+elseif ($uri === '/CompteInscription/Admin') {
+    $controllerInscription = new App\Controllers\ConnexionInsC($twig);
+    $controllerInscription->page_inscription_admin();
+}
+
 
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
@@ -161,6 +164,11 @@ elseif ($uri === '/CompteConnexion/Traitement' && $_SERVER['REQUEST_METHOD'] ===
 elseif ($uri ==='/CompteInscription/Attente'){
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->page_inscription_attente();
+}
+
+elseif ($uri === '/deconnexion') {
+    $controller = new App\Controllers\ConnexionInsC($twig);
+    $controller->form_deconnexion();
 }
 
 else {
