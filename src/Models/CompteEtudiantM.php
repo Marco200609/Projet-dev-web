@@ -32,4 +32,25 @@ class CompteEtudiantM extends PdoM
         $rq->execute();
         return $rq->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getNbCandidatures($id) : int
+    {
+        $rq = $this->pdo->prepare("SELECT COUNT(*) FROM candidature
+                                        WHERE id_utilisateur_fk = :id ");
+        $rq->bindValue(':id', $id, PDO::PARAM_INT);
+        $rq->execute();
+        return $rq->fetchColumn();
+    }
+
+//    public function getOffresWishlist($id) : array
+//    {
+//        $rq = $this->pdo->prepare("SELECT id_offre_fk
+//                                         FROM wishlist
+//                                         WHERE id_utilisateur_fk = :id_user");
+//
+//        $rq->bindValue(':id', $id, PDO::PARAM_INT);
+//        $rq->execute();
+//        return $rq->fetchAll(PDO::FETCH_ASSOC);
+//    }
+
 }

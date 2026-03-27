@@ -37,25 +37,17 @@
     <section class="dashboard">
         <div class="profile-overview">
             <div class="glass-card group-card">
-                <h3><i class="bi bi-people-fill"></i>{{ NomEtGroupe.nom }} {{ NomEtGroupe.prenom }}</h3>
+                <h3><i class="bi bi-people-fill"></i> {{ NomEtGroupe.nom }} {{ NomEtGroupe.prenom }}</h3>
                 <div class="group-details">
                     <p><strong>Promotion :</strong> {{ NomEtGroupe.nom_groupe }} </p>
-                    <p><strong>Référent :</strong> {{ NomPilote.nom }} </p>
+                    <p><strong>Référent :</strong> {{ NomPilote.nom }} {{ NomPilote.prenom }}</p>
                 </div>
             </div>
 
             <div class="stats-row">
                 <div class="mini-stat">
-                    <span class="number">12</span>
-                    <span class="label">Envoyées</span>
-                </div>
-                <div class="mini-stat">
-                    <span class="number">3</span>
-                    <span class="label">En attente</span>
-                </div>
-                <div class="mini-stat success">
-                    <span class="number">2</span>
-                    <span class="label">Entretiens</span>
+                    <span class="number">{{ NbCandidatures }}</span>
+                    <span class="label">Envoyees</span>
                 </div>
             </div>
         </div>
@@ -96,185 +88,17 @@
                         <th>Type</th>
                         <th>Poste</th>
                         <th>Date d'envoi</th>
-                        <th>Statut</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Tech Solutions</td>
-                        <td>Alternance</td>
-                        <td>Développeur Fullstack</td>
-                        <td>12/02/2026</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>Web Agency</td>
-                        <td>Stage</td>
-                        <td>Intégrateur HTML/CSS</td>
-                        <td>11/02/2026</td>
-                        <td><span class="badge interview">Entretien</span></td>
-                    </tr>
-                    <tr>
-                        <td>Cloud Corp</td>
-                        <td>Alternance</td>
-                        <td>Administrateur Systèmes</td>
-                        <td>08/02/2026</td>
-                        <td><span class="badge rejected">Refusé</span></td>
-                    </tr>
-                    <tr>
-                        <td>Digital Factory</td>
-                        <td>Stage</td>
-                        <td>Développeur Mobile</td>
-                        <td>07/02/2026</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>Data Insight</td>
-                        <td>Alternance</td>
-                        <td>Data Analyst Junior</td>
-                        <td>05/02/2026</td>
-                        <td><span class="badge interview">Entretien</span></td>
-                    </tr>
-                    <tr>
-                        <td>E-Com Group</td>
-                        <td>Alternance</td>
-                        <td>Développeur Back-end</td>
-                        <td>03/02/2026</td>
-                        <td><span class="badge rejected">Refusé</span></td>
-                    </tr>
-                    <tr>
-                        <td>InnoTech</td>
-                        <td>Stage</td>
-                        <td>DevOps Intern</td>
-                        <td>01/02/2026</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>Cyber Guard</td>
-                        <td>Alternance</td>
-                        <td>Sécurité Informatique</td>
-                        <td>28/01/2026</td>
-                        <td><span class="badge interview">Entretien</span></td>
-                    </tr>
-                    <tr>
-                        <td>App Studio</td>
-                        <td>Stage</td>
-                        <td>UI/UX Developer</td>
-                        <td>25/01/2026</td>
-                        <td><span class="badge rejected">Refusé</span></td>
-                    </tr>
-                    <tr>
-                        <td>Green IT</td>
-                        <td>Alternance</td>
-                        <td>Développeur Python</td>
-                        <td>20/01/2026</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>Scale Up Lab</td>
-                        <td>Alternance</td>
-                        <td>Product Owner Junior</td>
-                        <td>18/01/2026</td>
-                        <td><span class="badge interview">Entretien</span></td>
-                    </tr>
-                    <tr>
-                        <td>Future Vision</td>
-                        <td>Stage</td>
-                        <td>Développeur IA</td>
-                        <td>15/01/2026</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>Global Systems</td>
-                        <td>Alternance</td>
-                        <td>Expert Cybersécurité</td>
-                        <td>12/01/2026</td>
-                        <td><span class="badge rejected">Refusé</span></td>
-                    </tr>
-                    <tr>
-                        <td>Creative Mind</td>
-                        <td>Stage</td>
-                        <td>Web Designer</td>
-                        <td>10/01/2026</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>Blue Chip</td>
-                        <td>Alternance</td>
-                        <td>Ingénieur Logiciel</td>
-                        <td>08/01/2026</td>
-                        <td><span class="badge interview">Entretien</span></td>
-                    </tr>
-                    <tr>
-                        <td>Start-O-Sphere</td>
-                        <td>Stage</td>
-                        <td>Growth Hacker Intern</td>
-                        <td>05/01/2026</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>Eco Dev</td>
-                        <td>Alternance</td>
-                        <td>Développeur Fullstack</td>
-                        <td>02/01/2026</td>
-                        <td><span class="badge rejected">Refusé</span></td>
-                    </tr>
-                    <tr>
-                        <td>Smart City</td>
-                        <td>Stage</td>
-                        <td>IoT Developer</td>
-                        <td>30/12/2025</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>Retail Tech</td>
-                        <td>Alternance</td>
-                        <td>Analyste Programmeur</td>
-                        <td>28/12/2025</td>
-                        <td><span class="badge interview">Entretien</span></td>
-                    </tr>
-                    <tr>
-                        <td>MedLink</td>
-                        <td>Stage</td>
-                        <td>Développeur Santé Digitale</td>
-                        <td>25/12/2025</td>
-                        <td><span class="badge rejected">Refusé</span></td>
-                    </tr>
-                    <tr>
-                        <td>FinTech Pro</td>
-                        <td>Alternance</td>
-                        <td>Développeur Blockchain</td>
-                        <td>22/12/2025</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>AeroSpace IT</td>
-                        <td>Stage</td>
-                        <td>Embedded Systems Intern</td>
-                        <td>20/12/2025</td>
-                        <td><span class="badge interview">Entretien</span></td>
-                    </tr>
-                    <tr>
-                        <td>Logistics Plus</td>
-                        <td>Alternance</td>
-                        <td>Architecte Web Junior</td>
-                        <td>18/12/2025</td>
-                        <td><span class="badge pending">En attente</span></td>
-                    </tr>
-                    <tr>
-                        <td>Ocean Clean Tech</td>
-                        <td>Stage</td>
-                        <td>Frontend Engineer</td>
-                        <td>15/12/2025</td>
-                        <td><span class="badge rejected">Refusé</span></td>
-                    </tr>
-                    <tr>
-                        <td>Urban Connect</td>
-                        <td>Alternance</td>
-                        <td>App Mobile Developer</td>
-                        <td>10/12/2025</td>
-                        <td><span class="badge interview">Entretien</span></td>
-                    </tr>
+                    {% for cand in candidatures %}
+                        <tr>
+                            <td>{{ cand.entreprise }}</td>
+                            <td>{{ cand.contrat }}</td>
+                            <td>{{ cand.titre }}</td>
+                            <td>{{ cand.date_candidature|date('d/m/Y') }}</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table> </div>
         </section>

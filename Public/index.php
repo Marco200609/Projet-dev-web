@@ -59,9 +59,18 @@ if ($uri === '/') {
     $controllerOffre->PageOffres();
 }
 
-elseif ($uri ==='/CompteEntreprise') {
+elseif ($uri ==='/CompteEtudiant') {
+    $controllerConnexion = new App\Controllers\CompteEtudiantC($twig);
+    $controllerConnexion -> PageCompteEtudiant();
+} elseif ($uri ==='/CompteEntreprise') {
     $controllerConnexion = new App\Controllers\CompteEntrepriseC($twig);
-    $controllerConnexion -> CompteEntreprise();
+    $controllerConnexion -> PageCompteEntreprise();
+} elseif ($uri ==='/ComptePilote') {
+    $controllerConnexion = new App\Controllers\ComptePiloteC($twig);
+    $controllerConnexion -> PageComptePilote();
+} elseif ($uri ==='/CompteAdmin') {
+    $controllerConnexion = new App\Controllers\CompteAdminC($twig);
+    $controllerConnexion -> PageCompteAdmin();
 }
 
 elseif ($uri ==='/CompteConnexion') {
