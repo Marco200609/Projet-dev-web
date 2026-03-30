@@ -2,3 +2,4 @@
 /Config/.env
 /composer.lock
 /public/.htaccess
+/Config/ .htaccess

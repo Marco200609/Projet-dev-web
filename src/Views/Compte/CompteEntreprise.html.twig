@@ -1,34 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Compte entreprise</title>
-    <link rel="stylesheet" href="Assets/style.css">
-    <link rel="stylesheet" href="Assets/formulaire_candidature.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-</head>
-<body>
+{% extends 'base.html.twig' %}
 
-<nav class="navBar">
-    <div class="LogoNav">
-        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
-        <img src="../Images/LogoNav2.png" class="LogoNav2">
-    </div>
+{% block links %}{{ include('_links.html.twig') }}{% endblock %}
 
-    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
-    <label for="menu-toggle" class="burger-label">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
-
-    <div class="links">
-        <a href="../index.html">Accueil</a>
-        <a href="Offres.html">Offre</a>
-        <a href="Entreprises.html">Entreprise</a>
-        <a href="Connexion.html"  class="active">Mon Compte</a>
-    </div>
-</nav>
+{% block main %}
 
 <main class="dashboard">
     <div class="profile-overview">
@@ -124,9 +98,4 @@
     </section>
 </main>
 
-<footer>
-    <p> © 2026 - Espace Recruteur </p>
-</footer>
-
-</body>
-</html>
+{% endblock %}

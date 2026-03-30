@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block links %}{{ include('_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+
+    <h1>Quel compte souhaitez vous créer ?</h1>
+
+    <div class="choix-compte">
+
+        <a href="/CompteInscription/Pilote" class="truc">
+            <h2>Pilote</h2>
+            <p>Pour gérer les étudiants et les suivre.</p>
+        </a>
+
+        <a href= '/CompteInscription/Entreprise' class="truc">
+            <h2>Entreprise</h2>
+            <p>Pour publier des offres.</p>
+        </a>
+
+        <a href="/CompteInscription/Etudiant" class="truc">
+            <h2>Étudiant</h2>
+            <p>Pour rechercher et postuler à des offres.</p>
+        </a>
+
+    </div>
+
+    <form action="/CompteConnexion" class="centrerPage">
+        <button>Vous avez un compte ? Connectez-vous</button>
+    </form>
+
+</main>
+
+{% endblock %}

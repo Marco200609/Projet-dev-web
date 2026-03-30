@@ -1,7 +1,10 @@
+{% extends 'base.html.twig' %}
+
 {% block header %}{{ include('_header.html.twig') }}{% endblock %}
 
 {% block links %}{{ include('_links.html.twig') }}{% endblock %}
 
+{% block main %}
     <main>
         <h1> Avec Juniors, façonnez votre avenir ! </h1>
 
@@ -164,10 +167,8 @@
 
 </main>
 
-<footer>
-    <p> © 2026 - All Right Reserved </p>
-    <script src="../javascript/recherche.js"></script>
+{% endblock %}
 
-</footer>
-</body>
-</html>
+{% block scripts %}
+<script src="/Assets/recherche.js"></script>
+{% endblock %}

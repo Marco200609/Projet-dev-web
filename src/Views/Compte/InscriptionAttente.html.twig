@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Inscription</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/Assets/Connexion-Inscription.css">
-    <link rel="stylesheet" href="/Assets/style.css">
-</head>
+{% extends 'base.html.twig' %}
+
+{% block links %}{{ include('_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
 <body>
 <nav class="navBar">
     <div class="LogoNav">
@@ -39,8 +36,5 @@
     {% endif %}
 </main>
 
-<footer>
-    <p> © 2026 - All Right Reserved </p>
-</footer>
-</body>
-</html>
+{% endblock %}
+
