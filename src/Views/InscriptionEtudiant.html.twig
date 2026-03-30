@@ -30,7 +30,7 @@
 </nav>
 <main>
     <h1>Inscription</h1>
-    <form class="truc" method="POST" action="/CompteInscription/Traitement">
+    <form class="truc" method="POST" action="/CompteInscription/Traitement" novalidate>
         <input type="hidden" name="role" value="1">
 
         <section>
@@ -112,7 +112,7 @@
                 <input
                         id="groupe"
                         name="groupe"
-                        type="number"
+                        type="text"
                         required>
             </section>
 
@@ -122,12 +122,13 @@
         <button id="signin" type="submit">Créer un compte</button>
     </form>
 
-    <form action="../Pages/Connexion.html" class="centrerPage">
+    <form action="/CompteConnexion" class="centrerPage">
         <button>Vous avez un compte ? Connectez-vous</button>
     </form>
 
 </main>
 <script src="../javascript/Connexion.js"></script>
+<script src="/Assets/ConnexionIns.js"></script>
 
 <footer>
     <p> © 2026 - All Right Reserved </p>

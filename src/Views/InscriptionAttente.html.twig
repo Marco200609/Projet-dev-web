@@ -29,22 +29,14 @@
     </div>
 </nav>
 <main>
-{#    <p>DEBUG - Le referer est : {{ app.request.headers.get('referer') }}</p>#}
 
-{#    #}{# marche pas car l'url de provenance est vide car faire le header('Location:...') ne transmet pas proprement l'info d'où ça vient #}
-{#    {% if app.request.referer is not empty %}#}
-{#        {% set referer = app.request.referer %}#}
-{#        {% if 'Pilote' in app.request.referer %}#}
-{#            <p>Vous vous êtes inscrit. Attendez la confirmation d'un administrateur pour vous connecter</p>#}
-{#        {% elseif 'Etudiant' in app.request.referer %}#}
-{#            <p>Vous vous êtes inscrit. Attendez la confirmation de votre pilote pour vous connecter</p>#}
-{#        {% endif %}#}
-{#    {% else %}#}
-{#        <p>Accès refusé.</p>#}
-{#    {% endif %}#}
-
-    <p>Attendre l'autorisation de votre pilote ou administrateur et connectez vous ultérieurement.</p>
-
+    {% if role == '3' %}
+        <p>Vous vous êtes inscrit. Attendez la confirmation d'un administrateur</p>
+    {% elseif role == '1' %}
+        <p>Vous vous êtes inscrit. Attendez la confirmation de votre pilote</p>
+    {% else %}
+        <p>Accès refusé.</p>
+    {% endif %}
 </main>
 
 <footer>

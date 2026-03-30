@@ -149,7 +149,8 @@ elseif ($uri === '/CompteInscription/Entreprise') {
     $controllerInscription->pageIntermediaire_inscription_entreprise();
 }
 
-elseif ($uri === '/CompteInscription/Entreprise/Recherche') {
+//ici c la page twig qui va changer selon l'un ou l'autre (avec l'url de provenance) car il y a très peu qui change
+elseif ($uri === '/CompteInscription/Entreprise/Recherche' || $uri === '/CompteInscription/Entreprise/Ajouter') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->page_inscription_recherche_entreprise();
 }
@@ -158,7 +159,6 @@ elseif ($uri === '/CompteInscription/Admin') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->page_inscription_admin();
 }
-
 
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);

@@ -34,8 +34,13 @@ class ConnexionInsC
 
     public function page_inscription_recherche_entreprise()
     {
-        echo $this->templateEngine->render('InscriptionRechercheEntreprise.html.twig');
-    }
+        $uri = $_SERVER['REQUEST_URI'];
+        $premier_compte = str_contains($uri, '/Ajouter');
+
+        echo $this->templateEngine->render(
+            'InscriptionRechercheEntreprise.html.twig',
+            ['premier_compte' => $premier_compte]
+        );    }
 
     public function page_inscription_admin()
     {
@@ -43,7 +48,9 @@ class ConnexionInsC
     }
 
     public function page_inscription_attente() {
-        echo $this->templateEngine->render('InscriptionAttente.html.twig');
+        $role = $_GET['role'] ?? null;
+        echo $this->templateEngine->render('InscriptionAttente.html.twig',
+        ['role'=>$role]);
     }
 
     public function form_inscription() {
@@ -56,19 +63,23 @@ class ConnexionInsC
         $groupe = $_POST['groupe'] ?? null;
         $linkedin = $_POST['linkedin'] ?? null;
 
+        $premier_compte = $_POST['premier_compte'] ?? 0;
+        $code_entreprise = $_POST['code_entreprise'] ?? null;
+
+
         $model = new \App\Models\ConnexionInsM();
 
-        $id_user = $model->set_id_user(
-            $nom,
-            $prenom,
-            $mot_de_passe,
-            $role,
-            $email,
-            $telephone,
-            $groupe,
-            $linkedin);
-
-        header("Location: /CompteInscription/Attente");
+            $id_user = $model->set_id_user(
+                $nom,
+                $prenom,
+                $mot_de_passe,
+                $role,
+                $email,
+                $telephone,
+                $groupe,
+                $linkedin
+            );
+        header("Location: /CompteInscription/Attente?role=".$role);
         exit;
     }
 
@@ -92,7 +103,6 @@ class ConnexionInsC
             header("Location: /CompteConnexion");
             exit;
         }
-
     }
 
     public function form_deconnexion() {
@@ -101,6 +111,4 @@ class ConnexionInsC
         header("Location: /");
         exit;
     }
-
-
 }
