@@ -184,7 +184,7 @@ class EntrepriseC
     public function FormAddNote(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!isset($_POST['id_entreprise']) || !session_status() || !isset($_POST['note']) || !isset($_SESSION['id']) || ($_SESSION['role'] != 1 && $_SESSION['role'] != 2)) {
+            if (!isset($_POST['id_entreprise']) || !session_status() || !isset($_POST['note']) || !isset($_SESSION['id']) || ($_SESSION['role'] != 3 && $_SESSION['role'] != 4)) {
                 header('Location: /entreprises');
                 exit();
             }

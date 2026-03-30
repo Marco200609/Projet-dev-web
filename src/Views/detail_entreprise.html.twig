@@ -32,7 +32,6 @@
 
 
 <main>
-
     <section class="offre-det">
         <div class="logo-entreprise">
             <img src="{{ entreprise.logo }}" alt="image entreprise">
@@ -43,7 +42,7 @@
                 <span class="mail-telephone"> <b> Mail : </b>{{ entreprise.email }}</span>
                 <span class="note">
                     {% for i in 1..5 %}
-                        {% if session.id_user != 0 %}
+                        {% if id_role == 3 or id_role == 4 %}
                             <form method="post" action="/detail_entreprise/note" style="display:inline;">
                                 <input type="hidden" name="id_entreprise" value="{{ entreprise.id_entreprise }}">
                                 <button type="submit" name="note" value="{{ i }}" class="bouton_etoile">
@@ -103,5 +102,9 @@
 <footer>
     <p> © 2026 - All Right Reserved </p>
 </footer>
+
+{% if id_role == 1 %}
+    <script src="/Assets/wishlist.js"></script>
+{% endif %}
 </body>
 </html>

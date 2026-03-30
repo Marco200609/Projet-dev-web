@@ -1,6 +1,6 @@
 @font-face {
     font-family: NSD;
-    src: url("assets/Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth,wght.ttf");
+    src: url("Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth,wght.ttf");
 }
 
 /*
@@ -443,7 +443,7 @@ h2 {
 }
 
 .link-annonce {
-    flex: 0 1 calc(25% - 40px); 
+    flex: 0 1 calc(50% - 40px); 
 
     min-width: 400px; 
     max-width: 750px; 
@@ -466,7 +466,7 @@ h2 {
 }
 
 .link-entreprise {
-    flex: 0 1 calc(33.33% - 40px); 
+    flex: 0 1 calc(33.33% - 80px); 
 
     min-width: 300px; 
     max-width: 600px; 

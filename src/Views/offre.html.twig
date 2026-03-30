@@ -1,4 +1,4 @@
-<a href="detail_offre/{{ off.id_offre }}" class="offre-link">
+<a href="/detail_offre/{{ off.id_offre }}" class="offre-link">
     <article class="offre">
         <div class="offre-header">
             <span class="date"><i class="bi bi-calendar"></i> {{ off.date_creation }}</span>
@@ -6,20 +6,11 @@
                 <span class="nouveau">Nouveau</span>
             {% endif %}
 
-            {# ToDo whislist #}
-
-            {% if session.id_user != 0 %}
-                {% if off.in_wishlist %}
-                    <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" checked />
-                    <label for="wish{{ off.id_offre }}" class="wishlist-label">
-                        <i class="bi bi-heart-fill"></i>
-                    </label>
-                {% else %}
-                    <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" />
-                    <label for="wish{{ off.id_offre }}" class="wishlist-label">
-                        <i class="bi bi-heart"></i>
-                    </label>
-                {% endif %}
+            {% if id_role == 1 %}
+                <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" data-offre-id="{{ off.id_offre }}" {% if off.in_wishlist %}checked{% endif %} />
+                <label for="wish{{ off.id_offre }}" class="wishlist-label">
+                    <i class="heart-icon {% if off.in_wishlist %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                </label>
             {% endif %}
 
         </div>
