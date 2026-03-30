@@ -29,7 +29,7 @@
         <h1> Offres disponibles </h1>
     {% endif %}
 
-    <section class="liste_offres">
+    <section class="liste-annonce">
         {% for off in offres %}
             {% include 'Offre/offre.html.twig' with {
                 off: off,
@@ -39,7 +39,7 @@
 
     </section>
 
-    <nav class="pagination navBar">
+    <nav class="pagination">
         {% include 'pagination.html.twig' with {
             pagination: pagination
         } %}

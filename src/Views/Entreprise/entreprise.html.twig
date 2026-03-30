@@ -38,11 +38,11 @@
 
     <h1>Entreprises disponibles :</h1>
 
-    <section class="liste_entreprises">
+    <section class="liste-entreprises">
 
         {% for ent in entreprises %}
-            <a href="detail_entreprise/{{ ent.id_entreprise }}" class="entreprise-link">
-                <article class="entreprise">
+            <a href="detail_entreprise/{{ ent.id_entreprise }}" class="link-entreprise">
+                <article class="box-annonce">
                     <img src="{{ ent.logo }}" alt="logo_entreprise" class="entreprise-logo">
                     <h2 class="entreprise-titre">{{ ent.nom }}</h2>
                     <div class="entreprise-content">
@@ -68,7 +68,7 @@
     </section>
     {% endif %}
 
-    <nav class="pagination navBar">
+    <nav class="pagination">
 
         {% include 'pagination.html.twig' with {
             pagination: pagination
