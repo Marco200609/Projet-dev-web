@@ -59,7 +59,7 @@ class CandidatureC
             header('Location: /offres');
             exit();
         }
-        echo $this->templateEngine->render('candidature.html.twig', ['offre' => $offre]);
+        echo $this->templateEngine->render('/Offres/candidature.html.twig', ['offre' => $offre]);
     }
 
     public function FormAddCandidature() : void
@@ -82,7 +82,7 @@ class CandidatureC
                 exit();
             }
             $errors = ['veuillez choisir un fichier'];
-            echo $this->templateEngine->render('candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
+            echo $this->templateEngine->render('/Offres/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
             exit();
         } else {
             $file = $_FILES['cv'];
@@ -94,7 +94,7 @@ class CandidatureC
                     header('Location: /offres');
                     exit();
                 }
-                echo $this->templateEngine->render('candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
+                echo $this->templateEngine->render('/Offres/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
             }
             $nom = sha1(uniqid(rand(), true)) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
             if (!move_uploaded_file($file['tmp_name'], $this->cheminUpload . $nom)) {
@@ -104,7 +104,7 @@ class CandidatureC
                     exit();
                 }
                 $errors[] = 'Erreur lors du stockage du fichier';
-                echo $this->templateEngine->render('candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
+                echo $this->templateEngine->render('/Offres/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
                 exit();
             }
             if (!$this->modelCandidature->AddCandidature($id_user, $id_offre, $nom, $lettre_motivation))
@@ -115,7 +115,7 @@ class CandidatureC
                     exit();
                 }
                 $errors[] = 'Une erreur est survenue';
-                echo $this->templateEngine->render('candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
+                echo $this->templateEngine->render('/Offres/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
                 exit();
             }
             header('Location: /detail_offre/' . $id_offre);

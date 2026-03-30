@@ -98,7 +98,7 @@ class EntrepriseC
 
         $entreprises = $this->modelEntreprise->getEntreprises($page, $parpage, $entreprise, $ville);
 
-        echo $this->templateEngine->render('entreprise.html.twig', [
+        echo $this->templateEngine->render('/Entreprise/entreprise.html.twig', [
             'page' => $page,
             'parpage' => $parpage,
             'total' => $total,
@@ -127,7 +127,7 @@ class EntrepriseC
 
         $offres = $modelOffre->getOffres(1, 2, nom_entreprise:$entreprise['nom'], id:$_SESSION['id'] ?? 0);
 
-        echo $this->templateEngine->render('detail_entreprise.html.twig', [
+        echo $this->templateEngine->render('/Entreprise/detail_entreprise.html.twig', [
             'entreprise' => $entreprise,
             'nb_note' => $nb_note,
             'note_user' => $note_user,
@@ -138,13 +138,13 @@ class EntrepriseC
 
     public function PageAddEntreprise(): void
     {
-        echo $this->templateEngine->render('add_entreprise.html.twig');
+        echo $this->templateEngine->render('/Compte/add_entreprise.html.twig');
     }
 
     public function PageUpdateEntreprise($id): void
     {
         $entreprise = $this->modelEntreprise->getFormEntreprises($id);
-        echo $this->templateEngine->render('add_entreprise.html.twig',
+        echo $this->templateEngine->render('/Compte/add_entreprise.html.twig',
             ['ent' => $entreprise,
             'update' => true,
             'id_entreprise' => $id]);
@@ -157,7 +157,7 @@ class EntrepriseC
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $var = $this->TestsFormEntreprise();
             if (isset($var['error'])) {
-                echo $this->templateEngine->render('add_entreprise.html.twig', [
+                echo $this->templateEngine->render('/Compte/add_entreprise.html.twig', [
                     'errors' => $var['error']
                 ]);
                 exit();
@@ -170,13 +170,13 @@ class EntrepriseC
                 exit();
             } else {
                 $errors[] = "L'entreprise existe déjà ou une erreur est survenue";
-                echo $this->templateEngine->render('add_entreprise.html.twig', [
+                echo $this->templateEngine->render('/Compte/add_entreprise.html.twig', [
                     'errors' => $errors
                 ]);
                 exit();
             }
         } else {
-            echo $this->templateEngine->render('add_entreprise.html.twig');
+            echo $this->templateEngine->render('/Compte/add_entreprise.html.twig');
             exit();
         }
     }
@@ -207,7 +207,7 @@ class EntrepriseC
             $var = $this->TestsFormEntreprise();
             if (isset($var['error'])) {
                 $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
-                echo $this->templateEngine->render('add_entreprise.html.twig', [
+                echo $this->templateEngine->render('/Compte/add_entreprise.html.twig', [
                     'errors' => $var['error'],
                     'id_entreprise' => $_POST['id_entreprise'],
                     'update' => false,
@@ -224,7 +224,7 @@ class EntrepriseC
             } else {
                 $errors[] = "Une erreur est survenue";
                 $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
-                echo $this->templateEngine->render('add_entreprise.html.twig', [
+                echo $this->templateEngine->render('/Compte/add_entreprise.html.twig', [
                     'errors' => $errors,
                     'update' => true,
                     'id_entreprise' => $_POST['id_entreprise'],
@@ -233,7 +233,7 @@ class EntrepriseC
                 exit();
             }
         } else {
-            echo $this->templateEngine->render('add_entreprise.html.twig');
+            echo $this->templateEngine->render('/Compte/add_entreprise.html.twig');
             exit();
         }
     }

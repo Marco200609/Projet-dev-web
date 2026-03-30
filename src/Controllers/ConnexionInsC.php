@@ -11,25 +11,25 @@ class ConnexionInsC
     }
 
     public function page_connexion() {
-        echo $this->templateEngine->render('Connexion.html.twig');
+        echo $this->templateEngine->render('/Compte/Connexion.html.twig');
     }
     public function page_inscription() {
-        echo $this->templateEngine->render('ChoixInscription.html.twig');
+        echo $this->templateEngine->render('/Compte/ChoixInscription.html.twig');
     }
 
     public function page_inscription_pilote()
     {
-        echo $this->templateEngine->render('InscriptionPilote.html.twig');
+        echo $this->templateEngine->render('/Compte/InscriptionPilote.html.twig');
     }
 
     public function page_inscription_etudiant()
     {
-        echo $this->templateEngine->render('InscriptionEtudiant.html.twig');
+        echo $this->templateEngine->render('/Compte/InscriptionEtudiant.html.twig');
     }
 
     public function pageIntermediaire_inscription_entreprise()
     {
-        echo $this->templateEngine->render('ChoixIntermediaireEntreprise.html.twig');
+        echo $this->templateEngine->render('/Compte/ChoixIntermediaireEntreprise.html.twig');
     }
 
     public function page_inscription_recherche_entreprise()
@@ -38,18 +38,18 @@ class ConnexionInsC
         $premier_compte = str_contains($uri, '/Ajouter');
 
         echo $this->templateEngine->render(
-            'InscriptionRechercheEntreprise.html.twig',
+            '/Compte/InscriptionRechercheEntreprise.html.twig',
             ['premier_compte' => $premier_compte]
         );    }
 
     public function page_inscription_admin()
     {
-        echo $this->templateEngine->render('InscriptionAdmin.html.twig');
+        echo $this->templateEngine->render('/Compte/InscriptionAdmin.html.twig');
     }
 
     public function page_inscription_attente() {
         $role = $_GET['role'] ?? null;
-        echo $this->templateEngine->render('InscriptionAttente.html.twig',
+        echo $this->templateEngine->render('/Compte/InscriptionAttente.html.twig',
         ['role'=>$role]);
     }
 

@@ -32,7 +32,7 @@ class ComptePiloteC
         }
 
 
-        echo $this->templateEngine->render('ComptePilote.html.twig', [
+        echo $this->templateEngine->render('/Compte/ComptePilote.html.twig', [
 
         ]);
     }

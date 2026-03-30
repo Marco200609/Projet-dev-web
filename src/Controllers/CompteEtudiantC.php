@@ -38,7 +38,7 @@ class CompteEtudiantC
         $Candidatures = $this->modelCandidature->getCandidaturesUtilisateur($_SESSION['id']);
         $Wishlist = $this->modelOffre->getOffreWishlist($_SESSION['id']);
 
-        echo $this->templateEngine->render('CompteEtudiant.html.twig', [
+        echo $this->templateEngine->render('/Compte/CompteEtudiant.html.twig', [
             'NomEtGroupe' => $NomEtGroupe,
             'NomPilote' => $NomPilote,
             'NbCandidatures' => $NbCandidatures,
