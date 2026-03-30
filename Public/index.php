@@ -15,16 +15,19 @@ use App\Controllers\EntrepriseC;
 
 
 $loader = new \Twig\Loader\FilesystemLoader('../src/Views');
+
 $twig = new \Twig\Environment($loader, [
-    'debug' => true
+    'debug' => true,
+    'cache' => false, 
 ]);
+
 
 session_start();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 if ($uri === '/') {
-    echo $twig->render('/Acceuil/Accueil.html.twig');
+    echo $twig->render('/Acceuil/Acceuil.html.twig');
 
 } elseif ($uri === '/entreprises') {
     $controllerEnt = new EntrepriseC($twig);
