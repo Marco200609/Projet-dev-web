@@ -10,7 +10,7 @@ class ConnexionInsM extends PdoM
     const ROLE_PILOTE = 3;
     const ROLE_ADMIN = 4;
 
-    public function get_id_user($email, $mot_de_passe, $_permission) {
+    public function get_id_user($email, $mot_de_passe) {
         $sql = "SELECT utilisateur.id_utilisateur, utilisateur.mot_de_passe, utilisateur.id_permission
                 FROM utilisateur
                 JOIN contact ON utilisateur.id_contact_fk = contact.id_contact
@@ -29,6 +29,30 @@ class ConnexionInsM extends PdoM
 
         return false;
     }
+
+    public function get_code_entreprise($code_entreprise) {
+        $sql = "SELECT code_entreprise 
+                FROM entreprise 
+                WHERE code_entreprise = :code_entreprise";
+
+        $rq = $this->pdo->prepare($sql);
+        $rq->execute([
+            'code_entreprise' => $code_entreprise
+        ]);
+    }
+
+    public function get_id_groupe_by_nom($nom_groupe)
+    {
+        $sql = "SELECT id_groupe FROM groupe WHERE nom_groupe = :nom_groupe";
+        $rq = $this->pdo->prepare($sql);
+        $rq->execute([
+            'nom_groupe' => $nom_groupe
+        ]);
+            return $rq->fetch();
+    }
+
+
+
 
     public function set_id_user($nom, $prenom, $mot_de_passe, $id_permission, $email, $telephone, $groupe, $linkedin)
 //        Pour quand l'utilisateur s'inscrit
@@ -56,15 +80,24 @@ class ConnexionInsM extends PdoM
 
         $id_user = $this->pdo->lastInsertId();
 
-        if ($groupe !== null) {
+        if ($groupe !== null && $groupe !== "") {
+
+            $groupeData = $this->get_id_groupe_by_nom($groupe);
+
+            if (!$groupeData) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            $id_groupe = $groupeData['id_groupe'];
             $sql_groupe = "INSERT INTO groupe_utilisateur (id_utilisateur_fk, id_groupe_fk)
                             VALUES (:user, :groupe)";
 
             $rq = $this->pdo->prepare($sql_groupe);
             $rq->execute([
                 'user' => $id_user,
-                'groupe' => $groupe
-            ]);
+                'groupe' => $id_groupe
+                ]);
         }
 
         if ($linkedin !== null && $linkedin !== "") {
@@ -80,7 +113,7 @@ class ConnexionInsM extends PdoM
             $sql_telephone = "UPDATE contact SET telephone = :telephone WHERE id_contact = :id_contact";
             $rq = $this->pdo->prepare($sql_telephone);
             $rq->execute([
-                'id_user' => $id_user,
+                'id_contact' => $id_contact,
                 'telephone' => $telephone
             ]);
         }
@@ -88,8 +121,6 @@ class ConnexionInsM extends PdoM
         return $id_user;
     }
 
-
-    //si y a que 1 admin --> ne sert à rien
     public function set_user_admin($id_admin) {
         //$id_permission = 4
         $sql = "UPDATE utilisateur
