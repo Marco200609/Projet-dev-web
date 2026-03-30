@@ -34,7 +34,7 @@ class CompteEntrepriseC
         }
 
 
-        echo $this->templateEngine->render('/Compte/CompteEntreprise.html.twig', [
+        echo $this->templateEngine->render('Compte/CompteEntreprise.html.twig', [
 
         ]);
     }

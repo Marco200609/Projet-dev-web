@@ -32,7 +32,7 @@ class CompteAdminC
         }
 
 
-        echo $this->templateEngine->render('/Compte/CompteAdmin.html.twig', [
+        echo $this->templateEngine->render('Compte/CompteAdmin.html.twig', [
 
         ]);
     }
