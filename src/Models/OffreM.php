@@ -116,6 +116,35 @@ class OffreM extends PdoM
         return $rq->fetchAll();
     }
 
+    public function getOffrewishlist($id_user) : array
+    {
+        $rq = $this->pdo->prepare("SELECT offre.id_offre, offre.titre, offre.date_creation,
+                   IF(offre.date_creation > NOW() - INTERVAL 3 DAY, 1, 0) AS new,
+                   entreprise.nom,
+                   villes.nom_ville,
+                   offre.domaine,
+                   contrat.nom_contrat,
+                   GROUP_CONCAT(competences.competence) AS competences,
+                    (SELECT COUNT(*) FROM whishlist w WHERE w.id_offre_fk = offre.id_offre AND w.id_utilisateur_fk = ?) AS in_wishlist
+            FROM whishlist
+                     JOIN offre ON whishlist.id_offre_fk = offre.id_offre
+                     LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
+                     LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
+                     LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
+                     LEFT JOIN competence_offre ON offre.id_offre = competence_offre.id_offre_fk
+                     LEFT JOIN competences ON competence_offre.id_competence_fk = competences.id_competence
+                     LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
+            WHERE whishlist.id_utilisateur_fk = :id_user
+              AND offre.visible = 1
+              AND offre.Pause = 0
+            GROUP BY offre.id_offre, offre.titre, offre.date_creation, entreprise.nom, villes.nom_ville, offre.domaine, contrat.nom_contrat
+            ORDER BY offre.date_creation DESC");
+        $rq->bindValue(':id_user', $id_user);
+        $rq->execute();
+        return $rq->fetchAll();
+
+    }
+
     public function getDetailOffre($id_offre, $id_user=0) : array
     {
         $rq = $this->pdo->prepare("SELECT offre.id_offre, offre.titre, offre.date_creation, offre.descriptif,
