@@ -2,22 +2,20 @@
 
 namespace App\Controllers;
 
+use App\Models\CompteAdminM;
 use App\Models\CandidatureM;
-use App\Models\CompteEntrepriseM;
-use App\Models\ComptePiloteM;
-use App\Models\EntrepriseM;
 use App\Models\OffreM;
 
-class CompteEntrepriseC
+class CompteAdminC
 {
-    private $modelComptePilote;
+    private $modelCompteAdmin;
     private $templateEngine;
     private $modelCandidature;
     private $modelOffre;
 
     public function __construct($templateEngine)
     {
-        $this->modelComptePilote = new ComptePiloteM();
+        $this->modelCompteAdmin = new CompteAdminM();
 
         $this->modelCandidature = new CandidatureM();
 
@@ -26,7 +24,7 @@ class CompteEntrepriseC
         $this->templateEngine = $templateEngine;
     }
 
-    public function PageCompteEntreprise(): void
+    public function PageCompteAdmin(): void
     {
         if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
             header('Location:CompteConnexion ');
@@ -34,10 +32,9 @@ class CompteEntrepriseC
         }
 
 
-        echo $this->templateEngine->render('CompteEntreprise.html.twig', [
+        echo $this->templateEngine->render('CompteAdmin.html.twig', [
 
         ]);
     }
-
 
 }
