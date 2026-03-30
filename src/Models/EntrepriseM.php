@@ -72,10 +72,16 @@ class EntrepriseM extends PdoM
         return $entreprise;
     }
 
-    public function getNomEntreprises() :array
+    public function getNomEntreprises($nom, bool $offre) :array
     {
-        $rq = $this->pdo->prepare("SELECT nom FROM entreprise
-                                    WHERE visible = 1");
+        $sql = "SELECT nom FROM entreprise";
+        if ($offre) {
+            $sql .= " INNER JOIN offre ON entreprise.id_entreprise = offre.id_entreprise_fk";
+        }
+        $sql .= " WHERE entreprise.nom LIKE :nom AND entreprise.visible = 1 GROUP BY entreprise.id_entreprise";
+
+        $rq = $this->pdo->prepare($sql);
+        $rq->bindValue(':nom', '%' . $nom . '%', PDO::PARAM_STR);
         $rq->execute();
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }

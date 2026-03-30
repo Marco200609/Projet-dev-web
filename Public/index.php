@@ -180,6 +180,28 @@ elseif ($uri === '/deconnexion') {
     $controller->form_deconnexion();
 }
 
+elseif ($uri === '/VilleOffres') {
+    $controllerVille = new App\Controllers\VilleC();
+    $controllerVille->getVilleOffre();
+
+} elseif ($uri === '/VilleEntreprises') {
+    $controllerVille = new App\Controllers\VilleC();
+    $controllerVille->getVilleEntreprise();
+
+} elseif ($uri === '/EntreprisesOffres') {
+    $controllerEntreprise = new App\Controllers\EntrepriseC($twig);
+    $controllerEntreprise->getEntreprisesOffres();
+
+} elseif ($uri === '/EntreprisesEntreprises') {
+    $controllerEntreprise = new App\Controllers\EntrepriseC($twig);
+    $controllerEntreprise->getEntreprisesEntreprises();
+} elseif ($uri === '/changeWishlist') {
+    $controllerCandidature = new App\Controllers\OffreC($twig);
+    $controllerCandidature->changeWishlist();
+}
+
+
+
 else {
     // 404
     echo '404 Not Found';

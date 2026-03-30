@@ -9,7 +9,10 @@ class PdoM
     protected PDO $pdo;
 
     public function __construct() {
-        $this->pdo = new PDO('mysql:host=localhost;dbname=bdd_site_web_a2_wsl;charset=utf8', 'phpstorm', 'PhpMy@dm1n');
+
+        $env = parse_ini_file(__DIR__ .'/../../Config/.env');
+
+        $this->pdo = new PDO('mysql:host='.$env['HOST'].';dbname='.$env['DBNAME'].';charset=utf8',  $env['USER'],  $env['PASS']);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 }

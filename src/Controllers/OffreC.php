@@ -88,23 +88,24 @@ class OffreC
     public function ChangeWishlist() : void
     {
         if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit;
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit();
         }
         $id_offre = isset($_POST['id_offre']) ? (int)$_POST['id_offre'] : 0;
         $id_user = (int)$_SESSION['id'];
         if ($id_offre > 0) {
-            $this->modelOffre->changewishlist($id_offre, $id_user);
+            $present = $this->modelOffre->changewishlist($id_offre, $id_user);
+            echo json_encode(['success' => true, 'present' => $present]);
+            exit();
         }
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        echo json_encode(['success' => false, 'error' => 'Paramètre manquant']);
+        exit();
     }
+
 
     public function PageOffres() : void
     {
-        $modelVille = new VilleM();
-        $modelEntreprise = new EntrepriseM();
-
         if (session_status() and isset($_SESSION['id'])) {
             $id_user = $_SESSION['id'];
         } else {
@@ -124,9 +125,6 @@ class OffreC
 
         $total = $this->modelOffre->getNbOffre($nom_offre, $ville, $entreprise, $domaines, $contrats, $competences);
 
-        $liste_nom_entreprises = $modelEntreprise->getNomEntreprises();
-        $liste_ville_offres = $modelVille->getVilleOffres();
-
         $modelCompetence = new CompetenceM();
         $liste_competences = $modelCompetence->getListeCompetences();
 
@@ -139,7 +137,7 @@ class OffreC
 
         echo $this->templateEngine->render('page_offres.html.twig', [
             'offres' => $offres,
-            'session' => ['id_user' => $id_user, 'id_perm' => $_SESSION['role'] ?? 0],
+            'id_role' => $_SESSION['role'] ?? 0,
 
             'page' => $page,
             'parpage' => $parpage,
@@ -152,9 +150,7 @@ class OffreC
             'contrats' => $contrats,
             'competences' => $competences,
 
-            'liste_nom_entreprises' => $liste_nom_entreprises,
             'liste_competences' => $liste_competences,
-            'liste_ville_offres' => $liste_ville_offres,
             'liste_contrats' => $liste_contrats,
             'liste_domaines' => $liste_domaines,
 
@@ -164,10 +160,12 @@ class OffreC
 
     public function PageDetailOffre($id_offre) : void
     {
-        if (session_status()) {
-            $id_user = $_SESSION['id_user'] ?? 0;
+        if (session_status() && isset($_SESSION['id'])) {
+            $id_user = $_SESSION['id'];
+            $id_role = $_SESSION['role'];
         } else {
             $id_user = 0;
+            $id_role = 0;
         }
         $offre = $this->modelOffre->getDetailOffre($id_offre, $id_user);
 
@@ -176,12 +174,16 @@ class OffreC
         }
         echo $this->templateEngine->render('detail_offre.html.twig', [
             'off' => $offre,
-            'user_id' => $id_user
+            'id_role' => $id_role
         ]);
     }
 
     public function PageFormAddOffre() : void
     {
+        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
         $unites_duree = $this->modelOffre->getUnitesDurees();
         $modelContrat = new ContratM();
         $liste_contrats = $modelContrat->getListeContrat();
@@ -190,6 +192,10 @@ class OffreC
 
     public function PageFormUpdateOffre($id) : void
     {
+        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
         $modelContrat = new ContratM();
         $liste_contrats = $modelContrat->getListeContrat();
         $unites_duree = $this->modelOffre->getUnitesDurees();
@@ -204,6 +210,10 @@ class OffreC
 
     public function FormAddOffre() : void
     {
+        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
         $unites_duree = $this->modelOffre->getUnitesDurees();
         $modelContrat = new ContratM();
         $liste_contrats = $modelContrat->getListeContrat();
@@ -260,6 +270,10 @@ class OffreC
 
     public function FormUpdateOffre($id) : void
     {
+        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
         $unites_duree = $this->modelOffre->getUnitesDurees();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
