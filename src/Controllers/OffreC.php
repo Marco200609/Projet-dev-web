@@ -135,7 +135,7 @@ class OffreC
 
         $pagination = pagination($total, $page, $parpage, '/offres', $_GET);
 
-        echo $this->templateEngine->render('/Offre/page_offres.html.twig', [
+        echo $this->templateEngine->render('Offre/page_offres.html.twig', [
             'offres' => $offres,
             'id_role' => $_SESSION['role'] ?? 0,
 
