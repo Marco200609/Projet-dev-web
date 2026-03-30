@@ -17,7 +17,7 @@
 
         <h1>Ajouter ou modifier votre Offre</h1>
 
-        <form method="post" action="/offres/{{ update ? 'formupdate' : 'formadd' }}/{{ id_offre|default('') }}">
+        <form method="post" action="/offres/{{ update ? 'formupdate' : 'formadd' }}/{{ id_offre|default('') }} class="candidature">
 
             <input type="hidden" name="id_offre" value="{{ id_entreprise }}">
 
