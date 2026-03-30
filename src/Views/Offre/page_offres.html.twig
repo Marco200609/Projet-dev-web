@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Offres</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/Assets/style.css">
-    <link rel="stylesheet" href="/Assets/offres.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/Assets/recherche.css">
-</head>
+{% extends 'base.html.twig' %}
 
-
-{% block links %}{{ include('_links.html.twig') }}{% endblock %}
+{% block links %}{{ include('Offre/_links.html.twig') }}{% endblock %}
 
 {% block main %}
 
@@ -19,7 +8,7 @@
 
     <h1>Rechercher une offre :</h1>
 
-    {% include 'recherche_offre.html.twig' with {
+    {% include 'Offre/recherche_offre.html.twig' with {
         parpage: parpage,
         nom_offre: nom_offre,
         liste_contrats: liste_contrats,
@@ -42,7 +31,7 @@
 
     <section class="liste_offres">
         {% for off in offres %}
-            {% include 'offre.html.twig' with {
+            {% include 'Offre/offre.html.twig' with {
                 off: off,
                 id_role: id_role
             } %}

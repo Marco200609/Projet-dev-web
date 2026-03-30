@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block links %}{{ include('_links.html.twig') }}{% endblock %}
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
 
 {% block main %}
 
@@ -29,7 +29,7 @@
                 {% if wishlist is not empty %}
                 <div class="wishlist-item">
                         {% for off in wishlist %}
-                            {% include 'offre.html.twig' with {
+                            {% include 'Offre/offre.html.twig' with {
                                 off: off,
                                 id_role: id_role
                             } %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block links %}{{ include('_links.html.twig') }}{% endblock %}
+{% block links %}{{ include('Entreprise/_links.html.twig') }}{% endblock %}
 
 {% block main %}
 
@@ -64,7 +64,7 @@
 
     <section class="liste_offres">
         {% for off in offres %}
-            {% include 'offre.html.twig' with {
+            {% include 'Offre/offre.html.twig' with {
                 off: off
             } %}
         {% endfor %}
