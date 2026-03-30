@@ -69,6 +69,22 @@ class EntrepriseC
         return [ 'nom' => $nom, 'logo' => $logo , 'pays' => $pays, 'departement' => $departement, 'nom_ville' => $ville, 'adresse' => $adresse, 'email' => $mail, 'telephone' => $telephone, 'nb_employe' => $nb_employe, 'description' => $description ];
     }
 
+    public function getEntreprisesOffres() : void
+    {
+        $nom_ent = $_GET['entreprise'] ?? '';
+        $entreprises = $this->modelEntreprise->getNomEntreprises($nom_ent, true);
+        header('Content-Type: application/json');
+        echo json_encode($entreprises);
+    }
+
+    public function getEntreprisesEntreprises() : void
+    {
+        $nom_ent = $_GET['entreprise'] ?? '';
+        $entreprises = $this->modelEntreprise->getNomEntreprises($nom_ent, false);
+        header('Content-Type: application/json');
+        echo json_encode($entreprises);
+    }
+
     public function PageEntreprise(): void
     {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -76,24 +92,20 @@ class EntrepriseC
         $entreprise = $_GET['entreprise'] ?? '';
         $ville = $_GET['ville'] ?? '';
 
-        $entreprises = $this->modelEntreprise->getEntreprises($page, $parpage, $entreprise, $ville);
         $total = $this->modelEntreprise->getNbEntreprises($entreprise, $ville);
-        $nom_entreprises = $this->modelEntreprise->getNomEntreprises();
-
-        $modelVille = new VilleM();
-        $ville_entreprises = $modelVille->getVilleEntreprises();
 
         $pagination = pagination($total, $page, $parpage, '/entreprises', $_GET);
 
+        $entreprises = $this->modelEntreprise->getEntreprises($page, $parpage, $entreprise, $ville);
+
         echo $this->templateEngine->render('entreprise.html.twig', [
-            'entreprises' => $entreprises,
             'page' => $page,
             'parpage' => $parpage,
             'total' => $total,
             'entreprise' => $entreprise,
             'ville' => $ville,
-            'nom_entreprises' => $nom_entreprises,
-            'ville_entreprises' => $ville_entreprises,
+
+            'entreprises' => $entreprises,
 
             'pagination' => $pagination,
         ]);
@@ -119,7 +131,7 @@ class EntrepriseC
             'entreprise' => $entreprise,
             'nb_note' => $nb_note,
             'note_user' => $note_user,
-            'session' => ['id_user' => $_SESSION['id'] ?? 0, 'id_perm' => $_SESSION['role'] ?? 0],
+            'id_role' => $_SESSION['role'] ?? 0,
             'offres' => $offres
         ]);
     }

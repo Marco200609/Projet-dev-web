@@ -7,7 +7,7 @@ use PDO;
 class OffreM extends PdoM
 {
 
-    public function getNbOffre($nom_offre = '', $ville = '', $nom_entreprise = '', $domaines = [], $contrats = [], $competence = []) : int
+    public function getNbOffre($nom_offre = '', $ville = '', $nom_entreprise = '', $domaines = [], $contrats = [], $competence = [], $visible=1, $pause=0) : int
     {
         $sql = "SELECT COUNT(*) FROM offre
                                 LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
@@ -18,12 +18,16 @@ class OffreM extends PdoM
                                 LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
                                 WHERE offre.titre LIKE ?
                                 AND villes.nom_ville LIKE ?
-                                AND entreprise.nom LIKE ?";
+                                AND entreprise.nom LIKE ?
+                                AND offre.visible = ?
+                                AND offre.Pause = ?";
 
         $params = [
             "%$nom_offre%",
             "%$ville%",
-            "%$nom_entreprise%"
+            "%$nom_entreprise%",
+            "$visible",
+            "$pause"
         ];
 
         // filtres simples
@@ -46,7 +50,7 @@ class OffreM extends PdoM
         $rq->execute($params);
         return $rq->fetchColumn();
     }
-    public function getOffres($page, $parpage, $nom_offre = '', $ville = '', $nom_entreprise = '', $domaines = [], $contrats = [], $competence = [], $id=0) : array
+    public function getOffres($page, $parpage, $nom_offre = '', $ville = '', $nom_entreprise = '', $domaines = [], $contrats = [], $competence = [], $id=0, $visible=1, $pause=0) : array
     {
         $page = (int)$page;
         $parpage = (int)$parpage;
@@ -73,13 +77,17 @@ class OffreM extends PdoM
                      LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
             WHERE offre.titre LIKE ?
               AND villes.nom_ville LIKE ?
-              AND entreprise.nom LIKE ?";
+              AND entreprise.nom LIKE ?
+              AND offre.visible = ?
+              AND offre.Pause = ?";
 
         $params = [
             $id,
             "%$nom_offre%",
             "%$ville%",
-            "%$nom_entreprise%"
+            "%$nom_entreprise%",
+            "$visible",
+            "$pause"
         ];
 
         // filtres simples
@@ -125,7 +133,10 @@ class OffreM extends PdoM
                                      LEFT JOIN competence_offre ON offre.id_offre = competence_offre.id_offre_fk
                                      LEFT JOIN competences ON competence_offre.id_competence_fk = competences.id_competence
                                      LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
-                                WHERE offre.id_offre = :id_offre");
+                                WHERE offre.id_offre = :id_offre
+                                AND offre.visible = 1
+                                AND offre.Pause = 0
+                                    ");
         $rq->bindValue(':id_user', $id_user, PDO::PARAM_INT);
         $rq->bindValue(':id_offre', $id_offre);
         $rq->execute();
@@ -179,11 +190,12 @@ class OffreM extends PdoM
         return $result === false ? null : $result;
     }
 
-    public function changewishlist($id_offre, $id_utilisateur) : void
+    public function changewishlist($id_offre, $id_utilisateur) : bool
     {
         $rq = $this->pdo->prepare("SELECT COUNT(*) FROM whishlist WHERE id_offre_fk = :id_offre AND id_utilisateur_fk = :id_utilisateur");
         $rq->execute([':id_offre' => $id_offre, ':id_utilisateur' => $id_utilisateur]);
-        if ($rq->fetchColumn() == 0) {
+        $present = $rq->fetchColumn() > 0;
+        if (!$present) {
             $rq = $this->pdo->prepare("INSERT INTO whishlist (id_offre_fk, id_utilisateur_fk) VALUES (:id_offre, :id_utilisateur)");
         } else {
             $rq = $this->pdo->prepare("DELETE FROM whishlist WHERE id_offre_fk = :id_offre AND id_utilisateur_fk = :id_utilisateur");
@@ -191,6 +203,7 @@ class OffreM extends PdoM
         $rq->bindValue(':id_offre', $id_offre);
         $rq->bindValue(':id_utilisateur', $id_utilisateur);
         $rq->execute();
+        return !$present;
     }
 
     public function addOffre($titre, $pays, $departement, $ville, $adresse, $domaine, $contrat, $entreprise, $mail, $telephone, $competences, $unite_dure=null, $duree=null, $descriptif=null) : bool

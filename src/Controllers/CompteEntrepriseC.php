@@ -3,42 +3,41 @@
 namespace App\Controllers;
 
 use App\Models\CompteEntrepriseM;
+use App\Models\EntrepriseM;
 
 class CompteEntrepriseC
 {
     private $modelCompte;
+    private $entrepriseModel;
     private $twig;
 
     public function __construct($twig)
     {
-        // On instancie le modèle spécifique au compte
         $this->modelCompte = new CompteEntrepriseM();
+        $this->entrepriseModel = new EntrepriseM(); // Utilisation du model entreprise
         $this->twig = $twig;
     }
 
-    /**
-     * Affiche la page principale du dashboard entreprise
-     */
     public function CompteEntreprise(): void
     {
-        // 1. Récupération de l'ID de l'entreprise.
-        // En prod, on utilise $_SESSION['id_entreprise'].
-        // Pour tes tests, on peut en forcer un (ex: 1).
+        // 1. ID entreprise
         if (!isset($_SESSION['id_entreprise'])) {
-            // Optionnel : Forcer un ID pour le debug si la session n'est pas prête
-            $id_entreprise = 1;
+            $id_entreprise = 1; // debug
         } else {
             $id_entreprise = $_SESSION['id_entreprise'];
         }
 
-        // 2. Récupération des données via le Model
-        $infos        = $this->modelCompte->getInfosEntreprise($id_entreprise);
+        // 2. Données
+        $infos        = $this->entrepriseModel->getDetailEntreprise($id_entreprise); // ✅ remplace ancienne méthode
         $stats        = $this->modelCompte->getStats($id_entreprise);
         $offres       = $this->modelCompte->getOffresEnCours($id_entreprise);
         $candidatures = $this->modelCompte->getCandidaturesATraiter($id_entreprise);
+        $offres = [
+            ['id_offre' => 1, 'titre' => 'Développeur Fullstack', 'contrat' => 'Alternance', 'nb_cand' => 12],
+            ['id_offre' => 2, 'titre' => 'Cloud Architect', 'contrat' => 'Stage', 'nb_cand' => 3]
+        ];
 
-        // 3. Rendu de la vue avec Twig
-        // Assure-toi que le nom du fichier .twig correspond
+        // 3. Vue
         echo $this->twig->render('CompteEntreprise.html.twig', [
             'entreprise'   => $infos,
             'stats'        => $stats,
@@ -46,15 +45,21 @@ class CompteEntrepriseC
             'candidatures' => $candidatures,
             'session'      => $_SESSION
         ]);
+
+        $nb_pause = $this->modelCompte->getOffresEnPause($id_entreprise);
+
+        echo $this->twig->render('CompteEntreprise.html.twig', [
+            'entreprise'   => $infos,
+            'stats'        => $stats,
+            'offres'       => $offres,
+            'nb_pause'     => $nb_pause,
+            'session'      => $_SESSION
+        ]);
     }
 
-    /**
-     * Méthode pour mettre une offre en pause (si tu cliques sur le bouton pause)
-     */
     public function PauseOffre($id_offre): void
     {
-        // Logique pour modifier le statut "Pause" dans la table offre
-        // Puis redirection
+        // TODO: update statut offre
         header('Location: /CompteEntreprise');
         exit();
     }

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Compte entreprise</title>
-    <link rel="stylesheet" href="../assets/style.css">
-    <link rel="stylesheet" href="../assets/comptes.css">
+    <link rel="stylesheet" href="/Assets/style.css">
+    <link rel="stylesheet" href="/Assets/formulaire_candidature.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
@@ -33,7 +33,7 @@
 <main class="dashboard">
     <div class="profile-overview">
         <div class="glass-card group-card">
-            <h3><i class="bi bi-building"></i> {{ entreprise.nom|default('Null')  }}</h3>
+            <h3><i class="bi bi-building"></i> {{ entreprise.nom|default('Null') }}</h3>
             <div class="group-details">
                 <p><strong>Secteur :</strong>{{ entreprise.descriptif|default('null') }}</p>
                 <p><strong>Localisation :</strong>{{ entreprise.nom_ville|default('null') }}</p>
@@ -46,16 +46,18 @@
 
         <div class="stats-row">
             <div class="mini-stat">
-                <span class="number">5</span>
-                <span class="label">Offres Actives</span>
+                <span class="number">{{ stats.nb_offres|default(0) }}</span>
+                <span class="label">Total offres</span>
             </div>
+
             <div class="mini-stat">
-                <span class="number">28</span>
-                <span class="label">Candidatures</span>
+                <span class="number">{{ stats.nb_actives|default(offres|length) }}</span>
+                <span class="label">Offres actives</span>
             </div>
+
             <div class="mini-stat success">
-                <span class="number">4</span>
-                <span class="label">À traiter</span>
+                <span class="number">0</span>
+                <span class="label">Offres en pause</span>
             </div>
         </div>
     </div>
@@ -63,72 +65,62 @@
     <section class="glass-card wishlist-section">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h3><i class="bi bi-megaphone-fill"></i> Offres en cours</h3>
-            <a href="#" class="btn-add-offer"><i class="bi bi-plus-circle-fill"></i> Publier une annonce</a>
+            <a href="/offres/add" class="btn-add-offer"><i class="bi bi-plus-circle-fill"></i> Publier une annonce</a>
         </div>
 
         <div class="wishlist-container">
-            <div class="wishlist-item">
-                <div class="wish-info">
-                    <h4>Développeur Fullstack</h4>
-                    <p>Alternance • 12 candidatures</p>
-                    <a href="#" class="view-link">Modifier l'offre <i class="bi bi-pencil-square"></i></a>
+            {% if offres|length > 0 %}
+                {% for offre in offres %}
+                    <div class="wishlist-item">
+                        <div class="wish-info">
+                            <h4>{{ offre.titre }}</h4>
+                            <p>{{ offre.nom_contrat }} • {{ offre.nb_cand }} candidatures</p>
+                            <a href="/offres/update/{{ offre.id_offre }}" class="view-link">Modifier l'offre <i class="bi bi-pencil-square"></i></a>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn pause" title="Mettre en pause" data-id="{{ offre.id_offre }}"><i class="bi bi-pause-circle"></i></button>
+                            <button class="action-btn delete" title="Supprimer l'annonce" data-id="{{ offre.id_offre }}"><i class="bi bi-trash3-fill"></i></button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    Vous n'avez aucune offre en cours. <a href="/offres/add">Publiez-en une maintenant</a> !
                 </div>
-                <div class="action-buttons">
-                    <button class="action-btn pause" title="Mettre en pause"><i class="bi bi-pause-circle"></i></button>
-                    <button class="action-btn delete" title="Supprimer l'annonce"><i class="bi bi-trash3-fill"></i></button>
-                </div>
-            </div>
-
-            <div class="wishlist-item">
-                <div class="wish-info">
-                    <h4>Cloud Architect</h4>
-                    <p>Stage • 3 candidatures</p>
-                    <a href="#" class="view-link">Modifier l'offre <i class="bi bi-pencil-square"></i></a>
-                </div>
-                <div class="action-buttons">
-                    <button class="action-btn pause" title="Mettre en pause"><i class="bi bi-pause-circle"></i></button>
-                    <button class="action-btn delete" title="Supprimer l'annonce"><i class="bi bi-trash3-fill"></i></button>
-                </div>
-            </div>
+            {% endif %}
         </div>
     </section>
 
-    <section class="glass-card table-section">
-        <h3><i class="bi bi-people-fill"></i> Candidatures à traiter</h3>
-        <table class="stats-table">
-            <thead>
-            <tr>
-                <th>Candidat</th>
-                <th>Poste visé</th>
-                <th>Compatibilité</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><strong>Wilson Jehanne</strong></td>
-                <td>Développeur Fullstack</td>
-                <td>95%</td>
-                <td class="cell-actions">
-                    <button class="btn-action folder" title="Voir le dossier (CV, LM)"><i class="bi bi-folder2-open"></i></button>
-                    <button class="btn-action accept" title="Accepter"><i class="bi bi-check-circle-fill"></i></button>
-                    <button class="btn-action chat" title="Contacter"><i class="bi bi-chat-left-dots-fill"></i></button>
-                    <button class="btn-action refuse" title="Refuser"><i class="bi bi-x-circle-fill"></i></button>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Alice Martin</strong></td>
-                <td>Cloud Architect</td>
-                <td>82%</td>
-                <td class="cell-actions">
-                    <button class="btn-action folder" title="Voir le dossier (CV, LM)"><i class="bi bi-folder2-open"></i></button>
-                    <button class="btn-action accept" title="Accepter"><i class="bi bi-check-circle-fill"></i></button>
-                    <button class="btn-action chat" title="Contacter"><i class="bi bi-chat-left-dots-fill"></i></button>
-                    <button class="btn-action refuse" title="Refuser"><i class="bi bi-x-circle-fill"></i></button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <section class="glass-card wishlist-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3><i class="bi bi-pause-circle-fill"></i> Offres en Pause</h3>
+        </div>
+
+        <div class="wishlist-container">
+            {% if offres_pause|length > 0 %}
+                {% for offre in offres_pause %}
+                    <div class="wishlist-item">
+                        <div class="wish-info">
+                            <h4>{{ offre.titre }}</h4>
+                            <p>{{ offre.nom_contrat }} • {{ offre.nb_cand }} candidatures</p>
+                            <a href="/offres/update/{{ offre.id_offre }}" class="view-link">
+                                Modifier l'offre <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn resume" title="Remettre en actif" data-id="{{ offre.id_offre }}">
+                                <i class="bi bi-play-circle-fill"></i>
+                            </button>
+                            <button class="action-btn delete" title="Supprimer l'annonce" data-id="{{ offre.id_offre }}">
+                                <i class="bi bi-trash3-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; color: #666;"> Aucune offre en pause.</div>
+            {% endif %}
+        </div>
     </section>
 </main>
 

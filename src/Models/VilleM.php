@@ -34,20 +34,24 @@ class VilleM extends PdoM
         return $rq->execute();
     }
 
-    public function getVilleEntreprises() :array
+    public function getVilleEntreprises($debut='') :array
     {
         $rq = $this->pdo->prepare("SELECT DISTINCT villes.nom_ville FROM entreprise
                                     LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
-                                    LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville");
+                                    LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
+                                    WHERE villes.nom_ville LIKE :debut");
+        $rq->bindValue(':debut', $debut.'%', PDO::PARAM_STR);
         $rq->execute();
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    public function getVilleOffres() :array
+    public function getVilleOffres($debut='') :array
     {
         $rq = $this->pdo->prepare("SELECT DISTINCT villes.nom_ville FROM offre
                                     LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
-                                    LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville");
+                                    LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
+                                    WHERE villes.nom_ville LIKE :debut");
+        $rq->bindValue(':debut', $debut.'%', PDO::PARAM_STR);
         $rq->execute();
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
