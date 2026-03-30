@@ -61,7 +61,7 @@
         {% for off in offres %}
             {% include 'offre.html.twig' with {
                 off: off,
-                session: session
+                id_role: id_role
             } %}
         {% endfor %}
 
