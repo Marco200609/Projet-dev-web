@@ -1,0 +1,173 @@
+{% block header %}{{ include('_header.html.twig') }}{% endblock %}
+
+{% block links %}{{ include('_links.html.twig') }}{% endblock %}
+
+    <main>
+        <h1> Avec Juniors, façonnez votre avenir ! </h1>
+
+        <section class="stats-carousel">
+            <input type="radio" name="slider" id="stat-1" checked>
+            <input type="radio" name="slider" id="stat-2">
+            <input type="radio" name="slider" id="stat-3">
+
+            <div class="cards-container">
+                <label class="stat-card" for="stat-1" id="card-1">
+                    <div class="stat-icon">💼</div>
+                    <div class="stat-value">150+</div>
+                    <div class="stat-label">Offres actives</div>
+                </label>
+
+                <label class="stat-card" for="stat-2" id="card-2">
+                    <div class="stat-icon">🏢</div>
+                    <div class="stat-value">45</div>
+                    <div class="stat-label">Entreprises partenaires</div>
+                </label>
+
+                <label class="stat-card" for="stat-3" id="card-3">
+                    <div class="stat-icon">🎓</div>
+                    <div class="stat-value">1200</div>
+                    <div class="stat-label">Juniors recrutés</div>
+                </label>
+            </div>
+        </section>
+
+    <h1>Rechercher une offre :</h1>
+
+    <form action="Pages/Offres.html" method="get" class="Finder">
+
+        <h3>A propos de l'offre</h3>
+        <label for="nomOffre">Nom de l'offre :</label>
+        <input list="nomOffres" id="nomOffre" name="nomOffre" placeholder="Commencez à taper...">
+        <datalist id="nomOffres">
+            <option value="test">
+            <option value="test1">
+        </datalist>
+
+        <div class="dropdown fleche-wrapper">
+            <button
+                    type="button"
+                    class="toggle-fleche">
+
+                <svg class="bi bi-chevron-compact-down hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67"/>
+                </svg>
+
+                <svg class="bi bi-chevron-compact-up visible" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894z"/>
+                </svg>
+            </button>
+
+            <div class="dropbtn">Contrat</div>
+            <div class="dropdown-content">
+                <label><input type="checkbox" name="contrat[]" value="Stage"> Stage</label><br>
+                <label><input type="checkbox" name="contrat[]" value="Alternance"> Alternance</label><br>
+                <label><input type="checkbox" name="contrat[]" value="CDI"> CDI</label><br>
+                <label><input type="checkbox" name="contrat[]" value="CDD"> CDD</label><br>
+                <label><input type="checkbox" name="contrat[]" value="Saisonnier"> Emploi saisonnier</label><br>
+                <label><input type="checkbox" name="contrat[]" value="Etudiant"> Contrat étudiant</label>
+            </div>
+        </div>
+
+        <div class="dropdown fleche-wrapper">
+            <button
+                    type="button"
+                    class="toggle-fleche">
+
+                <svg class="bi bi-chevron-compact-down hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67"/>
+                </svg>
+
+                <svg class="bi bi-chevron-compact-up visible" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894z"/>
+                </svg>
+            </button>
+
+            <div class="dropbtn">Domaine</div>
+            <div class="dropdown-content">
+                <label><input type="checkbox" name="domaine[]" value="Informatique"> Informatique</label><br>
+                <label><input type="checkbox" name="domaine[]" value="BTP"> BTP</label><br>
+                <label><input type="checkbox" name="domaine[]" value="Finance"> Finance</label><br>
+                <label><input type="checkbox" name="domaine[]" value="Artisanat"> Artisanat</label>
+            </div>
+        </div>
+
+        <div class="dropdown fleche-wrapper">
+
+            <button
+                    type="button"
+                    class="toggle-fleche">
+
+                <svg class="bi bi-chevron-compact-down icon1 hidden" xmlns="http://www.w3.org/2000/svg" width="16"
+                     height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67"/>
+                </svg>
+
+                <svg class="bi bi-chevron-compact-up icon2 visible" xmlns="http://www.w3.org/2000/svg" width="16"
+                     height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894z"/>
+                </svg>
+            </button>
+
+            <div class="dropbtn">Compétence</div>
+            <div class="dropdown-content">
+                <label><input type="checkbox" name="competence[]" value="Langues"> Langues</label><br>
+                <label><input type="checkbox" name="competence[]" value="CSS"> CSS</label><br>
+                <label><input type="checkbox" name="competence[]" value="HTML"> HTML</label><br>
+                <label><input type="checkbox" name="competence[]" value="Javascript"> Javascript</label><br>
+                <label><input type="checkbox" name="competence[]" value="Python"> Python</label><br>
+                <label><input type="checkbox" name="competence[]" value="Machine Learning"> Machine Learning</label>
+            </div>
+        </div>
+
+        <br><br>
+        <h3>Où</h3>
+
+        <label for="ville">Ville :</label>
+        <input list="villes" id="ville" name="ville" placeholder="Commencez à taper...">
+        <datalist id="villes">
+            <option value="Bordeaux">
+            <option value="Bruxelles">
+            <option value="Brest">
+            <option value="Lyon">
+            <option value="Paris">
+        </datalist>
+
+        <!--        Rechercher une entreprise-->
+        <br><br>
+        <h3>A propos de l'entreprise</h3>
+
+        <label for="ville">Entreprise :</label>
+        <input list="entreprises" id="entreprise" name="entreprise" placeholder="Commencez à taper...">
+        <datalist id="entreprises">
+            <option value="A">
+            <option value="B">
+            <option value="C">
+            <option value="D">
+            <option value="E">
+        </datalist>
+
+        <br><br> <!--enlever les br après-->
+        <button type="submit">Rechercher</button>
+        <button type="reset">Réinitialiser</button>
+
+    </form>
+
+</main>
+
+<footer>
+    <p> © 2026 - All Right Reserved </p>
+    <script src="../javascript/recherche.js"></script>
+
+</footer>
+</body>
+</html>
