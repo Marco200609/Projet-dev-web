@@ -101,23 +101,14 @@
 
 <br><br>
 <label for="ville">Ville :</label>
-<input list="villes" id="ville" name="ville" value="{{ ville }}" placeholder="Commencez à taper...">
-<datalist id="villes">
-    <!-- Voir si l'on propose des villes ou si on laisse l'utilisateur taper librement-->
-    {% for vil in liste_ville_offres %}
-    <option value="{{ vil }}">
-        {% endfor %}
-</datalist>
+<input list="villes_off" id="ville_off" name="ville" value="{{ ville }}" placeholder="Commencez à taper...">
+<datalist id="villes_off"></datalist>
 
 <!--        Rechercher une entreprise-->
 <br><br>
 <label for="ville">Entreprise :</label>
-<input list="entreprises" id="entreprise" name="entreprise" value="{{ entreprise }}" placeholder="Commencez à taper...">
-<datalist id="entreprises">
-    {% for nom in liste_nom_entreprises %}
-    <option value="{{ nom }}">
-        {% endfor %}
-</datalist>
+<input list="entreprises_off" id="entreprise_off" name="entreprise" value="{{ entreprise }}" placeholder="Commencez à taper...">
+<datalist id="entreprises_off"></datalist>
 
 
 <br><br> <!--enlever les br après-->
@@ -125,3 +116,5 @@
 <button type="submit" >Rechercher</button>
     <a href="/offres" class="btn">Réinitialiser</a>
 </form>
+
+<script src="/Assets/DonnesRecherche.js"></script>

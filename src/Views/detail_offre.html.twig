@@ -37,16 +37,11 @@
             {% if off.new %}
                 <span class="nouveau">Nouveau</span>
             {% endif %}
-            {% if off.in_wishlist %}
-{#                ToDo wishlist #}
-                <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" checked />
+
+            {% if id_role == 1 %}
+                <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" data-offre-id="{{ off.id_offre }}" {% if off.in_wishlist %}checked{% endif %} />
                 <label for="wish{{ off.id_offre }}" class="wishlist-label">
-                    <i class="bi bi-heart-fill"></i>
-                </label>
-            {% else %}
-                <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" />
-                <label for="wish{{ off.id_offre }}" class="wishlist-label">
-                    <i class="bi bi-heart"></i>
+                    <i class="heart-icon {% if off.in_wishlist %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
                 </label>
             {% endif %}
         </div>
@@ -73,8 +68,8 @@
                     {% endfor %}
                 </div>
             </div>
-            {% if user_id != 0 %}
-            <a href="/entreprises/postuler/{{ off.id_offre }}" class="postuler-button">Postuler</a>
+            {% if id_role == 1 %}
+            <a href="/offres/postuler/{{ off.id_offre }}" class="postuler-button">Postuler</a>
             {% endif %}
         </div>
         <p><strong>Reference :</strong> {{ off.id_offre }} </p>
@@ -85,5 +80,9 @@
 <footer>
     <p> © 2026 - All Right Reserved </p>
 </footer>
+
+{% if id_role == 1 %}
+    <script src="/Assets/wishlist.js"></script>
+{% endif %}
 </body>
 </html>
