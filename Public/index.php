@@ -198,6 +198,7 @@ elseif ($uri === '/VilleOffres') {
 } elseif ($uri === '/EntreprisesEntreprises') {
     $controllerEntreprise = new App\Controllers\EntrepriseC($twig);
     $controllerEntreprise->getEntreprisesEntreprises();
+
 } elseif ($uri === '/changeWishlist') {
     $controllerCandidature = new App\Controllers\OffreC($twig);
     $controllerCandidature->changeWishlist();
