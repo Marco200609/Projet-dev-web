@@ -1,3 +1,36 @@
-<?php
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{% block title %}{% endblock %} - Juniors </title>
+                <link rel="stylesheet" href="/Assets/style.css">
+                <link rel="stylesheet" href="/Assets/acceuil.css">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>  
 
-        ?>
+        {% block header %}{% endblock %}
+
+        <nav class="navBar">
+                <div class="LogoNav">
+                        <img src="/Assets/Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+                        <img src="/Assets/Images/LogoNav2.png" class="LogoNav2">
+                </div>
+
+                <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+                <label for="menu-toggle" class="burger-label">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                </label>
+
+        {% block links %}{% endblock %}
+
+        </nav>
+
+        {% block main %}{% endblock %}
+
+        {{ include('_footer.html.twig') }}
+
+	</body>
+</html>
