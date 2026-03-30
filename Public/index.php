@@ -24,7 +24,7 @@ session_start();
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 if ($uri === '/') {
-    echo $twig->render('Accueil.html.twig');
+    echo $twig->render('/Acceuil/Accueil.html.twig');
 
 } elseif ($uri === '/entreprises') {
     $controllerEnt = new EntrepriseC($twig);
