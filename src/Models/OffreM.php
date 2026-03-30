@@ -125,7 +125,7 @@ class OffreM extends PdoM
                    offre.domaine,
                    contrat.nom_contrat,
                    GROUP_CONCAT(competences.competence) AS competences,
-                    (SELECT COUNT(*) FROM whishlist w WHERE w.id_offre_fk = offre.id_offre AND w.id_utilisateur_fk = ?) AS in_wishlist
+                    (SELECT COUNT(*) FROM whishlist w WHERE w.id_offre_fk = offre.id_offre AND w.id_utilisateur_fk = :id_user) AS in_wishlist
             FROM whishlist
                      JOIN offre ON whishlist.id_offre_fk = offre.id_offre
                      LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise

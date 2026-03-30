@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>Compte etudiant</title>
-    <link rel="stylesheet" href="../assets/style.css">
-    <link rel="stylesheet" href="../assets/comptes.css">
+    <link rel="stylesheet" href="/Assets/style.css">
+    <link rel="stylesheet" href="/Assets/comptes.css">
+    <link rel="stylesheet" href="/Assets/offres.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -47,7 +48,7 @@
             <div class="stats-row">
                 <div class="mini-stat">
                     <span class="number">{{ NbCandidatures }}</span>
-                    <span class="label">Envoyees</span>
+                    <span class="label">Candidatures Envoyées</span>
                 </div>
             </div>
         </div>
@@ -55,29 +56,23 @@
         <section class="glass-card wishlist-section">
             <h3><i class="bi bi-heart-fill"></i> Ma Wishlist</h3>
             <div class="wishlist-container">
+                {% if wishlist is not empty %}
                 <div class="wishlist-item">
-                    <div class="wish-info">
-                        <h4>Développeur Front-end</h4>
-                        <p>Amazon • Paris (Hybride)</p>
-                        <a href="#" class="view-link">Voir l'offre <i class="bi bi-arrow-right-short"></i></a>
-                    </div>
-                    <button class="heart-btn active" title="Retirer de la wishlist">
-                        <i class="bi bi-heart-fill"></i>
-                    </button>
+                        {% for off in wishlist %}
+                            {% include 'offre.html.twig' with {
+                                off: off,
+                                id_role: id_role
+                            } %}
+                        {% endfor %}
+                    </section>
                 </div>
+                {% else %}
+                    <span class="wishlist_label">Aucune Offre en Wishlist</span>
+                {% endif %}
 
-                <div class="wishlist-item">
-                    <div class="wish-info">
-                        <h4>Junior Web Designer</h4>
-                        <p>Ubisoft • Montpellier</p>
-                        <a href="#" class="view-link">Voir l'offre <i class="bi bi-arrow-right-short"></i></a>
-                    </div>
-                    <button class="heart-btn active" title="Retirer de la wishlist">
-                        <i class="bi bi-heart-fill"></i>
-                    </button>
-                </div>
+
             </div>
-        </section>
+
 
         <section class="glass-card table-section">
             <h3><i class="bi bi-graph-up-arrow"></i> Suivi des candidatures</h3>
@@ -88,19 +83,22 @@
                         <th>Type</th>
                         <th>Poste</th>
                         <th>Date d'envoi</th>
+                        <th>Lien</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for cand in candidatures %}
                         <tr>
-                            <td>{{ cand.entreprise }}</td>
-                            <td>{{ cand.contrat }}</td>
+                            <td>{{ cand.nom }}</td>
+                            <td>{{ cand.nom_contrat }}</td>
                             <td>{{ cand.titre }}</td>
                             <td>{{ cand.date_candidature|date('d/m/Y') }}</td>
+                            <td><a href="/detail_offre/{{ cand.id_offre }}" class="wishlist_link"><i class="bi bi-box-arrow-up-right"></i></a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table> </div>
+            </section>
         </section>
     </section>
 </main>
@@ -108,5 +106,8 @@
 <footer>
     <p> © 2026 - All Right Reserved </p>
 </footer>
+{% if id_role == 1 %}
+    <script src="/Assets/wishlist.js"></script>
+{% endif %}
 </body>
 </html>
