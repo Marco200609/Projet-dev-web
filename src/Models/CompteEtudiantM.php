@@ -51,4 +51,15 @@ class CompteEtudiantM extends PdoM
         return $rq->fetchColumn();
     }
 
+    public function getInfosEtudiant($id) : array | bool
+    {
+        $rq = $this->pdo->prepare("SELECT utilisateur.nom, utilisateur.prenom, contact.email, utilisateur.linkedin FROM utilisateur
+                                         JOIN contact ON utilisateur.id_contact_fk = contact.id_contact
+                                         WHERE utilisateur.id_utilisateur = :id;");
+
+        $rq->bindValue(':id', $id , PDO::PARAM_INT);
+        $rq->execute();
+        return $rq->fetch(PDO::FETCH_ASSOC);
+    }
+
 }

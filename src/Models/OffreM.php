@@ -218,7 +218,7 @@ class OffreM extends PdoM
 
     public function getCandidatOffre($id_offre) : ?array
     {
-        $rq = $this->pdo->prepare("SELECT offre.titre, offre.id_offre, offre.domaine, villes.nom_ville, entreprise.nom
+        $rq = $this->pdo->prepare("SELECT offre.titre, offre.id_offre, offre.domaine, villes.nom_ville, entreprise.nom, entreprise.id_entreprise
                                 FROM offre
                                 LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
                                 LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse

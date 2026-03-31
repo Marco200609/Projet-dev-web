@@ -15,6 +15,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\EntrepriseC;
 
+use function App\Services\mail;
 
 $loader = new \Twig\Loader\FilesystemLoader('../src/Views');
 
@@ -118,10 +119,6 @@ elseif ($uri ==='/CompteConnexion') {
 
 
 
-
-
-
-
 //elseif ($uri.startsWith('https://CompteInscription')) {
 //check si y a ça dans l'url (in machin) rentrer dans cette condition --> après check pour tel ou tel suite d'URL
 
@@ -161,7 +158,6 @@ elseif ($uri === '/CompteInscription/Admin') {
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->form_inscription();
-    echo "2222";
 }
 
 elseif ($uri === '/CompteConnexion/Traitement' && $_SERVER['REQUEST_METHOD'] === 'POST') {

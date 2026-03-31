@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Models\CandidatureM;
 use App\Models\OffreM;
+use App\Models\EntrepriseM;
+use App\Models\CompteEtudiantM;
+use function App\Services\mail;
 
 class CandidatureC
 {
@@ -59,7 +62,7 @@ class CandidatureC
             header('Location: /offres');
             exit();
         }
-        echo $this->templateEngine->render('Offres/candidature.html.twig', ['offre' => $offre]);
+        echo $this->templateEngine->render('Offre/candidature.html.twig', ['offre' => $offre]);
     }
 
     public function FormAddCandidature() : void
@@ -82,7 +85,7 @@ class CandidatureC
                 exit();
             }
             $errors = ['veuillez choisir un fichier'];
-            echo $this->templateEngine->render('Offres/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
+            echo $this->templateEngine->render('Offre/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
             exit();
         } else {
             $file = $_FILES['cv'];
@@ -94,7 +97,7 @@ class CandidatureC
                     header('Location: /offres');
                     exit();
                 }
-                echo $this->templateEngine->render('Offres/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
+                echo $this->templateEngine->render('Offre/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
             }
             $nom = sha1(uniqid(rand(), true)) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
             if (!move_uploaded_file($file['tmp_name'], $this->cheminUpload . $nom)) {
@@ -104,7 +107,7 @@ class CandidatureC
                     exit();
                 }
                 $errors[] = 'Erreur lors du stockage du fichier';
-                echo $this->templateEngine->render('Offres/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
+                echo $this->templateEngine->render('Offre/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
                 exit();
             }
             if (!$this->modelCandidature->AddCandidature($id_user, $id_offre, $nom, $lettre_motivation))
@@ -115,10 +118,18 @@ class CandidatureC
                     exit();
                 }
                 $errors[] = 'Une erreur est survenue';
-                echo $this->templateEngine->render('Offres/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
+                echo $this->templateEngine->render('Offre/candidature.html.twig', ['offre' => $offre, 'errors' => $errors]);
                 exit();
             }
-            header('Location: /detail_offre/' . $id_offre);
+            $offre = (new OffreM())->getCandidatOffre($id_offre);
+            $candidature = $this->modelCandidature->getCandidature($id_user, $id_offre);
+            $emailEntreprise = (new entrepriseM())->getEmailEntreprise($offre['id_entreprise']);
+            $utilisateur = (new CompteEtudiantM())->getInfosEtudiant($id_user);
+
+            mail($emailEntreprise, $offre['titre'], $utilisateur['nom'], $utilisateur['prenom'],
+                $utilisateur['email'], $candidature['cv'],
+                $candidature['lettre_motivation'], $utilisateur['linkedin']);
+            echo $this->templateEngine->render('Offre/candidature_accepte.html.twig', ['offre' => $offre]);
         }
     }
 

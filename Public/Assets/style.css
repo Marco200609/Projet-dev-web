@@ -618,7 +618,7 @@ h2 {
     display: none;
 }
 
-.wishlist-label .bi-heart {
+.wishlist-label .heart-icon {
     cursor: pointer;
     font-size: 1.4em;
     color: #dd5478;
@@ -656,7 +656,7 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 40%;
+    gap: 16px;
 }
 
 .offre-info .entreprise {
@@ -722,9 +722,16 @@ h2 {
     text-align: left;}
 
 .note {
-    flex: 1;
-    text-align: center;;
-    color: #bdac37;
+    flex: 1 1 200px;
+    min-width: 120px;
+    text-align: left;
+    color: #a59848;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.noir {
+    color: #535953;
 }
 
 .nb-offre {
@@ -785,7 +792,6 @@ h2 {
 .face_a_face{
     display: flex;
     flex-direction: row;
-    gap: 24px;
     width: 100%;
     justify-content: space-between;
     align-items: center;
@@ -865,12 +871,15 @@ h2 {
 
 /* Partie entreprise */
 
+.img_entreprise {
+    height: 50px;
+}
+
 .logo-entreprise {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 50px;
 }
 
 .mail-telephone {

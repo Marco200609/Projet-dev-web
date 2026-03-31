@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block links %}{{ include('Offre/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+<main>
+    <section>
+        <h1>{{ offre.titre }}</h1>
+        <div class="zone_info">
+            <span class="entreprise"> {{ offre.nom }}</span>
+            <span class="domaine">{{ offre.domaine }}</span>
+            <span class="localisation"><i class="bi bi-geo-alt"></i> {{ offre.nom_ville }}</span>
+            <span><strong>Reference :</strong> {{ offre.id_offre }} </span>
+        </div>
+
+        <div class="confirmation-message">
+            <p>Votre candidature a été acceptée avec succès !</p>
+        </div>
+    </section>
+</main>
+{% endblock %}

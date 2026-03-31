@@ -17,7 +17,7 @@
 
         <h1>Ajouter ou modifier votre Offre</h1>
 
-        <form method="post" action="/offres/{{ update ? 'formupdate' : 'formadd' }}/{{ id_offre|default('') }} class="candidature">
+        <form method="post" class="candidature" action="/offres/{{ update ? 'formupdate' : 'formadd' }}/{{ id_offre|default('') }}">
 
             <input type="hidden" name="id_offre" value="{{ id_entreprise }}">
 
@@ -67,7 +67,7 @@
             <div class="form-group">
             {#        ToDo : gerer plusieurs compétences        #}
                 <label>
-                    <input type="text" name="competences" placeholder="compétences requises" value="{{ off.competences }}">
+                    <input type="text" name="competences" placeholder="compétences entre virgules" value="{{ off.competences }}">
                 </label>
             </div>
 

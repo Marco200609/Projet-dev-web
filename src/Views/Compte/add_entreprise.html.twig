@@ -18,7 +18,7 @@
 
         <h1>Ajouter votre entreprise</h1>
 
-        <form method="post" action="/entreprises/{{ update ? 'formupdate' : 'formadd' }}/{{ id_entreprise|default('') }} class="candidature">
+        <form method="post" action="/entreprises/{{ update ? 'formupdate' : 'formadd' }}/{{ id_entreprise|default('') }}" class="candidature">
 
             <input type="hidden" name="id_entreprise" value="{{ id_entreprise }}">
 
