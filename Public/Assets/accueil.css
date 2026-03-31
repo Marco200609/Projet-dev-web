@@ -1,4 +1,4 @@
-body {
+.BodyAcceuil {
     min-height: 200vh;
 }
 
@@ -70,31 +70,16 @@ header {
     }
 }
 
-.navBar > *{  
+.Animation > *{  
     opacity: 0; 
-    animation: apparitionLogo linear both;
+    animation: apparition linear both;
     animation-timeline: scroll();
     animation-range: 0px 80vh;
 }
 
 
 /* L'animation LogoNavBar */
-@keyframes apparitionLogo {
-    0% {
-        opacity: 0;
-        transform: translateY(10px); 
-    }
-    80% {
-        opacity: 0; 
-    }
-    100% {
-        opacity: 1; 
-        z-index: 99;
-        transform: translateY(0);
-    }
-}
-
-@keyframes apparitionMain {
+@keyframes apparition {
     0% {
         opacity: 0;
         transform: translateY(10px); 
@@ -122,19 +107,8 @@ header {
     }
 }
 
-main {
-    opacity: 0; 
-    animation: apparitionMain linear both;
-    animation-timeline: scroll();
-    animation-range: 0px 80vh;
-    z-index: 1;
-}
-
 @media screen and (max-width: 768px) {
-    main {
-        animation: none;
-    }
-    .navBar > * {
+    .Animation > * {
         animation: none;
     }
 }

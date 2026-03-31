@@ -32,6 +32,10 @@ if ($uri === '/') {
     $controllerEnt = new AcceuilC($twig);
     $controllerEnt->PageAcceuil();
 
+} elseif ($uri === '/MentionsLegales') {
+    $controllerEnt = new AcceuilC($twig);
+    $controllerEnt->PageMentionsLegales();
+
 } elseif ($uri === '/entreprises') {
     $controllerEnt = new EntrepriseC($twig);
     $controllerEnt->PageEntreprise();

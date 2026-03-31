@@ -37,5 +37,10 @@ class AcceuilC
             'NbJuniors' => $NbJuniors
         ]);
     }
+
+    public function PageMentionsLegales()
+    {
+        echo $this->templateEngine->render('Acceuil/MentionsLegales.html.twig');
+    }
 }
 

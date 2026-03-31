@@ -122,12 +122,7 @@ footer {
 
 footer a {
     color: #F8FAFC;
-<<<<<<< HEAD
-    
-=======
     text-decoration: none;
->>>>>>> d6330812c200c0eebba25b3888cfada947ddf876
-    font-weight: bold;
 }
 
 /* Menu burger */
@@ -476,7 +471,7 @@ h2 {
 }
 
 .link-entreprise {
-    flex: 0 1 calc(33.33% - 80px);
+    flex: 0 1 calc(33.33% - 20px);
 
     min-width: 300px; 
     max-width: 600px; 
