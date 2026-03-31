@@ -30,29 +30,17 @@ class ConnexionInsM extends PdoM
         return false;
     }
 
-    public function get_code_entreprise($code_entreprise) {
-        $sql = "SELECT code_entreprise 
-                FROM entreprise 
-                WHERE code_entreprise = :code_entreprise";
-
-        $rq = $this->pdo->prepare($sql);
-        $rq->execute([
-            'code_entreprise' => $code_entreprise
-        ]);
-    }
-
     public function get_id_groupe_by_nom($nom_groupe)
     {
-        $sql = "SELECT id_groupe FROM groupe WHERE nom_groupe = :nom_groupe";
+        $sql = "SELECT id_groupe 
+                FROM groupe 
+                WHERE nom_groupe = :nom_groupe";
         $rq = $this->pdo->prepare($sql);
         $rq->execute([
             'nom_groupe' => $nom_groupe
         ]);
             return $rq->fetch();
     }
-
-
-
 
     public function set_id_user($nom, $prenom, $mot_de_passe, $id_permission, $email, $telephone, $groupe, $linkedin)
 //        Pour quand l'utilisateur s'inscrit
@@ -79,6 +67,17 @@ class ConnexionInsM extends PdoM
             'id_contact' => $id_contact]);
 
         $id_user = $this->pdo->lastInsertId();
+
+//        $EntrepriseM = TableRegistry::get('EntrepriseM');
+//        $resultats = $EntrepriseM->find('all');
+
+//        $code_entreprise = $this->pdo->find('all', ['conditions' => get_code_entreprise]);
+//
+//
+//        if ($code_entreprise !== null && $code_entreprise !== "") {
+//            $code_entreprise = $this->get_code_entreprise($code_entreprise);
+//
+//        }
 
         if ($groupe !== null && $groupe !== "") {
 

@@ -122,22 +122,6 @@ elseif ($uri ==='/CompteConnexion') {
 //check si y a ça dans l'url (in machin) rentrer dans cette condition --> après check pour tel ou tel suite d'URL
 
 elseif ($uri === '/CompteInscription'){
-//    if ($uri === '/CompteInscription/Pilote') {
-//        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-//        $controllerInscription->page_inscription_pilote();
-//    }
-//
-//    elseif ($uri === '/CompteInscription/Etudiant') {
-//        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-//        $controllerInscription->page_inscription_etudiant();
-//    }
-//
-//    elseif ($uri === '/CompteInscription/Entreprise') {
-//        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-//        $controllerInscription->page_inscription_entreprise();
-//    }
-//
-//    else {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->page_inscription();
 //    }
@@ -173,6 +157,7 @@ elseif ($uri === '/CompteInscription/Admin') {
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->form_inscription();
+    echo "2222";
 }
 
 elseif ($uri === '/CompteConnexion/Traitement' && $_SERVER['REQUEST_METHOD'] === 'POST') {

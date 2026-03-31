@@ -79,8 +79,16 @@ class ConnexionInsC
                 $groupe,
                 $linkedin
             );
-        header("Location: /CompteInscription/Attente?role=".$role);
-        exit;
+
+            if ($premier_compte == 1) {
+               header ("Location: /entreprises/add");
+               exit;
+            }
+
+            else {
+                header("Location: /CompteInscription/Attente?role=" . $role);
+                exit;
+            }
     }
 
     public function form_connexion() {

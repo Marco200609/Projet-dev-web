@@ -138,7 +138,7 @@ class EntrepriseC
 
     public function PageAddEntreprise(): void
     {
-        echo $this->templateEngine->render('Compte/add_entreprise.html.twig');
+        echo $this->templateEngine->render('Compte/add_entreprise.html.twig', ['premier_compte'=>1]);
     }
 
     public function PageUpdateEntreprise($id): void
@@ -153,6 +153,7 @@ class EntrepriseC
 
     public function FormAddEntreprise(): void
     {
+        $premier_compte = $_POST['premier_compte'] ?? 0;
         // $nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $var = $this->TestsFormEntreprise();
@@ -165,6 +166,11 @@ class EntrepriseC
 
             // Stockage des données brutes
             if ($this->modelEntreprise->addEntreprise($var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
+                if ($premier_compte) {
+                    header('location: /CompteInscription/Attente?role=3');
+                    exit;
+                }
+
                 // ToDo modifier le lien
                 header('Location: /compte/entreprise');
                 exit();
