@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block links %}{{ include('Acceuil/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main class="dashboard">
+
+<section class="glass-card">
+<h2><i class="bi bi-file-earmark-text"></i> Mentions légales</h2>
+
+<h3>Éditeur du site</h3>
+<p>
+Ce site est édité dans le cadre d'un projet pédagogique réalisé par des étudiants.<br>
+Nom du responsable : Jean Administration<br>
+Établissement : CESI<br>
+Adresse : France
+</p>
+
+<h3>Hébergement</h3>
+<p>
+Le site est hébergé par :<br>
+Nom de l'hébergeur : Exemple Hébergeur<br>
+Adresse : Exemple Adresse
+</p>
+
+<h3>Propriété intellectuelle</h3>
+<p>
+L'ensemble des contenus présents sur ce site (textes, images, logos, design)
+sont protégés par le droit de la propriété intellectuelle.
+Toute reproduction ou utilisation sans autorisation est interdite.
+</p>
+
+<h3>Responsabilité</h3>
+<p>
+Les informations présentes sur ce site sont fournies à titre informatif.
+L'éditeur du site ne saurait être tenu responsable des erreurs
+ou de l'utilisation faite des informations présentes sur le site.
+</p>
+
+</section>
+
+
+<section class="glass-card">
+
+<h2><i class="bi bi-shield-lock"></i> Politique de cookies</h2>
+
+<h3>Qu'est-ce qu'un cookie ?</h3>
+<p>
+Un cookie est un petit fichier texte stocké sur votre appareil lors de la visite d'un site internet.
+Il permet d'améliorer l'expérience utilisateur et de mémoriser certaines informations.
+</p>
+
+<h3>Utilisation des cookies</h3>
+<p>
+Ce site peut utiliser des cookies pour :
+</p>
+
+<ul>
+<li>assurer le bon fonctionnement du site</li>
+<li>améliorer l'expérience utilisateur</li>
+<li>analyser l'utilisation du site</li>
+</ul>
+
+<h3>Gestion des cookies</h3>
+<p>
+Vous pouvez configurer votre navigateur pour refuser ou supprimer les cookies.
+Cependant certaines fonctionnalités du site peuvent être affectées.
+</p>
+
+</section>
+
+</main>
+
+{% endblock %}
