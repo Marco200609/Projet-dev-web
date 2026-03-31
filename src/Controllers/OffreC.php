@@ -135,7 +135,7 @@ class OffreC
 
         $pagination = pagination($total, $page, $parpage, '/offres', $_GET);
 
-        echo $this->templateEngine->render('page_offres.html.twig', [
+        echo $this->templateEngine->render('Offre/page_offres.html.twig', [
             'offres' => $offres,
             'id_role' => $_SESSION['role'] ?? 0,
 
@@ -172,7 +172,7 @@ class OffreC
         if (empty($offre['titre'])) {
             header('location: /404');
         }
-        echo $this->templateEngine->render('detail_offre.html.twig', [
+        echo $this->templateEngine->render('Offre/detail_offre.html.twig', [
             'off' => $offre,
             'id_role' => $id_role
         ]);
@@ -187,7 +187,7 @@ class OffreC
         $unites_duree = $this->modelOffre->getUnitesDurees();
         $modelContrat = new ContratM();
         $liste_contrats = $modelContrat->getListeContrat();
-        echo $this->templateEngine->render('add_offre.html.twig', ['unites_duree' =>$unites_duree, 'liste_contrats' => $liste_contrats]);
+        echo $this->templateEngine->render('Compte/add_offre.html.twig', ['unites_duree' =>$unites_duree, 'liste_contrats' => $liste_contrats]);
     }
 
     public function PageFormUpdateOffre($id) : void
@@ -200,7 +200,7 @@ class OffreC
         $liste_contrats = $modelContrat->getListeContrat();
         $unites_duree = $this->modelOffre->getUnitesDurees();
         $offre = $this->modelOffre->getFormOffre($id);
-        echo $this->templateEngine->render('add_offre.html.twig',
+        echo $this->templateEngine->render('Compte/add_offre.html.twig',
             ['off' => $offre,
                 'update' => true,
                 'id_offre' => $id,
@@ -240,7 +240,7 @@ class OffreC
 
             $var = $this->TestsFormOffre($titre, $pays, $departement, $ville, $adresse, $domaines, $contrat, $entreprise, $mail, $telephone, $competences, $descriptif, $unite_duree, $duree);
             if (isset($var['error'])) {
-                echo $this->templateEngine->render('add_offre.html.twig', [
+                echo $this->templateEngine->render('Compte/add_offre.html.twig', [
                     'errors' => $var['error'],
                     'unites_duree' =>$unites_duree,
                     'liste_contrats' => $liste_contrats
@@ -255,7 +255,7 @@ class OffreC
                 exit();
             } else {
                 $errors[] = "Une erreur est survenue";
-                echo $this->templateEngine->render('add_offre.html.twig', [
+                echo $this->templateEngine->render('Compte/add_offre.html.twig', [
                     'errors' => $errors,
                     'unites_duree' =>$unites_duree,
                     'liste_contrats' => $liste_contrats
@@ -263,7 +263,7 @@ class OffreC
                 exit();
             }
         } else {
-            echo $this->templateEngine->render('add_offre.html.twig', ['unites_duree' =>$unites_duree, 'liste_contrats' => $liste_contrats]);
+            echo $this->templateEngine->render('Compte/add_offre.html.twig', ['unites_duree' =>$unites_duree, 'liste_contrats' => $liste_contrats]);
             exit();
         }
     }
@@ -300,7 +300,7 @@ class OffreC
 
             if (isset($var['error'])) {
                 $offre = $this->modelOffre->getFormOffre($id);
-                echo $this->templateEngine->render('add_offre.html.twig', [
+                echo $this->templateEngine->render('Compte/add_offre.html.twig', [
                     'errors' => $var['error'],
                     'id_offre' => $_POST['id_offre'],
                     'update' => false,
@@ -318,7 +318,7 @@ class OffreC
             } else {
                 $errors[] = "Une erreur est survenue";
                 $offre = $this->modelOffre->getFormOffre($id);
-                echo $this->templateEngine->render('add_offre.html.twig', [
+                echo $this->templateEngine->render('Compte/add_offre.html.twig', [
                     'errors' => $errors,
                     'id_offre' => $_POST['id_offre'],
                     'update' => false,
@@ -328,7 +328,7 @@ class OffreC
                 exit();
             }
         } else {
-            echo $this->templateEngine->render('add_offre.html.twig', ['unites_duree' =>$unites_duree]);
+            echo $this->templateEngine->render('Compte/add_offre.html.twig', ['unites_duree' =>$unites_duree]);
             exit();
         }
     }

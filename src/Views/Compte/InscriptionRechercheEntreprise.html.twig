@@ -1,38 +1,55 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Connexion</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/Assets/Connexion-Inscription.css">
-    <link rel="stylesheet" href="/Assets/style.css">
-</head>
-<body>
-<nav class="navBar">
-    <div class="LogoNav">
-        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
-        <img src="../Images/LogoNav2.png" class="LogoNav2">
-    </div>
+{% extends 'base.html.twig' %}
 
-    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
-    <label for="menu-toggle" class="burger-label">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
 
-    <div class="links">
-        <a href="../index.html" >Accueil</a>
-        <a href="Offres.html">Offre</a>
-        <a href="Entreprises.html">Entreprise</a>
-        <a href="Connexion.html" class="active">Mon Compte</a>
-    </div>
-</nav>
+{% block main %}
+
 <main>
-    <h1>Connexion</h1>
-    <form class="truc" method="POST" action="/CompteConnexion/Traitement">
+
+    {% if premier_compte %}
+    <h1>Création d'un compte de gestion de l'entreprise</h1>
+
+    {% elseif not premier_compte%}
+    <h1>Ajout d'un compte de gestion d'entreprise</h1>
+    {% endif %}
+
+    <form class="Finder" method="post" action="/CompteInscription/Traitement">
+
         <section>
-            <label for="email">Email</label>
+            <label for="nom">Nom *</label>
+            <input
+                    id="nom"
+                    name="nom"
+                    type="text"
+                    required>
+        </section>
+        <br>
+
+        <section>
+            <label for="prenom">Prénom *</label>
+            <input
+                    id="prenom"
+                    name="prenom"
+                    type="text"
+                    required>
+        </section>
+
+        <input type="hidden" name="role" value="2">
+
+
+        {% if not premier_compte %}
+        <section>
+            <label for="codeEntreprise">Recherche une entreprise déjà présente *</label>
+            <input
+                    id="codeEntreprise"
+                    name="codeEntreprise"
+                    type="text"
+                    required>
+        </section>
+        {% endif %}
+
+        <section>
+            <label for="email">Email *</label>
             <input
                     id="email"
                     name="email"
@@ -40,9 +57,9 @@
                     autocomplete="username"
                     required>
         </section>
-        <br>
+
         <section>
-            <label for="current-password">Mot de passe</label>
+            <label for="current-password">Mot de passe *</label>
 
             <div class="password-wrapper">
                 <input
@@ -72,22 +89,27 @@
                 </button>
             </div>
 
-            <div id="password-constraints">Huit ou plus de caractères avec au moins une minuscule et une majuscule.
+            <div id="password-constraints">Huit ou plus de caractères avec au moins une minuscule, une majuscule et un caractère spécial.
             </div>
         </section>
-        <br>
-        <button id="signin" type="submit">Se connecter</button>
+
+
+        <input type="hidden" name="premier_compte" value="{{ premier_compte ? 1 : 0 }}">
+        <button id="signin" type="submit">Créer un compte</button>
     </form>
 
-    <form action="/CompteInscription" class="centrerPage">
-        <button>Pas de compte ? Inscrivez-vous</button>
+
+
+    <form action="/CompteConnexion" class="centrerPage">
+        <button>Vous avez un compte ? Connectez-vous</button>
     </form>
 
 </main>
-<footer>
-    <p> © 2026 - All Right Reserved </p>
-</footer>
-<script src="../javascript/Connexion.js"></script> <!--c t pour un fichier test-->
 
-</body>
-</html>
+{% endblock %}
+
+{% block scripts %}
+<script src="/Assets/ConnexionIns.js"></script>
+{#<script src="../javascript/Connexion.js"></script> //ici pas besoin mais je laisse au cas où#}
+{% endblock %}
+

@@ -1,4 +1,5 @@
 /vendor/
 /Config/.env
 /composer.lock
-/public/.htaccess
+/Public/.htaccess
+/Config/.htaccess

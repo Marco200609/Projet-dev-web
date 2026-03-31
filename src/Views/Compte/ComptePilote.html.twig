@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main class="dashboard">
+    <div class="profile-overview">
+        <div class="glass-card group-card">
+            <h3><i class="bi bi-person-badge"></i> Espace Pilote - Promotion 2026</h3>
+            <div class="group-details">
+                <p><strong>Responsable :</strong> Florent GRELARD</p> <p><strong>Centre :</strong> Lyon</p>
+                <p><strong>Spécialité :</strong> Informatique / Systèmes</p>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="mini-stat">
+                <span class="number">120</span>
+                <span class="label">Étudiants</span>
+            </div>
+            <div class="mini-stat">
+                <span class="number">45</span>
+                <span class="label">Annonces Validées</span> </div>
+            <div class="mini-stat success">
+                <span class="number">12</span>
+                <span class="label">À traiter</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="glass-card wishlist-section">
+        <h3><i class="bi bi-people-fill"></i> Mes Groupes d'Étudiants</h3>
+        <div class="wishlist-container">
+            <div class="wishlist-item">
+                <div class="wish-info">
+                    <h4>CPI A2 Info</h4> <p>25 étudiants • 15 en recherche</p>
+                    <a href="#" class="view-link">Gérer le groupe <i class="bi bi-arrow-right-short"></i></a>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn" title="Pousser une sélection d'annonces au groupe"><i class="bi bi-share-fill"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="glass-card table-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 20px;">
+            <h3><i class="bi bi-megaphone-fill"></i> Gestion des Annonces</h3>
+            <div class="search-bar">
+                <input type="text" placeholder="Filtrer par entreprise ou type..." style="padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.5);">
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table class="stats-table">
+                <thead>
+                <tr>
+                    <th>Annonce</th>
+                    <th>Entreprise</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><strong>Développeur Web Fullstack</strong></td>
+                    <td><span class="company-name">Tech Solutions</span></td>
+                    <td><span class="type-tag alternance">Alternance</span></td>
+                    <td><span class="badge interview">Validée</span></td>
+                    <td class="cell-actions">
+                        <button class="btn-action chat" title="Proposer au groupe CPI A2 Info"><i class="bi bi-send-plus-fill"></i></button>
+                        <button class="btn-action folder" title="Détails de l'offre"><i class="bi bi-info-circle"></i></button>
+                        <button class="btn-action refuse" title="Masquer"><i class="bi bi-eye-slash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Stage Cloud Architect</strong></td>
+                    <td><span class="company-name">Global Dev</span></td>
+                    <td><span class="type-tag stage">Stage</span></td>
+                    <td><span class="badge pending">En attente</span></td>
+                    <td class="cell-actions">
+                        <button class="btn-action accept" title="Approuver l'annonce"><i class="bi bi-check-circle-fill"></i></button>
+                        <button class="btn-action folder" title="Détails de l'offre"><i class="bi bi-info-circle"></i></button>
+                        <button class="btn-action refuse" title="Refuser"><i class="bi bi-trash3"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table></div>
+    </section>
+</main>
+
+{% endblock %}

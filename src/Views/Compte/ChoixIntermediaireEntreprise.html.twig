@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+
+    <h1>Rechercher une entreprise déjà existante sur notre site ou créer le 1er compte de l'entreprise ?</h1>
+
+    <div class="choix-compte">
+
+        <a href='/CompteInscription/Entreprise/Recherche' class="Finder">
+            <h2>Recherche une entrerprise</h2>
+            <p>Pour la gestion de l'entreprise sur notre site.</p>
+        </a>
+
+        <a href='/CompteInscription/Entreprise/Ajouter' class="Finder">
+            <h2>Créer le 1er compte entreprise sur notre site</h2>
+        </a>
+
+    </div>
+
+    <form action="/CompteConnexion" class="centrerPage">
+        <button>Vous avez un compte ? Connectez-vous</button>
+    </form>
+
+</main>
+
+{% endblock %}

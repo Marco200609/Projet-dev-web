@@ -66,7 +66,18 @@ class OffreM extends PdoM
                    villes.nom_ville,
                    offre.domaine,
                    contrat.nom_contrat,
-                   GROUP_CONCAT(competences.competence) AS competences,
+                   (
+                    SELECT GROUP_CONCAT(competences.competence ORDER BY competences.competence)
+                    FROM (
+                        SELECT competences.competence
+                        FROM competence_offre
+                        JOIN competences
+                            ON competence_offre.id_competence_fk = competences.id_competence
+                        WHERE competence_offre.id_offre_fk = offre.id_offre
+                        ORDER BY competences.competence
+                        LIMIT 3
+                    ) AS competences
+                ) AS competences,
                    (SELECT COUNT(*) FROM whishlist w WHERE w.id_offre_fk = offre.id_offre AND w.id_utilisateur_fk = ?) AS in_wishlist
             FROM offre
                      LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
@@ -125,7 +136,7 @@ class OffreM extends PdoM
                    offre.domaine,
                    contrat.nom_contrat,
                    GROUP_CONCAT(competences.competence) AS competences,
-                    (SELECT COUNT(*) FROM whishlist w WHERE w.id_offre_fk = offre.id_offre AND w.id_utilisateur_fk = ?) AS in_wishlist
+                    (SELECT COUNT(*) FROM whishlist w WHERE w.id_offre_fk = offre.id_offre AND w.id_utilisateur_fk = :id_user) AS in_wishlist
             FROM whishlist
                      JOIN offre ON whishlist.id_offre_fk = offre.id_offre
                      LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise

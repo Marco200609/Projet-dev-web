@@ -30,7 +30,7 @@ class CandidatureM extends PdoM
 
     public function getCandidaturesUtilisateur($id_user) : array
     {
-        $rq = $this->pdo->prepare("SELECT candidature.id_candidature, offre.titre, entreprise.nom, contrat.nom_contrat, candidature.date_candidature FROM candidature
+        $rq = $this->pdo->prepare("SELECT candidature.id_candidature, offre.id_offre, offre.titre, entreprise.nom, contrat.nom_contrat, candidature.date_candidature FROM candidature
                                         JOIN offre ON candidature.id_offre_fk = offre.id_offre
                                         JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
                                         JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat

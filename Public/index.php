@@ -1,5 +1,7 @@
 <?php
 
+use App\Controllers\AcceuilC;
+
 /**
  * This is the router, the main entry point of the application.
  * It handles the routing and dispatches requests to the appropriate controller methods.
@@ -15,16 +17,20 @@ use App\Controllers\EntrepriseC;
 
 
 $loader = new \Twig\Loader\FilesystemLoader('../src/Views');
+
 $twig = new \Twig\Environment($loader, [
-    'debug' => true
+    'debug' => true,
+    'cache' => false, 
 ]);
+
 
 session_start();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 if ($uri === '/') {
-    echo $twig->render('Accueil.html.twig');
+    $controllerEnt = new AcceuilC($twig);
+    $controllerEnt->PageAcceuil();
 
 } elseif ($uri === '/entreprises') {
     $controllerEnt = new EntrepriseC($twig);
@@ -180,6 +186,7 @@ elseif ($uri === '/VilleOffres') {
 } elseif ($uri === '/EntreprisesEntreprises') {
     $controllerEntreprise = new App\Controllers\EntrepriseC($twig);
     $controllerEntreprise->getEntreprisesEntreprises();
+
 } elseif ($uri === '/changeWishlist') {
     $controllerCandidature = new App\Controllers\OffreC($twig);
     $controllerCandidature->changeWishlist();

@@ -1,40 +1,15 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Inscription</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/Assets/Connexion-Inscription.css">
-    <link rel="stylesheet" href="/Assets/style.css">
-</head>
-<body>
-<nav class="navBar">
-    <div class="LogoNav">
-        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
-        <img src="../Images/LogoNav2.png" class="LogoNav2">
-    </div>
+{% extends 'base.html.twig' %}
 
-    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
-    <label for="menu-toggle" class="burger-label">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
 
-    <div class="links">
-        <a href="../index.html" >Accueil</a>
-        <a href="Offres.html">Offre</a>
-        <a href="Entreprises.html">Entreprise</a>
-        <a href="Connexion.html" class="active">Mon Compte</a>
-    </div>
-</nav>
+{% block main %}
+
 <main>
     <h1>Inscription</h1>
-    <form class="truc" method="POST" action="/CompteInscription/Traitement">
-        <input type="hidden" name="role" value="3">
+    <form class="Finder">
 
         <section>
-            <label for="nom">Nom *</label>
+            <label for="nom">Nom</label>
             <input
                     id="nom"
                     name="nom"
@@ -43,7 +18,7 @@
         </section>
         <br>
         <section>
-            <label for="prenom">Prénom *</label>
+            <label for="prenom">Prénom</label>
             <input
                     id="prenom"
                     name="prenom"
@@ -51,10 +26,16 @@
                     required>
         </section>
 
-        <h2>Vous êtes : un/e administrateur/rice</h2>
+        <div class="dropdown">
+            <div class = "dropbtn">Rôle</div>
+            <div class="dropdown-content">
+                <button>Pilote</button>
+                <button>Entreprise</button>
+            </div>
+        </div>
 
         <section>
-            <label for="email">Email *</label>
+            <label for="email">Email</label>
             <input
                     id="email"
                     name="email"
@@ -64,17 +45,7 @@
         </section>
         <br>
         <section>
-            <label for="tel">Téléphone</label>
-            <input
-                id="tel"
-                name="tel"
-                type="tel"
-                autocomplete="username">
-        </section>
-
-        <br>
-        <section>
-            <label for="current-password">Mot de passe *</label>
+            <label for="current-password">Mot de passe</label>
 
             <div class="password-wrapper">
                 <input
@@ -104,19 +75,25 @@
                 </button>
             </div>
 
-            <div id="password-constraints">Huit ou plus de caractères avec au moins une minuscule, une majuscule et un caractère spécial.
+            <div id="password-constraints">Huit ou plus de caractères avec au moins une minuscule et une majuscule.
             </div>
         </section>
         <br>
-        <button id="signin" type="submit">Créer le compte de l'administrateur</button>
+        <button id="signin" type="submit">Créer un compte</button>
+    </form>
+
+    <form action="../Pages/Connexion.html" class="centrerPage">
+        <button>Vous avez un compte ? Connectez-vous</button>
     </form>
 
 </main>
-<script src="../javascript/Connexion.js"></script>
+
+{% endblock %}
+
+
+{% block scripts %}
+
 <script src="/Assets/ConnexionIns.js"></script>
 
-<footer>
-    <p> © 2026 - All Right Reserved </p>
-</footer>
-</body>
-</html>
+{% endblock %}
+

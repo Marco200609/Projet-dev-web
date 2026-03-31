@@ -1,37 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Recherche entreprises</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/Assets/style.css">
-    <link rel="stylesheet" href="/Assets/entreprise.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/Assets/recherche.css">
-</head>
+{% extends 'base.html.twig' %}
 
-<body>
-<nav class="navBar">
-    <div class="LogoNav">
-        <img src="/Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
-        <img src="/Images/LogoNav2.png" class="LogoNav2">
-    </div>
+{% block links %}{{ include('Entreprise/_links.html.twig') }}{% endblock %}
 
-    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
-    <label for="menu-toggle" class="burger-label">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
-
-    <div class="links">
-        <a href="/index.html" >Accueil</a>
-        <a href="Offres.html">Offre</a>
-        <a href="Entreprises.html" class="active">Entreprise</a>
-        <a href="Connexion.html">Mon Compte</a>
-    </div>
-</nav>
-
+{% block main %}
 
 <main>
 
@@ -67,11 +38,11 @@
 
     <h1>Entreprises disponibles :</h1>
 
-    <section class="liste_entreprises">
+    <section class="liste-entreprises">
 
         {% for ent in entreprises %}
-            <a href="detail_entreprise/{{ ent.id_entreprise }}" class="entreprise-link">
-                <article class="entreprise">
+            <a href="detail_entreprise/{{ ent.id_entreprise }}" class="link-entreprise">
+                <article class="box-annonce">
                     <img src="{{ ent.logo }}" alt="logo_entreprise" class="entreprise-logo">
                     <h2 class="entreprise-titre">{{ ent.nom }}</h2>
                     <div class="entreprise-content">
@@ -97,7 +68,7 @@
     </section>
     {% endif %}
 
-    <nav class="pagination navBar">
+    <nav class="pagination">
 
         {% include 'pagination.html.twig' with {
             pagination: pagination
@@ -118,9 +89,8 @@
     </nav>
 </main>
 
-<footer>
-    <p> © 2026 - All Right Reserved </p>
-</footer>
+{% endblock %}
+
+{% block scripts %}
 <script src="/Assets/DonnesRecherche.js"></script>
-</body>
-</html>
+{% endblock %}
