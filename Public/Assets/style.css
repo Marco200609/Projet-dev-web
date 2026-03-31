@@ -1,6 +1,6 @@
 @font-face {
     font-family: NSD;
-    src: url("Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth,wght.ttf");
+    src: url("Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth\,wght.ttf");
 }
 
 /*
@@ -118,6 +118,12 @@ footer {
     color:#F8FAFC;
     background-color: #344D59;
     text-align: center;
+}
+
+footer a {
+    color: #F8FAFC;
+    
+    font-weight: bold;
 }
 
 /* Menu burger */
