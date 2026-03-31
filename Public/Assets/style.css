@@ -1331,3 +1331,43 @@ h2 {
     background: rgba(255, 255, 255, 0.35);
 }
 
+.etudiants-list {
+    max-height: 200px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 0 15px;
+}
+
+
+.etudiants-list::-webkit-scrollbar {
+    width: 6px;
+}
+.etudiants-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.etudiant-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem;
+    color: #444;
+}
+.etudiant-item:last-child {
+    border-bottom: none;
+}
+
+.GestionCandidature {
+    colspan = "6";
+    style = "text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.seach-bar-candidatures {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.5);
+}

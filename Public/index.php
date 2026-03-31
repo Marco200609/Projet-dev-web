@@ -18,11 +18,13 @@ use App\Controllers\EntrepriseC;
 use function App\Services\mail;
 
 $loader = new \Twig\Loader\FilesystemLoader('../src/Views');
-
 $twig = new \Twig\Environment($loader, [
     'debug' => true,
-    'cache' => false, 
+    'cache' => false,
 ]);
+
+
+
 
 
 session_start();
@@ -203,7 +205,13 @@ $controllerOffre = new App\Controllers\OffreC($twig);
 $controllerOffre->DeleteOffre();}
 
 
-
+elseif (preg_match('#^/api/etudiants-groupe/(\d+)(/)?$#', $uri, $matches)) {
+    $model = new \App\Models\ComptePiloteM();
+    $etudiants = $model->getEtudiantsGroupe($matches[1]);
+    header('Content-Type: application/json');
+    echo json_encode($etudiants);
+    exit;
+}
 
 else {
     // 404
