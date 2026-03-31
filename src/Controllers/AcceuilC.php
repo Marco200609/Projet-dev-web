@@ -22,12 +22,19 @@ class AcceuilC
         $this->templateEngine = $templateEngine;
     }
 
+
+//    public function PageAcceuil()
+//    {Affiche le nombre d'offres, d'entreprises et de juniors recrutés Grace à des méthodes de chaque modele correspondant à la statistique voulue
     public function PageAcceuil()
     {
         $NbOffres = $this->modelOffre->getNbOffre();
+        $NbEntreprises = $this->modelEntreprise->getNbEntreprises();
+        $NbJuniors = $this->modelCompteEtudiant->getNbEtudiant();
 
         echo $this->templateEngine->render('Acceuil/Acceuil.html.twig', [
-            'NbOffres' => $NbOffres
+            'NbOffres' => $NbOffres,
+            'NbEntreprises' => $NbEntreprises,
+            'NbJuniors' => $NbJuniors
         ]);
     }
 }
