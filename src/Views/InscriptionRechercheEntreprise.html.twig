@@ -37,7 +37,29 @@
     <h1>Ajout d'un compte de gestion d'entreprise</h1>
     {% endif %}
 
-    <form class="truc" method="post">
+    <form class="truc" method="post" action="/CompteInscription/Traitement">
+
+        <section>
+            <label for="nom">Nom *</label>
+            <input
+                    id="nom"
+                    name="nom"
+                    type="text"
+                    required>
+        </section>
+        <br>
+
+        <section>
+            <label for="prenom">Prénom *</label>
+            <input
+                    id="prenom"
+                    name="prenom"
+                    type="text"
+                    required>
+        </section>
+
+        <input type="hidden" name="role" value="2">
+
 
         {% if not premier_compte %}
         <section>
@@ -95,10 +117,12 @@
             </div>
         </section>
 
+
         <input type="hidden" name="premier_compte" value="{{ premier_compte ? 1 : 0 }}">
-{#        {% if premier_compte %}#}
         <button id="signin" type="submit">Créer un compte</button>
     </form>
+
+
 
     <form action="/CompteConnexion" class="centrerPage">
         <button>Vous avez un compte ? Connectez-vous</button>
@@ -106,7 +130,7 @@
 
 </main>
 <script src="/Assets/ConnexionIns.js"></script>
-{#<script src="../javascript/Connexion.js"></script> //ici pas besoin mais je laisse au cas où#}
+{#<script src="../javascript/Connexion.js"></script> //ici j'aurai besoin mais le javascript s'est supprimé#}
 
 <footer>
     <p> © 2026 - All Right Reserved </p>

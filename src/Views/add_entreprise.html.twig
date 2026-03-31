@@ -61,6 +61,7 @@
                 <label>
                     <input type="email" name="mail" placeholder="Adresse e-mail" value="{{ ent.email }}" required>
                 </label>
+
                 <label>
                     <input type="tel" name="telephone" placeholder="Numéro de téléphone" value="{{ ent.telephone }}" pattern="[0-9]{10}" title="Veuillez entrer un numéro de téléphone valide à 10 chiffres" required>
                 </label>
@@ -95,6 +96,7 @@
                 </label>
             </div>
 
+        <input type="hidden" name="premier_compte" value="{{ premier_compte|default(0) }}">
             <div class="form-group">
                 <input type="submit" value="Envoyer">
                 <input type="reset" value="Annuler">
