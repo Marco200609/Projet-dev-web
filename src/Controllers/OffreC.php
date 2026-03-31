@@ -208,6 +208,8 @@ class OffreC
                 'liste_contrats' => $liste_contrats]);
     }
 
+
+
     public function FormAddOffre() : void
     {
         if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
@@ -332,4 +334,59 @@ class OffreC
             exit();
         }
     }
+
+    public function ToggleOffrePause() : void
+    {
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit();
+        }
+
+        $id_offre = isset($_POST['id_offre']) ? (int)$_POST['id_offre'] : 0;
+
+        if ($id_offre <= 0) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'ID offre invalide']);
+            exit();
+        }
+
+        $isPaused = $this->modelOffre->getOffrePause($id_offre);
+
+        if ($isPaused) {
+            $this->modelOffre->unsetOffrePause($id_offre);
+            echo json_encode(['success' => true, 'action' => 'resumed']);
+        } else {
+            $this->modelOffre->setOffrePause($id_offre);
+            echo json_encode(['success' => true, 'action' => 'paused']);
+        }
+        exit();
+    }
+
+    public function DeleteOffre() : void
+    {
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit();
+        }
+
+        $id_offre = isset($_POST['id_offre']) ? (int)$_POST['id_offre'] : 0;
+
+        if ($id_offre <= 0) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'ID offre invalide']);
+            exit();
+        }
+
+        try {
+            $this->modelOffre->deleteOffre($id_offre);
+            echo json_encode(['success' => true, 'message' => 'Offre supprimée avec succès']);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur lors de la suppression']);
+        }
+        exit();
+    }
+
 }

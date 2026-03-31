@@ -1072,14 +1072,14 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center; /* IMPORTANT */
+    justify-content: center;
 }
 
 .wishlist-item {
     display: flex;
-    flex-wrap: wrap;          /* permet de passer à la ligne */
-    justify-content: center;  /* centre les éléments */
-    gap: 20px;                /* espace entre les box */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
 
 .wishlist_label {
@@ -1096,15 +1096,47 @@ h2 {
 .wish-info h4 { margin: 0; color: #37463D; }
 .view-link { font-size: 0.85em; color: #5B696B; text-decoration: none; font-weight: bold; }
 
+.Company-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.Company-offer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 18px;
+
+    border: 2px solid #709CA7;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 18px 32px 0 rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(25px);
+
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    min-height: 100px;
+}
+
+.Company-offer:hover {
+    box-shadow: 0 24px 36px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    filter: brightness(1.06);
+    z-index: 10;
+}
+
 
 .action-buttons { display: flex; gap: 10px; }
 .action-btn {
-    background: none; border: none; font-size: 1.4em; cursor: pointer; transition: 0.2s;
+    background: none; border: none; font-size: 1.4em; cursor: pointer; transition: 0.2s; color: #5B696B;
 }
-.action-btn.pause { color: #5B696B; }
+
 .action-btn.pause:hover { color: #f39c12; }
-.action-btn.delete { color: #5B696B; }
 .action-btn.delete:hover { color: #e74c3c; }
+.action-btn.resume:hover { color: #27ae60; }  /* Optional: green hover for a "resume" action */
 
 
 .btn-add-offer {

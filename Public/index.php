@@ -111,6 +111,10 @@ elseif ($uri ==='/CompteConnexion') {
 
 
 
+
+
+
+
 //elseif ($uri.startsWith('https://CompteInscription')) {
 //check si y a ça dans l'url (in machin) rentrer dans cette condition --> après check pour tel ou tel suite d'URL
 
@@ -202,7 +206,14 @@ elseif ($uri === '/VilleOffres') {
 } elseif ($uri === '/changeWishlist') {
     $controllerCandidature = new App\Controllers\OffreC($twig);
     $controllerCandidature->changeWishlist();
-}
+
+} elseif ($uri === '/offres/togglepause' || $uri === '/offres/togglepause/') {
+    $controllerOffre = new App\Controllers\OffreC($twig);
+    $controllerOffre->ToggleOffrePause();
+} elseif ($uri === '/offres/delete' || $uri === '/offres/delete/') {
+$controllerOffre = new App\Controllers\OffreC($twig);
+$controllerOffre->DeleteOffre();}
+
 
 
 
