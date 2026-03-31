@@ -29,12 +29,10 @@ session_start();
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 if ($uri === '/') {
-    echo 154; exit();
     $controllerEnt = new AcceuilC($twig);
     $controllerEnt->PageAcceuil();
 
 } elseif ($uri === '/entreprises') {
-    echo 154; exit();
     $controllerEnt = new EntrepriseC($twig);
     $controllerEnt->PageEntreprise();
 
