@@ -1,5 +1,7 @@
 <?php
 
+use App\Controllers\AcceuilC;
+
 /**
  * This is the router, the main entry point of the application.
  * It handles the routing and dispatches requests to the appropriate controller methods.
@@ -27,9 +29,12 @@ session_start();
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 if ($uri === '/') {
-    echo $twig->render('/Acceuil/Acceuil.html.twig');
+    echo 154; exit();
+    $controllerEnt = new AcceuilC($twig);
+    $controllerEnt->PageAcceuil();
 
 } elseif ($uri === '/entreprises') {
+    echo 154; exit();
     $controllerEnt = new EntrepriseC($twig);
     $controllerEnt->PageEntreprise();
 

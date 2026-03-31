@@ -122,7 +122,11 @@ footer {
 
 footer a {
     color: #F8FAFC;
+<<<<<<< HEAD
     
+=======
+    text-decoration: none;
+>>>>>>> d6330812c200c0eebba25b3888cfada947ddf876
     font-weight: bold;
 }
 
