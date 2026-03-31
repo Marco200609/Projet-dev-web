@@ -42,4 +42,13 @@ class CompteEtudiantM extends PdoM
         return $rq->fetchColumn();
     }
 
+    public function getNbEtudiant() : int
+    {
+        $sql = "SELECT COUNT(*) FROM utilisateur WHERE utilisateur.id_utilisateur = 1";
+
+        $rq = $this->pdo->prepare($sql);
+        $rq->execute();
+        return $rq->fetchColumn();
+    }
+
 }

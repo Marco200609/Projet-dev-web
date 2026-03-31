@@ -1,5 +1,7 @@
 <?php
 
+use App\Controllers\AcceuilC;
+
 /**
  * This is the router, the main entry point of the application.
  * It handles the routing and dispatches requests to the appropriate controller methods.
@@ -27,7 +29,12 @@ session_start();
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 if ($uri === '/') {
-    echo $twig->render('/Acceuil/Acceuil.html.twig');
+    $controllerEnt = new AcceuilC($twig);
+    $controllerEnt->PageAcceuil();
+
+} elseif ($uri === '/MentionsLegales') {
+    $controllerEnt = new AcceuilC($twig);
+    $controllerEnt->PageMentionsLegales();
 
 } elseif ($uri === '/entreprises') {
     $controllerEnt = new EntrepriseC($twig);
@@ -119,22 +126,6 @@ elseif ($uri ==='/CompteConnexion') {
 //check si y a ça dans l'url (in machin) rentrer dans cette condition --> après check pour tel ou tel suite d'URL
 
 elseif ($uri === '/CompteInscription'){
-//    if ($uri === '/CompteInscription/Pilote') {
-//        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-//        $controllerInscription->page_inscription_pilote();
-//    }
-//
-//    elseif ($uri === '/CompteInscription/Etudiant') {
-//        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-//        $controllerInscription->page_inscription_etudiant();
-//    }
-//
-//    elseif ($uri === '/CompteInscription/Entreprise') {
-//        $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-//        $controllerInscription->page_inscription_entreprise();
-//    }
-//
-//    else {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->page_inscription();
 //    }
@@ -170,6 +161,7 @@ elseif ($uri === '/CompteInscription/Admin') {
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->form_inscription();
+    echo "2222";
 }
 
 elseif ($uri === '/CompteConnexion/Traitement' && $_SERVER['REQUEST_METHOD'] === 'POST') {

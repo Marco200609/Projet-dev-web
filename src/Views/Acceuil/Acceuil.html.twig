@@ -2,10 +2,14 @@
 
 {% block header %}{{ include('Acceuil/_header.html.twig') }}{% endblock %}
 
+{% block BodyAcceuil %}BodyAcceuil{% endblock %}
+
+{% block Animation %}Animation{% endblock %}
+
 {% block links %}{{ include('Acceuil/_links.html.twig') }}{% endblock %}
 
 {% block main %}
-    <main>
+    <main class="Animation">
         <h1> Avec Juniors, façonnez votre avenir ! </h1>
 
         <section class="stats-carousel">
@@ -16,19 +20,19 @@
             <div class="cards-container">
                 <label class="stat-card" for="stat-1" id="card-1">
                     <div class="stat-icon">💼</div>
-                    <div class="stat-value">150+</div>
+                    <div class="stat-value"> {{NbOffres}}</div>
                     <div class="stat-label">Offres actives</div>
                 </label>
 
                 <label class="stat-card" for="stat-2" id="card-2">
                     <div class="stat-icon">🏢</div>
-                    <div class="stat-value">45</div>
+                    <div class="stat-value"> {{NbEntreprises}}</div>
                     <div class="stat-label">Entreprises partenaires</div>
                 </label>
 
                 <label class="stat-card" for="stat-3" id="card-3">
                     <div class="stat-icon">🎓</div>
-                    <div class="stat-value">1200</div>
+                    <div class="stat-value"> {{NbJuniors}}</div>
                     <div class="stat-label">Juniors recrutés</div>
                 </label>
             </div>

@@ -1,6 +1,6 @@
 @font-face {
     font-family: NSD;
-    src: url("Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth,wght.ttf");
+    src: url("Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth\,wght.ttf");
 }
 
 /*
@@ -118,6 +118,11 @@ footer {
     color:#F8FAFC;
     background-color: #344D59;
     text-align: center;
+}
+
+footer a {
+    color: #F8FAFC;
+    text-decoration: none;
 }
 
 /* Menu burger */
@@ -466,7 +471,7 @@ h2 {
 }
 
 .link-entreprise {
-    flex: 0 1 calc(33.33% - 80px);
+    flex: 0 1 calc(33.33% - 20px);
 
     min-width: 300px; 
     max-width: 600px; 

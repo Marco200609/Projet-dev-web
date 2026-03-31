@@ -95,6 +95,22 @@ class EntrepriseM extends PdoM
         return $id ? (int)$id : null;
     }
 
+
+
+    //à utiliser dans ConnexionInsM.php
+    public function get_code_entreprise($code_entreprise)
+    {
+        $sql = "SELECT code_entreprise 
+                FROM entreprise 
+                WHERE code_entreprise = :code_entreprise";
+
+        $rq = $this->pdo->prepare($sql);
+        $rq->execute([
+            'code_entreprise' => $code_entreprise
+        ]);
+        return $code_entreprise ? (int)$code_entreprise : null;
+    }
+
     public function getFormEntreprises($id) :array
     {
         $rq = $this->pdo->prepare("SELECT entreprise.nom, entreprise.logo, adresse.adresse, villes.nom_ville, departement.departement, pays.nom_pays, entreprise.descriptif, entreprise.nb_employe, contact.email, contact.telephone FROM entreprise
