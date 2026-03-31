@@ -471,7 +471,7 @@ h2 {
 }
 
 .link-entreprise {
-    flex: 0 1 calc(33.33% - 20px);
+    flex: 0 1 calc(33.33% - 80px);
 
     min-width: 300px; 
     max-width: 600px; 
