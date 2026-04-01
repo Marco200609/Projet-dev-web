@@ -83,8 +83,6 @@ class OffreM extends PdoM
                      LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
                      LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
                      LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
-                     LEFT JOIN competence_offre ON offre.id_offre = competence_offre.id_offre_fk
-                     LEFT JOIN competences ON competence_offre.id_competence_fk = competences.id_competence
                      LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
             WHERE offre.titre LIKE ?
               AND villes.nom_ville LIKE ?
@@ -127,9 +125,17 @@ class OffreM extends PdoM
         return $rq->fetchAll();
     }
 
-    public function getOffrewishlist($id_user) : array
+    public function getOffrewishlist($page, $parpage, $id_user) : array
     {
-        $rq = $this->pdo->prepare("SELECT offre.id_offre, offre.titre, offre.date_creation,
+        $page = (int)$page;
+        $parpage = (int)$parpage;
+
+        if ($parpage ==-1) {
+            $parpage = $this->getNbOffre();
+        }
+        $start = ($page - 1) * $parpage;
+
+        /*$rq = $this->pdo->prepare("SELECT offre.id_offre, offre.titre, offre.date_creation,
                    IF(offre.date_creation > NOW() - INTERVAL 3 DAY, 1, 0) AS new,
                    entreprise.nom,
                    villes.nom_ville,
@@ -149,11 +155,52 @@ class OffreM extends PdoM
               AND offre.visible = 1
               AND offre.Pause = 0
             GROUP BY offre.id_offre, offre.titre, offre.date_creation, entreprise.nom, villes.nom_ville, offre.domaine, contrat.nom_contrat
-            ORDER BY offre.date_creation DESC");
+            ORDER BY offre.date_creation DESC");*/
+
+        $rq = $this->pdo->prepare("SELECT offre.id_offre, offre.titre, offre.date_creation,
+                   IF(offre.date_creation > NOW() - INTERVAL 3 DAY, 1, 0) AS new,
+                   entreprise.nom,
+                   villes.nom_ville,
+                   offre.domaine,
+                   contrat.nom_contrat,
+                   (
+                    SELECT GROUP_CONCAT(competences.competence ORDER BY competences.competence)
+                    FROM (
+                        SELECT competences.competence
+                        FROM competence_offre
+                        JOIN competences
+                            ON competence_offre.id_competence_fk = competences.id_competence
+                        WHERE competence_offre.id_offre_fk = offre.id_offre
+                        ORDER BY competences.competence
+                        LIMIT 3
+                    ) AS competences
+                ) AS competences,
+                    (SELECT COUNT(*) FROM whishlist w WHERE w.id_offre_fk = offre.id_offre AND w.id_utilisateur_fk = :id_user) AS in_wishlist
+            FROM whishlist
+                     JOIN offre ON whishlist.id_offre_fk = offre.id_offre
+                     LEFT JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
+                     LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
+                     LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
+                     LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
+            WHERE whishlist.id_utilisateur_fk = :id_user
+              AND offre.visible = 1
+              AND offre.Pause = 0
+            GROUP BY offre.id_offre, offre.titre, offre.date_creation, entreprise.nom, villes.nom_ville, offre.domaine, contrat.nom_contrat
+            ORDER BY offre.date_creation DESC
+            LIMIT :start, :parpage");
+                $rq->bindValue(':start', $start, PDO::PARAM_INT);
+        $rq->bindValue(':parpage', $parpage, PDO::PARAM_INT);
         $rq->bindValue(':id_user', $id_user);
         $rq->execute();
         return $rq->fetchAll();
+    }
 
+    public function getNbOffreWishlist($id_user) : int
+    {
+        $rq = $this->pdo->prepare("SELECT COUNT(*) FROM whishlist WHERE id_utilisateur_fk = :id_user");
+        $rq->bindValue(':id_user', $id_user);
+        $rq->execute();
+        return $rq->fetchColumn();
     }
 
     public function getDetailOffre($id_offre, $id_user=0) : array

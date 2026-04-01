@@ -41,8 +41,16 @@ class CompteEntrepriseM extends PdoM
         return $rq->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getOffresEnCours($id_entreprise): array
+    public function getOffresEnCours($page, $parpage, $id_entreprise): array
     {
+        $page = (int)$page;
+        $parpage = (int)$parpage;
+
+        if ($parpage ==-1) {
+            $parpage = $this->getNbOffreEnCours($id_entreprise);
+        }
+        $start = ($page - 1) * $parpage;
+
         $rq = $this->pdo->prepare("
         SELECT offre.id_offre, offre.titre, contrat.nom_contrat, COUNT(candidature.id_candidature) AS nb_cand
         FROM offre
@@ -50,14 +58,25 @@ class CompteEntrepriseM extends PdoM
         LEFT JOIN candidature ON candidature.id_offre_fk = offre.id_offre
         WHERE offre.id_entreprise_fk = :id_entreprise AND offre.visible = 1 AND offre.Pause = 0
         GROUP BY offre.id_offre
+        LIMIT :start, :parpage
     ");
+        $rq->bindValue(':start', $start, PDO::PARAM_INT);
+        $rq->bindValue(':parpage', $parpage, PDO::PARAM_INT);
         $rq->bindValue(':id_entreprise', $id_entreprise, PDO::PARAM_INT);
         $rq->execute();
         return $rq->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getOffresEnPause($id_entreprise): array
+    public function getOffresEnPause($page, $parpage, $id_entreprise): array
     {
+        $page = (int)$page;
+        $parpage = (int)$parpage;
+
+        if ($parpage ==-1) {
+            $parpage = $this->getNbOffreEnPause($id_entreprise);
+        }
+        $start = ($page - 1) * $parpage;
+
         $rq = $this->pdo->prepare("
         SELECT offre.id_offre, offre.titre, contrat.nom_contrat, COUNT(candidature.id_candidature) AS nb_cand
         FROM offre
@@ -65,10 +84,33 @@ class CompteEntrepriseM extends PdoM
         LEFT JOIN candidature ON candidature.id_offre_fk = offre.id_offre
         WHERE offre.id_entreprise_fk = :id_entreprise AND offre.visible = 1 AND offre.Pause = 1
         GROUP BY offre.id_offre
+        LIMIT :start, :parpage
     ");
+        $rq->bindValue(':start', $start, PDO::PARAM_INT);
+        $rq->bindValue(':parpage', $parpage, PDO::PARAM_INT);
         $rq->bindValue(':id_entreprise', $id_entreprise, PDO::PARAM_INT);
         $rq->execute();
         return $rq->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getNbOffreEnCours($id_entreprise): int
+    {
+        $rq = $this->pdo->prepare("SELECT COUNT(offre.id_offre) AS nb_offres FROM offre
+            WHERE offre.id_entreprise_fk = :id_entreprise AND offre.visible = 1 AND offre.Pause = 0
+        ");
+        $rq->bindValue(':id_entreprise', $id_entreprise, PDO::PARAM_INT);
+        $rq->execute();
+        return (int)$rq->fetchColumn();
+    }
+
+    public function getNbOffreEnPause($id_entreprise): int
+    {
+        $rq = $this->pdo->prepare("SELECT COUNT(offre.id_offre) AS nb_offres FROM offre
+            WHERE offre.id_entreprise_fk = :id_entreprise AND offre.visible = 1 AND offre.Pause = 1
+        ");
+        $rq->bindValue(':id_entreprise', $id_entreprise, PDO::PARAM_INT);
+        $rq->execute();
+        return (int)$rq->fetchColumn();
     }
 
     /**
