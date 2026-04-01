@@ -138,52 +138,66 @@ class EntrepriseC
 
     public function PageAddEntreprise(): void
     {
-        echo $this->templateEngine->render('Compte/add_entreprise.html.twig', ['premier_compte'=>1]);
+        if (!session_status() ||!isset($_SESSION['id']) || !($_SESSION['role'] == 3 || $_SESSION['role'] == 4 || $_SESSION['role'] == 5)) {
+            header('Location: /CompteConnexion');
+            exit();
+        } else {
+            echo $this->templateEngine->render('Compte/add_entreprise.html.twig', ['premier_compte'=>1]);
+        }
     }
 
     public function PageUpdateEntreprise($id): void
     {
+        if (!session_status() || !isset($_SESSION['id']) || !($_SESSION['role'] == 3 || $_SESSION['role'] == 4 || $_SESSION['role'] == 5)) {
+            header('Location: /CompteConnexion');
+            exit();
+        } else {
         $entreprise = $this->modelEntreprise->getFormEntreprises($id);
         echo $this->templateEngine->render('Compte/add_entreprise.html.twig',
             ['ent' => $entreprise,
-            'update' => true,
-            'id_entreprise' => $id]);
-
+                'update' => true,
+                'id_entreprise' => $id]);
+        }
     }
 
     public function FormAddEntreprise(): void
     {
-        $premier_compte = $_POST['premier_compte'] ?? 0;
         // $nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $var = $this->TestsFormEntreprise();
-            if (isset($var['error'])) {
-                echo $this->templateEngine->render('Compte/add_entreprise.html.twig', [
-                    'errors' => $var['error']
-                ]);
-                exit();
-            }
-
-            // Stockage des données brutes
-            if ($this->modelEntreprise->addEntreprise($var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
-                if ($premier_compte) {
-                    header('location: /CompteInscription/Attente?role=3');
-                    exit;
+        if (!session_status() || !isset($_SESSION['id']) || !($_SESSION['role'] == 3 || $_SESSION['role'] == 4 || $_SESSION['role'] == 5)) {
+            header('Location: /CompteConnexion');
+            exit();
+        } else {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $premier_compte = $_POST['premier_compte'] ?? 0;
+                $var = $this->TestsFormEntreprise();
+                if (isset($var['error'])) {
+                    echo $this->templateEngine->render('Compte/add_entreprise.html.twig', [
+                        'errors' => $var['error']
+                    ]);
+                    exit();
                 }
 
-                // ToDo modifier le lien
-                header('Location: /compte/entreprise');
-                exit();
+                // Stockage des données brutes
+                if ($this->modelEntreprise->addEntreprise($var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
+                    if ($premier_compte) {
+                        header('location: /CompteInscription/Attente?role=3');
+                        exit;
+                    }
+
+                    // ToDo modifier le lien
+                    header('Location: /compte/entreprise');
+                    exit();
+                } else {
+                    $errors[] = "L'entreprise existe déjà ou une erreur est survenue";
+                    echo $this->templateEngine->render('Compte/add_entreprise.html.twig', [
+                        'errors' => $errors
+                    ]);
+                    exit();
+                }
             } else {
-                $errors[] = "L'entreprise existe déjà ou une erreur est survenue";
-                echo $this->templateEngine->render('Compte/add_entreprise.html.twig', [
-                    'errors' => $errors
-                ]);
+                echo $this->templateEngine->render('Compte/add_entreprise.html.twig');
                 exit();
             }
-        } else {
-            echo $this->templateEngine->render('Compte/add_entreprise.html.twig');
-            exit();
         }
     }
 
@@ -195,10 +209,10 @@ class EntrepriseC
                 exit();
             }
             if ($this->modelNote->setNote($_POST['note'], $_POST['id_entreprise'], $_SESSION['id'] )) {
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                header('Location: /detail_entreprise/' . $_POST['id_entreprise']);
                 exit();
             } else {
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                header('Location: /404');
                 exit();
             }
         } else {
@@ -208,39 +222,43 @@ class EntrepriseC
 
     public function FormUpdateEntreprise(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id_entreprise'] ?? '';
-            $var = $this->TestsFormEntreprise();
-            if (isset($var['error'])) {
-                $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
-                echo $this->templateEngine->render('Compte/add_entreprise.html.twig', [
-                    'errors' => $var['error'],
-                    'id_entreprise' => $_POST['id_entreprise'],
-                    'update' => false,
-                    'ent' => $entreprise,
-                ]);
-                exit();
-            }
-
-            // Stockage des données brutes
-            if ($this->modelEntreprise->updateEntreprise($id, $var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
-                // ToDo modifier le lien
-                header('Location: /compte/entreprise');
-                exit();
-            } else {
-                $errors[] = "Une erreur est survenue";
-                $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
-                echo $this->templateEngine->render('Compte/add_entreprise.html.twig', [
-                    'errors' => $errors,
-                    'update' => true,
-                    'id_entreprise' => $_POST['id_entreprise'],
-                    'ent' => $entreprise
-                ]);
-                exit();
-            }
-        } else {
-            echo $this->templateEngine->render('Compte/add_entreprise.html.twig');
+        if (!session_status() || !isset($_SESSION['id']) || !($_SESSION['role'] == 3 || $_SESSION['role'] == 4 || $_SESSION['role'] == 5)) {
+            header('Location: /CompteConnexion');
             exit();
+        } else {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $id = $_POST['id_entreprise'] ?? '';
+                $var = $this->TestsFormEntreprise();
+                if (isset($var['error'])) {
+                    $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
+                    echo $this->templateEngine->render('Compte/add_entreprise.html.twig', [
+                        'errors' => $var['error'],
+                        'id_entreprise' => $_POST['id_entreprise'],
+                        'update' => false,
+                        'ent' => $entreprise,
+                    ]);
+                    exit();
+                }
+
+                // Stockage des données brutes
+                if ($this->modelEntreprise->updateEntreprise($id, $var['nom'], $var['logo'], $var['pays'], $var['departement'], $var['nom_ville'], $var['adresse'], $var['email'], $var['telephone'], $var['nb_employe'], $var['description'])) {
+                    header('Location: /CompteEntreprise');
+                    exit();
+                } else {
+                    $errors[] = "Une erreur est survenue";
+                    $entreprise = $this->modelEntreprise->getDetailEntreprise($id);
+                    echo $this->templateEngine->render('Compte/add_entreprise.html.twig', [
+                        'errors' => $errors,
+                        'update' => true,
+                        'id_entreprise' => $_POST['id_entreprise'],
+                        'ent' => $entreprise
+                    ]);
+                    exit();
+                }
+            } else {
+                echo $this->templateEngine->render('Compte/add_entreprise.html.twig');
+                exit();
+            }
         }
     }
 }

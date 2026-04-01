@@ -180,9 +180,9 @@ class OffreC
 
     public function PageFormAddOffre() : void
     {
-        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit;
+        if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: /CompteConnexion');
+            exit();
         }
         $unites_duree = $this->modelOffre->getUnitesDurees();
         $modelContrat = new ContratM();
@@ -192,8 +192,8 @@ class OffreC
 
     public function PageFormUpdateOffre($id) : void
     {
-        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: /CompteConnexion');
             exit;
         }
         $modelContrat = new ContratM();
@@ -212,8 +212,8 @@ class OffreC
 
     public function FormAddOffre() : void
     {
-        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: /CompteConnexion');
             exit;
         }
         $unites_duree = $this->modelOffre->getUnitesDurees();
@@ -253,7 +253,8 @@ class OffreC
             // Stockage des données brutes
             if ($this->modelOffre->addOffre($var['titre'], $var['pays'], $var['departement'], $var['ville'], $var['adresse'], $var['domaine'], $var['contrat'], $var['entreprise'], $var['mail'], $var['telephone'], $var['competences'], $var['unite_duree'], $var['duree'], $var['descriptif'])) {
                 // ToDo modifier le lien
-                header('Location: /compte/entreprise');
+                $offre = (new OffreM())->getCandidatOffre($id_offre);
+                echo $this->templateEngine->render('Offre/offre_accepte.html.twig', ['offre' => $offre]);
                 exit();
             } else {
                 $errors[] = "Une erreur est survenue";
@@ -272,8 +273,8 @@ class OffreC
 
     public function FormUpdateOffre($id) : void
     {
-        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: /CompteConnexion');
             exit;
         }
         $unites_duree = $this->modelOffre->getUnitesDurees();
@@ -314,8 +315,8 @@ class OffreC
 
             // Stockage des données brutes
             if ($this->modelOffre->updateOffre($id, $var['titre'], $var['pays'], $var['departement'], $var['ville'], $var['adresse'], $var['domaine'], $var['contrat'], $var['entreprise'], $var['mail'], $var['telephone'], $var['competences'], $var['unite_duree'], $var['duree'], $var['descriptif'])) {
-                // ToDo modifier le lien
-                header('Location: /compte/entreprise');
+                $offre = (new OffreM())->getCandidatOffre($id);
+                echo $this->templateEngine->render('Offre/offre_accepte.html.twig', ['offre' => $offre]);
                 exit();
             } else {
                 $errors[] = "Une erreur est survenue";
@@ -337,6 +338,7 @@ class OffreC
 
     public function ToggleOffrePause() : void
     {
+        // ToDo : vérifier droits
         if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
             http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
@@ -365,6 +367,7 @@ class OffreC
 
     public function DeleteOffre() : void
     {
+        // ToDo : vérifier droits
         if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
             http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);

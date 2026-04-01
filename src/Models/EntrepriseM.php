@@ -86,6 +86,17 @@ class EntrepriseM extends PdoM
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    public function getEmailEntreprise($id) : ?string
+    {
+        $rq = $this->pdo->prepare("SELECT contact.email FROM entreprise
+                                    JOIN contact ON entreprise.id_contact_fk = contact.id_contact
+                                    WHERE entreprise.id_entreprise = :id");
+        $rq->bindValue(':id', (int)$id, PDO::PARAM_INT);
+        $rq->execute();
+        $email = $rq->fetchColumn();
+        return $email ? (string)$email : null;
+    }
+
     public function getIdEntreprise($nom) : ?int
     {
         $rq = $this->pdo->prepare("SELECT id_entreprise FROM entreprise WHERE nom = :nom");
@@ -108,7 +119,7 @@ class EntrepriseM extends PdoM
         $rq->execute([
             'code_entreprise' => $code_entreprise
         ]);
-        return $code_entreprise ? (int)$code_entreprise : null;
+        return $rq->fetchColumn();
     }
 
     public function getFormEntreprises($id) :array

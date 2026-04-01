@@ -13,6 +13,19 @@
     <h1>Ajout d'un compte de gestion d'entreprise</h1>
     {% endif %}
 
+
+    {% if errors is defined and errors %}
+        <div>
+            <h3>Erreurs :</h3>
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+
     <form class="Finder" method="post" action="/CompteInscription/Traitement">
 
         <section>
@@ -21,6 +34,7 @@
                     id="nom"
                     name="nom"
                     type="text"
+                    value="{{ nom ?? '' }}"
                     required>
         </section>
         <br>
@@ -31,6 +45,7 @@
                     id="prenom"
                     name="prenom"
                     type="text"
+                    value="{{ prenom ?? '' }}"
                     required>
         </section>
 
@@ -44,6 +59,7 @@
                     id="codeEntreprise"
                     name="codeEntreprise"
                     type="text"
+                    value="{{ code_entreprise ?? '' }}"
                     required>
         </section>
         {% endif %}
@@ -55,6 +71,7 @@
                     name="email"
                     type="email"
                     autocomplete="username"
+                    value="{{ email ?? '' }}"
                     required>
         </section>
 

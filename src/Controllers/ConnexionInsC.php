@@ -57,18 +57,51 @@ class ConnexionInsC
     }
 
     public function form_inscription() {
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
-        $email = $_POST['email'];
+        $nom = $_POST['nom'] ?? '';
+        $prenom = $_POST['prenom'] ?? '';
+        $email = $_POST['email'] ?? '';
         $telephone = $_POST['telephone'] ?? null;
-        $mot_de_passe = $_POST['password'];
-        $role = $_POST['role'];
+        $mot_de_passe = $_POST['password'] ?? '';
+        $role = $_POST['role'] ?? null;
         $groupe = $_POST['groupe'] ?? null;
         $linkedin = $_POST['linkedin'] ?? null;
 
         $premier_compte = $_POST['premier_compte'] ?? 0;
-        $code_entreprise = $_POST['code_entreprise'] ?? null;
+        $code_entreprise = $_POST['codeEntreprise'] ?? null;
 
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $var = $this->TestFormInscription($code_entreprise);
+            if (isset($var['errors'])) {
+                if((int)$role===2 && (int)$premier_compte === 1) {
+                    $inscription_page = '/Compte/InscriptionRechercheEntreprise.html.twig';
+                }
+                elseif ((int)$role === 2) {
+                    $inscription_page = '/Compte/InscriptionRechercheEntreprise.html.twig';
+                }
+                else {
+                    $inscription_page = match((int)$role) {
+                        1 => '/Compte/InscriptionEtudiant.html.twig',
+                        3 => '/Compte/InscriptionPilote.html.twig',
+                        default => '/Compte/InscriptionEtudiant.html.twig'
+                    };
+                }
+
+                echo $this->templateEngine->render($inscription_page,
+                [
+                    'errors'=>$var['errors'],
+                    'nom'=>$nom,
+                    'prenom'=>$prenom,
+                    'email'=>$email,
+                    'telephone'=>$telephone,
+                    'linkedin'=>$linkedin,
+                    'role'=>$role,
+                    'code_entreprise'=>$code_entreprise,
+                    'premier_compte'=>$premier_compte
+                ]);
+                exit;
+            }
+        }
         $id_user = $this->model->set_id_user(
             $nom,
             $prenom,
@@ -77,7 +110,8 @@ class ConnexionInsC
             $email,
             $telephone,
             $groupe,
-            $linkedin
+            $linkedin,
+            $code_entreprise,
         );
 
         if ($premier_compte == 1) {
@@ -112,5 +146,66 @@ class ConnexionInsC
         session_destroy();
         header("Location: /");
         exit;
+    }
+
+    public function TestFormInscription($code_entreprise = null)
+    {
+        $errors = [];
+
+        $nom = $_POST['nom'] ?? '';
+        $prenom = $_POST['prenom'] ?? '';
+        $mot_de_passe = $_POST['password'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $telephone = $_POST['telephone'] ?? '';
+        $groupe = $_POST['groupe'] ?? null;
+        $linkedin = $_POST['linkedin'] ?? null;
+
+        if (mb_strlen($nom) < 1 || mb_strlen($nom) > 100) {
+            $errors[] = "Nom invalide";
+        }
+
+        if (mb_strlen($prenom) < 1 || mb_strlen($prenom) > 100) {
+            $errors[] = "Prénom invalide";
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Email invalide";
+        }
+
+        if ($telephone && !preg_match('/^[0-9]{10}$/', $telephone)) {
+            $errors[] = "Numéro de téléphone invalide";
+        }
+
+
+        if (mb_strlen($mot_de_passe) < 8 || !preg_match('/[a-z]/', $mot_de_passe) || !preg_match('/[A-Z]/', $mot_de_passe) || !preg_match('/[0-9]/', $mot_de_passe)) {
+            $errors[] = "Mot de passe invalide";
+        }
+
+        if ($code_entreprise) {
+            $modeleEntreprise = new \App\Models\EntrepriseM();
+            $code_entreprise_existe = $modeleEntreprise->get_code_entreprise($code_entreprise);
+
+            if (!$code_entreprise_existe) {
+                $errors[] = "Code entreprise invalide";
+            }
+        }
+
+        if ($linkedin && (!filter_var($linkedin, FILTER_VALIDATE_URL) || !preg_match('/linkedin\.com\/in/', $linkedin))) {
+            $errors[] = "URL du logo invalide";
+        }
+
+
+        if (!empty($errors)) {
+            return ["errors" => $errors];
+        }
+        return [
+            'nom'=>$nom,
+            'prenom'=>$prenom,
+            'mot de passe'=> $mot_de_passe,
+            'email'=>$email,
+            'telephone'=>$telephone,
+            'groupe'=>$groupe,
+            'linkedin'=>$linkedin
+        ];
     }
 }

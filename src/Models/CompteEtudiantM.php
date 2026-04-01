@@ -22,7 +22,7 @@ class CompteEtudiantM extends PdoM
     {
         $rq = $this->pdo->prepare("SELECT utilisateur.id_utilisateur, utilisateur.nom, utilisateur.prenom FROM utilisateur
                                          JOIN groupe_utilisateur ON utilisateur.id_utilisateur = groupe_utilisateur.id_utilisateur_fk
-                                         WHERE id_groupe_fk = (
+                                         WHERE id_groupe_fk IN (
                                             SELECT groupe_utilisateur.id_groupe_fk FROM groupe_utilisateur
                                             JOIN utilisateur ON groupe_utilisateur.id_utilisateur_fk = utilisateur.id_utilisateur
                                             WHERE utilisateur.id_utilisateur = :id)
@@ -44,11 +44,20 @@ class CompteEtudiantM extends PdoM
 
     public function getNbEtudiant() : int
     {
-        $sql = "SELECT COUNT(*) FROM utilisateur WHERE utilisateur.id_utilisateur = 1";
-
-        $rq = $this->pdo->prepare($sql);
+        $rq = $this->pdo->prepare("SELECT COUNT(*) FROM utilisateur WHERE id_permission = 1");
         $rq->execute();
         return $rq->fetchColumn();
+    }
+
+    public function getInfosEtudiant($id) : array | bool
+    {
+        $rq = $this->pdo->prepare("SELECT utilisateur.nom, utilisateur.prenom, contact.email, utilisateur.linkedin FROM utilisateur
+                                         JOIN contact ON utilisateur.id_contact_fk = contact.id_contact
+                                         WHERE utilisateur.id_utilisateur = :id;");
+
+        $rq->bindValue(':id', $id , PDO::PARAM_INT);
+        $rq->execute();
+        return $rq->fetch(PDO::FETCH_ASSOC);
     }
 
 }

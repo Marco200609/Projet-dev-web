@@ -42,7 +42,7 @@ class ConnexionInsM extends PdoM
             return $rq->fetch();
     }
 
-    public function set_id_user($nom, $prenom, $mot_de_passe, $id_permission, $email, $telephone, $groupe, $linkedin)
+    public function set_id_user($nom, $prenom, $mot_de_passe, $id_permission, $email, $telephone, $groupe, $linkedin, $code_entreprise)
 //        Pour quand l'utilisateur s'inscrit
     {
         $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
@@ -68,16 +68,22 @@ class ConnexionInsM extends PdoM
 
         $id_user = $this->pdo->lastInsertId();
 
-//        $EntrepriseM = TableRegistry::get('EntrepriseM');
-//        $resultats = $EntrepriseM->find('all');
+        if ($code_entreprise !== null && $code_entreprise !== "") {
+            $sql_entreprise = "UPDATE utilisateur 
+                       SET id_entrprise_fk = (
+                           SELECT id_entreprise 
+                           FROM entreprise 
+                           WHERE code_entreprise = :code_entreprise
+                       )
+                       WHERE id_utilisateur = :id_user";
 
-//        $code_entreprise = $this->pdo->find('all', ['conditions' => get_code_entreprise]);
-//
-//
-//        if ($code_entreprise !== null && $code_entreprise !== "") {
-//            $code_entreprise = $this->get_code_entreprise($code_entreprise);
-//
-//        }
+            $rq = $this->pdo->prepare($sql_entreprise);
+            $rq->execute([
+                'code_entreprise' => $code_entreprise,
+                'id_user' => $id_user
+            ]);
+        }
+
 
         if ($groupe !== null && $groupe !== "") {
 

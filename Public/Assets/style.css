@@ -1,6 +1,6 @@
 @font-face {
     font-family: NSD;
-    src: url("Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth\,wght.ttf");
+    src: url("Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth,wght.ttf");
 }
 
 /*
@@ -347,6 +347,7 @@ footer a {
     margin-left: 2px;
     display: inline-block; /* important pour que le parent prenne la taille du bouton */
     overflow: visible;     /* pour que le menu puisse dépasser */
+    padding-right: 20px;
 }
 
 /* bouton */
@@ -364,7 +365,6 @@ footer a {
     position: absolute;
     top: 0;
     left: 100%;           /* position à droite du bouton */
-    margin-left: 10px;    /* petit espace */
     background-color: #e4ecee;
     min-width: 250px;
     border-radius: 12px;
@@ -618,7 +618,7 @@ h2 {
     display: none;
 }
 
-.wishlist-label .bi-heart {
+.wishlist-label .heart-icon {
     cursor: pointer;
     font-size: 1.4em;
     color: #dd5478;
@@ -656,7 +656,7 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 40%;
+    gap: 16px;
 }
 
 .offre-info .entreprise {
@@ -721,10 +721,37 @@ h2 {
     flex: 1;
     text-align: left;}
 
-.note {
+.note_page_entreprise {
     flex: 1;
     text-align: center;;
     color: #bdac37;
+}
+
+.note {
+    flex: 1 1 200px;
+    min-width: 120px;
+    text-align: left;
+    color: #a59848;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.bouton_etoile {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0 2px;
+    cursor: pointer;
+    outline: none;
+}
+.bouton_etoile i {
+    color: #a59848;
+    font-size: 1.3em;
+    pointer-events: none;
+}
+
+.noir {
+    color: #535953;
 }
 
 .nb-offre {
@@ -785,7 +812,6 @@ h2 {
 .face_a_face{
     display: flex;
     flex-direction: row;
-    gap: 24px;
     width: 100%;
     justify-content: space-between;
     align-items: center;
@@ -865,12 +891,15 @@ h2 {
 
 /* Partie entreprise */
 
+.img_entreprise {
+    height: 50px;
+}
+
 .logo-entreprise {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 50px;
 }
 
 .mail-telephone {
@@ -1322,3 +1351,54 @@ h2 {
     background: rgba(255, 255, 255, 0.35);
 }
 
+.etudiants-list {
+    max-height: 200px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 0 15px;
+}
+
+
+.etudiants-list::-webkit-scrollbar {
+    width: 6px;
+}
+.etudiants-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.etudiant-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem;
+    color: #444;
+}
+.etudiant-item:last-child {
+    border-bottom: none;
+}
+
+.GestionCandidature {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.seach-bar-candidatures {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.5);
+}
+
+.confirmation-message {
+    background: #d5ecd5;
+    color: #2e7d32;
+    border: 1px solid #2e7d32;
+    border-radius: 12px;
+    padding: 5px 7px;
+    text-align: center;
+    font-size: 1.15rem;
+    margin: 100px auto;
+    max-width: 400px;
+}
