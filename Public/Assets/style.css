@@ -352,6 +352,7 @@ footer a {
     margin-left: 2px;
     display: inline-block; /* important pour que le parent prenne la taille du bouton */
     overflow: visible;     /* pour que le menu puisse dépasser */
+    padding-right: 20px;
 }
 
 /* bouton */
@@ -369,7 +370,6 @@ footer a {
     position: absolute;
     top: 0;
     left: 100%;           /* position à droite du bouton */
-    margin-left: 10px;    /* petit espace */
     background-color: #e4ecee;
     min-width: 250px;
     border-radius: 12px;

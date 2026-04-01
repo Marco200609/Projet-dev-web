@@ -108,7 +108,7 @@ class EntrepriseM extends PdoM
         $rq->execute([
             'code_entreprise' => $code_entreprise
         ]);
-        return $code_entreprise ? (int)$code_entreprise : null;
+        return $rq->fetchColumn();
     }
 
     public function getFormEntreprises($id) :array

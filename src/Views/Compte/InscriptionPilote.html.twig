@@ -6,6 +6,18 @@
 
 <main>
     <h1>Inscription</h1>
+
+    {% if errors is defined and errors %}
+        <div>
+            <h3>Erreurs :</h3>
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <form class="Finder" method="POST" action="/CompteInscription/Traitement">
         <input type="hidden" name="role" value="3">
 
@@ -76,7 +88,7 @@
     </form>
 
     <form action="/CompteConnexion" class="centrerPage">
-        <button>Vous avez un compte ? Connectez-vous</button>
+        <button class="postuler-button">Vous avez un compte ? Connectez-vous</button>
     </form>
 
 </main>
