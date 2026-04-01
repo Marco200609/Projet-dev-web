@@ -23,6 +23,7 @@
                 <span class="label">Groupe(s)</span>
             </div>
         </div>
+    </div>
 
         <section class="glass-card wishlist-section">
             <h3><i class="bi bi-people-fill"></i> Mes Groupes d'Étudiants</h3>
@@ -52,10 +53,27 @@
                     </div>
                 {% endif %}
             </div>
+            <nav class="pagination" style="margin: 10px auto;">
+
+                {% include 'pagination.html.twig' with {
+                    pagination: pagination1
+                } %}
+
+                <form method="get" action="" class="pagination-form">
+
+                    <select name="parpage1" id="parpage1" onchange="this.form.submit()">
+                        <option value="12" {% if parpage1 == 12 %}selected{% endif %}>12</option>
+                        <option value="24" {% if parpage1 == 24 %}selected{% endif %}>24</option>
+                        <option value="48" {% if parpage1 == 48 %}selected{% endif %}>48</option>
+                        <option value="96" {% if parpage1 == 96 %}selected{% endif %}>96</option>
+                        <option value="-1" {% if parpage1 == -1 %}selected{% endif %}>illimité</option>
+                    </select>
+                </form>
+            </nav>
         </section>
 
 
-        <section class="glass-card table-section">
+        <div class="glass-card table-section">
         <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 20px;">
             <h3><i class="bi bi-megaphone-fill"></i> Gestion des Candidatures</h3>
             <div class="search-bar-candidatures">
@@ -94,6 +112,24 @@
                     </tbody>
                 </table>
             </div>
+            <nav class="pagination" style="margin: 10px auto;">
+
+                {% include 'pagination.html.twig' with {
+                    pagination: pagination2
+                } %}
+
+                <form method="get" action="" class="pagination-form">
+
+                    <select name="parpage2" id="parpage2" onchange="this.form.submit()">
+                        <option value="12" {% if parpage2 == 12 %}selected{% endif %}>12</option>
+                        <option value="24" {% if parpage2 == 24 %}selected{% endif %}>24</option>
+                        <option value="48" {% if parpage2 == 48 %}selected{% endif %}>48</option>
+                        <option value="96" {% if parpage2 == 96 %}selected{% endif %}>96</option>
+                        <option value="-1" {% if parpage2 == -1 %}selected{% endif %}>illimité</option>
+                    </select>
+                </form>
+            </nav>
+        </div>
     </section>
 
 
@@ -196,10 +232,6 @@
                     }
                 }
             });
-
-            // Optionnel : Gérer l'affichage du message "Aucun résultat" si tout est caché
-            const visibleRows = Array.from(tableRows).filter(row => row.style.display !== "none");
-            // Vous pouvez ajouter ici une logique pour afficher un message si visibleRows.length === 0
         });
     </script>
 

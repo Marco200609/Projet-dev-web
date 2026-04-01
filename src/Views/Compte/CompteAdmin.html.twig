@@ -74,13 +74,23 @@
                 </tbody>
             </table>
         </div>
-        <div class="pagination-numbers">
-            <a href="#" class="page active">1</a>
-            <a href="#" class="page">2</a>
-            <span class="dots">…</span>
-            <a href="#" class="page">15</a>
-            <a href="#" class="page">17</a>
-        </div>
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination1
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage1" id="parpage1" onchange="this.form.submit()">
+                    <option value="12" {% if parpage1 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage1 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage1 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage1 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage1 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
     </section>
 
 
@@ -126,13 +136,23 @@
                 </tbody>
             </table>
         </div>
-        <div class="pagination-numbers">
-            <a href="#" class="page active">1</a>
-            <a href="#" class="page">2</a>
-            <span class="dots">…</span>
-            <a href="#" class="page">15</a>
-            <a href="#" class="page">17</a>
-        </div>
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination2
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage2" id="parpage2" onchange="this.form.submit()">
+                    <option value="12" {% if parpage2 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage2 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage2 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage2 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage2 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
     </section>
 
 
@@ -175,13 +195,23 @@
                 </tbody>
             </table>
         </div>
-        <div class="pagination-numbers">
-            <a href="#" class="page active">1</a>
-            <a href="#" class="page">2</a>
-            <span class="dots">…</span>
-            <a href="#" class="page">15</a>
-            <a href="#" class="page">17</a>
-        </div>
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination3
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage3" id="parpage3" onchange="this.form.submit()">
+                    <option value="12" {% if parpage3 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage3 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage3 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage3 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage3 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
     </section>
 
 

@@ -29,8 +29,7 @@ class CompteEntrepriseC
 
     public function PageCompteEntreprise(): void
     {
-        // ToDo changer l'id user
-        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 2) {
             header('Location:CompteConnexion ');
             exit;
         }

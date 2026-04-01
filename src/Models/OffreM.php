@@ -7,6 +7,19 @@ use PDO;
 class OffreM extends PdoM
 {
 
+    /**
+     * Récupère le nombre d'offres correspondant aux critères de recherche
+     *
+     * @param $nom_offre
+     * @param $ville
+     * @param $nom_entreprise
+     * @param $domaines
+     * @param $contrats
+     * @param $competence
+     * @param $visible
+     * @param $pause
+     * @return int
+     */
     public function getNbOffre($nom_offre = '', $ville = '', $nom_entreprise = '', $domaines = [], $contrats = [], $competence = [], $visible=1, $pause=0) : int
     {
         $sql = "SELECT COUNT(DISTINCT offre.id_offre) FROM offre
@@ -125,6 +138,14 @@ class OffreM extends PdoM
         return $rq->fetchAll();
     }
 
+    /**
+     * Récupère les offres présentes dans la wishlist d'un utilisateur
+     *
+     * @param $page
+     * @param $parpage
+     * @param $id_user
+     * @return array
+     */
     public function getOffrewishlist($page, $parpage, $id_user) : array
     {
         $page = (int)$page;
@@ -195,6 +216,12 @@ class OffreM extends PdoM
         return $rq->fetchAll();
     }
 
+    /**
+     * Récupère le nombre d'offres présentes dans la wishlist d'un utilisateur
+     *
+     * @param $id_user
+     * @return int
+     */
     public function getNbOffreWishlist($id_user) : int
     {
         $rq = $this->pdo->prepare("SELECT COUNT(*) FROM whishlist WHERE id_utilisateur_fk = :id_user");
@@ -203,6 +230,13 @@ class OffreM extends PdoM
         return $rq->fetchColumn();
     }
 
+    /**
+     * Récupère les détails d'une offre en fonction de son ID
+     *
+     * @param $id_offre
+     * @param $id_user
+     * @return array
+     */
     public function getDetailOffre($id_offre, $id_user=0) : array
     {
         $rq = $this->pdo->prepare("SELECT offre.id_offre, offre.titre, offre.date_creation, offre.descriptif,
@@ -230,6 +264,12 @@ class OffreM extends PdoM
         return $rq->fetch();
     }
 
+    /**
+     * Récupère les détails d'une offre en fonction de son ID pour le formulaire de modification (sans les filtres de visibilité et de pause)
+     *
+     * @param $id_offre
+     * @return array
+     */
     public function getFormOffre($id_offre) : array
     {
         $rq = $this->pdo->prepare("SELECT offre.titre,
@@ -263,6 +303,12 @@ class OffreM extends PdoM
         return $rq->fetch();
     }
 
+    /**
+     * Récupère les détails d'une offre en fonction de son ID pour le formulaire de modification (sans les filtres de visibilité et de pause)
+     *
+     * @param $id_offre
+     * @return array|null
+     */
     public function getCandidatOffre($id_offre) : ?array
     {
         $rq = $this->pdo->prepare("SELECT offre.titre, offre.id_offre, offre.domaine, villes.nom_ville, entreprise.nom, entreprise.id_entreprise
@@ -277,6 +323,13 @@ class OffreM extends PdoM
         return $result === false ? null : $result;
     }
 
+    /**
+     * Permet d'ajouter ou de supprimer une offre de la wishlist d'un utilisateur
+     *
+     * @param $id_offre
+     * @param $id_utilisateur
+     * @return bool
+     */
     public function changewishlist($id_offre, $id_utilisateur) : bool
     {
         $rq = $this->pdo->prepare("SELECT COUNT(*) FROM whishlist WHERE id_offre_fk = :id_offre AND id_utilisateur_fk = :id_utilisateur");
@@ -293,6 +346,25 @@ class OffreM extends PdoM
         return !$present;
     }
 
+    /**
+     * Permet d'ajouter une offre en créant les éléments liés si nécessaire (pays, département, ville, adresse, contact)
+     *
+     * @param $titre
+     * @param $pays
+     * @param $departement
+     * @param $ville
+     * @param $adresse
+     * @param $domaine
+     * @param $contrat
+     * @param $entreprise
+     * @param $mail
+     * @param $telephone
+     * @param $competences
+     * @param $unite_dure
+     * @param $duree
+     * @param $descriptif
+     * @return int
+     */
     public function addOffre($titre, $pays, $departement, $ville, $adresse, $domaine, $contrat, $entreprise, $mail, $telephone, $competences, $unite_dure=null, $duree=null, $descriptif=null) : int
     {
         try {
@@ -376,6 +448,26 @@ class OffreM extends PdoM
         }
     }
 
+    /**
+     * Permet de modifier une offre en créant les éléments liés si nécessaire (pays, département, ville, adresse, contact)
+     *
+     * @param $id_offre
+     * @param $titre
+     * @param $pays
+     * @param $departement
+     * @param $ville
+     * @param $adresse
+     * @param $domaine
+     * @param $contrat
+     * @param $entreprise
+     * @param $mail
+     * @param $telephone
+     * @param $competences
+     * @param $unite_dure
+     * @param $duree
+     * @param $descriptif
+     * @return bool
+     */
     public function updateOffre($id_offre, $titre, $pays, $departement, $ville, $adresse, $domaine, $contrat, $entreprise, $mail, $telephone, $competences, $unite_dure=null, $duree=null, $descriptif=null) : bool
     {
         try {
@@ -450,6 +542,12 @@ class OffreM extends PdoM
 
     }
 
+    /**
+     * Permet de supprimer une offre en supprimant d'abord les éléments liés (wishlist)
+     *
+     * @param $id_offre
+     * @return void
+     */
     public function deleteOffre($id_offre) : void
     {
         //delete wishlist
@@ -533,25 +631,48 @@ class OffreM extends PdoM
     }
 
 
+    /**
+     * Récupère la liste des domaines présents dans les offres
+     *
+     * @return array
+     */
     public function getDomaine() : array
     {
         $rq = $this->pdo->query("SELECT DISTINCT domaine FROM offre");
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    /**
+     * Récupère la liste des titres d'offres présents dans les offres
+     *
+     * @return array
+     */
     public function getOffre() : array
     {
         $rq = $this->pdo->query("SELECT DISTINCT titre FROM offre ");
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    /**
+     * Récupère la liste des unités de durée présentes dans les offres
+     *
+     * @return array
+     */
     public function getUnitesDurees() : array
     {
         $rq = $this->pdo->query("SELECT DISTINCT nom_unite FROM unite_temps");
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    /**
+     * Permet de mettre à jour le statut de pause d'une offre (invisible ou non sur le site)
+     *
+     * @param $id
+     * @param $state
+     * @return mixed
+     */
     public function updatePauseStatus($id, $state) {
+        // ToDo sert à rien ?
         $db = \App\Models\Database::getConnection(); // Ajuste selon ta méthode de connexion
         $sql = "UPDATE offre SET Pause = :state WHERE id_offre = :id";
         $stmt = $db->prepare($sql);

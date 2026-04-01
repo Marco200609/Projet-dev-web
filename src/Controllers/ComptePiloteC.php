@@ -6,6 +6,7 @@ use App\Models\ComptePiloteM;
 use App\Models\CompteEtudiantM;
 use App\Models\CandidatureM;
 use App\Models\OffreM;
+use function App\Services\pagination;
 
 class ComptePiloteC
 {
@@ -30,17 +31,28 @@ class ComptePiloteC
 
     public function PageComptePilote(): void
     {
-        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 4) {
             header('Location:CompteConnexion ');
             exit;
         }
 
+        $page2 = isset($_GET['page2']) ? (int)$_GET['page2'] : 1;
+        $parpage2 = isset($_GET['parpage2']) ? (int)$_GET['parpage2'] : 12;
+
+        $page1 = isset($_GET['page1']) ? (int)$_GET['page1'] : 1;
+        $parpage1 = isset($_GET['parpage1']) ? (int)$_GET['parpage1'] : 12;
+
         $InfosPilote = $this->modelCompteEtudiant->getNometGroupeUser($_SESSION['id']);
         $NbEtudiant = $this->modelComptePilote->getNbEtudiantsDansGroupesPilote($_SESSION['id']);
-        $NbGroupes = $this->modelComptePilote->getNbGroupesPilote($_SESSION['id']);
-        $Groupes = $this->modelComptePilote->getGroupesPilote($_SESSION['id']);
-        $InfosCandidatures = $this->modelComptePilote->getCandidaturesEtudiantsPilote($_SESSION['id']);
 
+        $Groupes = $this->modelComptePilote->getGroupesPilote($page1, $parpage1, $_SESSION['id']);
+        $InfosCandidatures = $this->modelComptePilote->getCandidaturesEtudiantsPilote($page2, $parpage2, $_SESSION['id']);
+
+        $NbGroupes = $this->modelComptePilote->getNbGroupesPilote($_SESSION['id']);
+        $pagination1 = pagination($NbGroupes, $page1, $parpage1, '/ComptePilote', $_GET, '1');
+
+        $total2 = $this->modelComptePilote->getNbCandidaturesEtudiantsPilote($_SESSION['id']);
+        $pagination2 = pagination($total2, $page2, $parpage2, '/ComptePilote', $_GET, '2');
 
         echo $this->templateEngine->render('Compte/ComptePilote.html.twig', [
             'InfosPilote' => $InfosPilote,
@@ -49,6 +61,17 @@ class ComptePiloteC
             'Groupes' => $Groupes,
             'Candidatures' => $InfosCandidatures,
 
+            'page2' => $page2,
+            'parpage2' => $parpage2,
+            'total2' => $total2,
+
+            'pagination2' => $pagination2,
+
+            'page1' => $page1,
+            'parpage1' => $parpage1,
+            'total1' => $NbGroupes,
+
+            'pagination1' => $pagination1
         ]);
     }
 
