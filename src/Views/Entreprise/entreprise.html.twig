@@ -46,7 +46,7 @@
                     <h2 class="entreprise-titre">{{ ent.nom }}</h2>
                     <div class="entreprise-content">
                         <span class="localisation"><i class="bi bi-geo-alt"></i> {{ ent.nom_ville }}</span>
-                        <span class="note">
+                        <span class="note_page_entreprise">
                             {% if ent.note is not null %}
                                 {% set nb = ent.note %}
                                 {% for i in 1..5 %}

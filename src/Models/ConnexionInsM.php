@@ -70,7 +70,7 @@ class ConnexionInsM extends PdoM
 
         if ($code_entreprise !== null && $code_entreprise !== "") {
             $sql_entreprise = "UPDATE utilisateur 
-                       SET id_entreprise_fk = (
+                       SET id_entrprise_fk = (
                            SELECT id_entreprise 
                            FROM entreprise 
                            WHERE code_entreprise = :code_entreprise
