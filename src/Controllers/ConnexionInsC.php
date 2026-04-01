@@ -103,7 +103,7 @@ class ConnexionInsC
                 ]);
             }
         }
-    
+
         $id_user = $this->model->set_id_user(
             $nom,
             $prenom,
@@ -146,8 +146,7 @@ class ConnexionInsC
     public function form_deconnexion() {
         $_SESSION = [];
         session_destroy();
-        header("Location: /");
-        exit;
+        return "/";
     }
 
     public function TestFormInscription($code_entreprise = null)
@@ -183,7 +182,7 @@ class ConnexionInsC
             $errors[] = "Mot de passe invalide";
         }
 
-        if ($code_entreprise) {
+        if (!empty($code_entreprise)) {
             $code_entreprise_existe = $this->entrepriseModel->get_code_entreprise($code_entreprise);
 
             if (!$code_entreprise_existe) {
@@ -192,7 +191,7 @@ class ConnexionInsC
         }
 
         if ($linkedin && (!filter_var($linkedin, FILTER_VALIDATE_URL) || !preg_match('/linkedin\.com\/in/', $linkedin))) {
-            $errors[] = "URL du logo invalide";
+            $errors[] = "URL LinkedIn invalide";
         }
 
 

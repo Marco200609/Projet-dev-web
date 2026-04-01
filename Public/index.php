@@ -171,7 +171,8 @@ elseif ($uri ==='/CompteInscription/Attente'){
 
 elseif ($uri === '/deconnexion') {
     $controller = new App\Controllers\ConnexionInsC($twig);
-    $controller->form_deconnexion();
+    $redirection = $controllerConnexion->form_deconnexion();
+    header("Location: " . $redirection);
 }
 
 elseif ($uri === '/VilleOffres') {
