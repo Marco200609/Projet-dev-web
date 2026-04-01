@@ -41,14 +41,34 @@ class ComptePiloteC
         $Groupes = $this->modelComptePilote->getGroupesPilote($_SESSION['id']);
         $InfosCandidatures = $this->modelComptePilote->getCandidaturesEtudiantsPilote($_SESSION['id']);
 
+
         echo $this->templateEngine->render('Compte/ComptePilote.html.twig', [
             'InfosPilote' => $InfosPilote,
             'NbEtudiant' => $NbEtudiant,
             'NbGroupes' => $NbGroupes,
             'Groupes' => $Groupes,
-            'Candidatures' => $InfosCandidatures
+            'Candidatures' => $InfosCandidatures,
+
         ]);
-
-
     }
+
+    public function creerGroupe(): void
+    {
+        if (!isset($_SESSION['id'])) {
+            header('Location:CompteConnexion');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nomGroupe = trim($_POST['groupName']);
+            if (!empty($nomGroupe)) {
+                $idGroupe = $this->modelComptePilote->createGroupe($nomGroupe);
+                $this->modelComptePilote->addPiloteToGroupe($_SESSION['id'], $idGroupe);
+            }
+        }
+        header('Location: /ComptePilote');
+        exit;
+    }
+
+
 }

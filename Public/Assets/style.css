@@ -1384,11 +1384,24 @@ h2 {
     color: #666;
 }
 
-.seach-bar-candidatures {
+.search-bar-candidatures {
     padding: 8px 15px;
     border-radius: 20px;
     border: 1px solid rgba(0,0,0,0.1);
     background: rgba(255,255,255,0.5);
+}
+
+.search-bar-candidatures input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+}
+
+.seach-bar-candidatures input::placeholder {
+    color: #aaa;
 }
 
 .confirmation-message {
@@ -1401,4 +1414,43 @@ h2 {
     font-size: 1.15rem;
     margin: 100px auto;
     max-width: 400px;
+}
+
+.group-creation {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.group-creationContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+}
+
+.groupCreationTitre{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.table-section-groupe {
+    padding: 0;
+    margin:auto;
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.table-section-groupe h3 {
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #37463D;
+    border-bottom: 1px solid rgba(83, 89, 83, 0.1);
 }

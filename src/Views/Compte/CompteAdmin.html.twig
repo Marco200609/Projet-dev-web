@@ -9,23 +9,21 @@
         <div class="glass-card group-card">
             <h3><i class="bi bi-database-fill-lock"></i> Administrateur</h3>
             <div class="group-details">
-                <p><strong>Nom :</strong> Jean Administration</p>
-                <p><strong>ID Admin :</strong> #ADM-2026-042</p>
-                <p><strong>Dernière connexion :</strong> Aujourd'hui, 10:45</p>
+                <p><strong>Nom :</strong> {{ NomComplet.nom }} {{ NomComplet.prenom }}</p>
             </div>
         </div>
 
         <div class="stats-row">
             <div class="mini-stat">
-                <span class="number">1,240</span>
+                <span class="number">{{ NbEtudiants }}</span>
                 <span class="label">Étudiants</span>
             </div>
             <div class="mini-stat">
-                <span class="number">142</span>
+                <span class="number">{{ NbEntreprises }}</span>
                 <span class="label">Entreprises</span>
             </div>
             <div class="mini-stat success">
-                <span class="number">105</span>
+                <span class="number">{{ NbPilotes }}</span>
                 <span class="label">Pilotes</span>
             </div>
         </div>
@@ -33,69 +31,49 @@
 
 
     <section class="glass-card table-section">
-        <h3><i class="bi bi-people-fill"></i> Liste étudiants <div class="table-search">
-                <input type="text" placeholder="Rechercher...">
+        <h3><i class="bi bi-people-fill"></i> Offres à valider <div class="table-search">
             </div>
         </h3>
         <div class="table-wrapper"><table class="stats-table">
                 <thead>
                 <tr>
-                    <th>Nom</th>
-                    <th>Groupe</th>
+                    <th>Titre</th>
+                    <th>Entreprise</th>
+                    <th>Type</th>
+                    <th>Domaine</th>
+                    <th>Date de création</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><strong>Johan durant</strong><br>
-                        <small>johan.durant@cesi.fr</small>
-                    </td>
-
-                    <td>CESI La Rochelle</td>
-                    <td class="cell-actions">
-
-                        <button class="btn-action folder" title="Modifier l'étudiant">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-
-                        <button class="btn-action chat" title="Contacter">
-                            <i class="bi bi-chat-left-dots-fill"></i>
-                        </button>
-
-                        <button class="btn-action folder" title="Réinitialiser le mot de passe" style="color: #f39c12;">
-                            <i class="bi bi-key-fill"></i>
-                        </button>
-
-                        <button class="btn-action refuse" title="Supprimer le compte">
-                            <i class="bi bi-trash3-fill"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Alice Martin</strong><br>
-                        <small>alice.martin@esigelec.fr</small>
-                    </td>
-                    <td>ESIGELEC </td>
-                    <td class="cell-actions">
-                        <button class="btn-action folder" title="Modifier l'étudiant">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-
-                        <button class="btn-action chat" title="Contacter">
-                            <i class="bi bi-chat-left-dots-fill"></i>
-                        </button>
-
-                        <button class="btn-action folder" title="Réinitialiser le mot de passe" style="color: #f39c12;">
-                            <i class="bi bi-key-fill"></i>
-                        </button>
-
-                        <button class="btn-action refuse" title="Supprimer le compte">
-                            <i class="bi bi-trash3-fill"></i>
-                        </button>
-                    </td>
-                </tr>
+                {% if InfosOffre|length > 0 %}
+                    {% for offre in InfosOffre %}
+                        <tr>
+                            <td><strong>{{ offre.titre }}</strong>{% if offre.new == 1 %}<span class="badge-new">Nouveau !</span>{% endif %}</td>
+                            <td><span class="company-name">{{ offre.nom }}</span></td>
+                            <td><span class="type-tag {{ offre.nom_contrat|lower }}">{{ offre.nom_contrat }}</span></td>
+                            <td>{{ offre.domaine }}</td>
+                            <td>{{ offre.date_creation|date("d/m/Y") }}</td>
+                            <td class="cell-actions">
+                                <a href="/admin/offre/accept/{{ offre.id_offre }}" class="btn-action accept" onclick="return confirm('Accepter cette offre ?')">
+                                    <i class="bi bi-check2-square"></i>
+                                </a>
+                                <a href="/admin/offre/delete/{{ offre.id_offre }}" class="btn-action refuse" onclick="return confirm('Supprimer définitivement cette offre ?')">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="GestionCandidature">
+                            <i class="bi bi-info-circle"></i> Aucune nouvelle offre en attente.
+                        </td>
+                    </tr>
+                {% endif %}
                 </tbody>
-            </table></div>
+            </table>
+        </div>
         <div class="pagination-numbers">
             <a href="#" class="page active">1</a>
             <a href="#" class="page">2</a>
@@ -107,162 +85,105 @@
 
 
     <section class="glass-card table-section">
-        <h3><i class="bi bi-building-fill"></i> Gestion des Entreprises <div class="table-search">
-                <input type="text" placeholder="Rechercher...">
+        <h3><i class="bi bi-people-fill"></i> Entreprises à valider <div class="table-search">
             </div>
         </h3>
-
         <div class="table-wrapper"><table class="stats-table">
                 <thead>
                 <tr>
-                    <th>Entreprise</th>
-                    <th>Secteur / Groupe</th>
-                    <th>Offres Actives</th>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Mail</th>
+                    <th>Téléphone</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><strong>Tech Solutions</strong><br><small>Lyon, France</small></td>
-                    <td><span class="type-tag alternance">Informatique</span></td>
-                    <td><span class="badge interview">5 annonces</span></td>
-                    <td class="cell-actions">
-                        <button class="btn-action folder" title="Voir les offres">
-                            <i class="bi bi-eye-fill"></i>
-                        </button>
-
-                        <button class="btn-action chat" title="Contacter l'entreprise">
-                            <i class="bi bi-chat-left-dots-fill"></i>
-                        </button>
-
-                        <button class="btn-action folder" title="Modifier la fiche">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-
-                        <button class="btn-action refuse" title="Supprimer l'accès">
-                            <i class="bi bi-trash3-fill"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Global Marketing</strong><br><small>Paris, France</small></td>
-                    <td><span class="type-tag stage">Communication</span></td>
-                    <td><span class="badge pending">0 annonce</span></td>
-                    <td class="cell-actions">
-                        <button class="btn-action folder" title="Voir les offres"><i class="bi bi-eye-fill"></i></button>
-                        <button class="btn-action chat" title="Contacter l'entreprise"><i class="bi bi-chat-left-dots-fill"></i></button>
-                        <button class="btn-action folder" title="Modifier la fiche"><i class="bi bi-pencil-square"></i></button>
-                        <button class="btn-action refuse" title="Supprimer l'accès"><i class="bi bi-trash3-fill"></i></button>
-                    </td>
-                </tr>
+                {% if InfosEntreprise|length > 0 %}
+                    {% for entreprise in InfosEntreprise %}
+                        <tr>
+                            <td><strong>{{ entreprise.nom }}</strong></td>
+                            <td><span class="company-name">{{ entreprise.adresse }}</span></td>
+                            <td>{{ entreprise.email }}</td>
+                            <td>{{ entreprise.telephone }}</td>
+                            <td class="cell-actions">
+                                <a href="/admin/entreprise/accept/{{ entreprise.id_entreprise }}" class="btn-action accept" onclick="return confirm('Accepter cette entreprise ?')">
+                                    <i class="bi bi-check2-square"></i>
+                                </a>
+                                <a href="/admin/entreprise/delete/{{ entreprise.id_entreprise }}" class="btn-action refuse" onclick="return confirm('Supprimer définitivement cette entreprise ?')">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="GestionCandidature">
+                            <i class="bi bi-info-circle"></i> Aucune nouvelle entreprise en attente.
+                        </td>
+                    </tr>
+                {% endif %}
                 </tbody>
-            </table></div>
+            </table>
+        </div>
         <div class="pagination-numbers">
             <a href="#" class="page active">1</a>
             <a href="#" class="page">2</a>
             <span class="dots">…</span>
-            <a href="#" class="page">5</a>
-            <a href="#" class="page">6</a>
+            <a href="#" class="page">15</a>
+            <a href="#" class="page">17</a>
         </div>
     </section>
 
 
     <section class="glass-card table-section">
-        <h3><i class="bi bi-person-badge-fill"></i> Gestion des Pilotes <div class="table-search">
-                <input type="text" placeholder="Rechercher...">
-            </div>
+        <h3><i class="bi bi-people-fill"></i> Pilotes à valider <div class="table-search"></div>
         </h3>
-
         <div class="table-wrapper"><table class="stats-table">
                 <thead>
                 <tr>
-                    <th>Pilote</th>
-                    <th>Groupe</th>
-                    <th>Étudiants</th>
+                    <th>Nom</th>
+                    <th>Mail</th>
+                    <th>Téléphone</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
-
                 <tbody>
-
-                <tr>
-                    <td>
-                        <strong>Marc Dupont</strong><br>
-                        <small>marc.dupont@cesi.fr</small>
-                    </td>
-
-                    <td>CESI La Rochelle
-                        <button class="btn-action folder" title="Modifier le groupe">
-                            <i class="bi bi-people-fill"></i>
-                        </button>
-                    </td>
-
-                    <td>
-                        <span class="badge interview">24 étudiants</span>
-                    </td>
-
-                    <td class="cell-actions">
-
-                        <button class="btn-action chat" title="Contacter le pilote">
-                            <i class="bi bi-chat-left-dots-fill"></i>
-                        </button>
-
-                        <button class="btn-action folder" title="Modifier la fiche pilote">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-
-                        <button class="btn-action refuse" title="Supprimer">
-                            <i class="bi bi-trash3-fill"></i>
-                        </button>
-
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <strong>Sophie Leroy</strong><br>
-                        <small>sophie.leroy@esigelec.fr</small>
-                    </td>
-
-                    <td>ESIGELEC Rouen
-                        <button class="btn-action folder" title="Modifier le groupe">
-                            <i class="bi bi-people-fill"></i>
-                        </button>
-                    </td>
-
-                    <td>
-                        <span class="badge interview">18 étudiants</span>
-                    </td>
-
-                    <td class="cell-actions">
-
-                        <button class="btn-action chat" title="Contacter le pilote">
-                            <i class="bi bi-chat-left-dots-fill"></i>
-                        </button>
-
-                        <button class="btn-action folder" title="Modifier la fiche pilote">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-
-                        <button class="btn-action refuse" title="Supprimer">
-                            <i class="bi bi-trash3-fill"></i>
-                        </button>
-
-                    </td>
-                </tr>
-
+                {% if PiloteInfo|length > 0 %}
+                    {% for pilote in PiloteInfo %}
+                        <tr>
+                            <td><strong> {{ pilote.nom }} {{ pilote.prenom }} </strong></td>
+                            <td><span class="company-name"> {{ pilote.email }} </span></td>
+                            <td><span class="company-name"> {{ pilote.telephone }} </span></td>
+                            <td class="cell-actions">
+                                <a href="/admin/pilote/accept/{{ pilote.id_utilisateur }}" class="btn-action accept" onclick="return confirm('Accepter ce Pilote ?')">
+                                    <i class="bi bi-check2-square"></i>
+                                </a>
+                                <a href="/admin/pilote/delete/{{ pilote.id_utilisateur }}" class="btn-action refuse" onclick="return confirm('Supprimer définitivement ce Pilote ?')">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="GestionCandidature">
+                            <i class="bi bi-info-circle"></i> Aucun nouveau pilote en attente.
+                        </td>
+                    </tr>
+                {% endif %}
                 </tbody>
-            </table></div>
+            </table>
+        </div>
         <div class="pagination-numbers">
             <a href="#" class="page active">1</a>
             <a href="#" class="page">2</a>
-            <!--
             <span class="dots">…</span>
-            -->
-            <a href="#" class="page">3</a>
-            <a href="#" class="page">4</a>
+            <a href="#" class="page">15</a>
+            <a href="#" class="page">17</a>
         </div>
     </section>
+
 
 
 </main>

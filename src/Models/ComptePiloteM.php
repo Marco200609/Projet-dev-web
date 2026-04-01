@@ -106,7 +106,25 @@ class ComptePiloteM extends PdoM
         return $rq->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function createGroupe($nomGroupe): int
+    {
+        $sql = "INSERT INTO groupe (nom_groupe) VALUES (:nom)";
+        $rq = $this->pdo->prepare($sql);
+        $rq->bindValue(':nom', $nomGroupe, PDO::PARAM_STR);
+        $rq->execute();
 
+        return $this->pdo->lastInsertId();
+    }
 
+    public function addPiloteToGroupe($idPilote, $idGroupe): void
+    {
+        $sql = "INSERT INTO groupe_utilisateur (id_utilisateur_fk, id_groupe_fk)
+            VALUES (:idPilote, :idGroupe)";
+
+        $rq = $this->pdo->prepare($sql);
+        $rq->bindValue(':idPilote', $idPilote, PDO::PARAM_INT);
+        $rq->bindValue(':idGroupe', $idGroupe, PDO::PARAM_INT);
+        $rq->execute();
+    }
 
 }

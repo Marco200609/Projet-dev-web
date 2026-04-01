@@ -58,7 +58,7 @@
         <section class="glass-card table-section">
         <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 20px;">
             <h3><i class="bi bi-megaphone-fill"></i> Gestion des Candidatures</h3>
-            <div class="seach-bar-candidatures search-bar ">
+            <div class="search-bar-candidatures">
                 <input type="text" id="studentSearch" placeholder="Filtrer par étudiant...">
             </div>
         </div>
@@ -95,6 +95,37 @@
                 </table>
             </div>
     </section>
+
+
+        <section class="glass-card table-section-groupe">
+            <div class="groupCreationTitre">
+                <h3><i class="bi bi-megaphone-fill"></i> Création de groupe </h3>
+            </div>
+            <div class="group-form-container group-creationContainer">
+
+                <form method="POST" action="/creer-groupe">
+
+                    <div class="input-group">
+                        <label for="groupName" class="group-creation">Nom du groupe</label>
+                        <input
+                                type="text"
+                                id="groupName"
+                                name="groupName"
+                                placeholder="Ex: Équipe Alpha"
+                                required
+                                style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white;">
+                    </div>
+
+                    <button
+                            type="submit"
+                            style="margin-top: 10px; padding: 12px; border-radius: 8px; border: none; background: #4CAF50; color: white; font-weight: bold; cursor: pointer;">
+                        Créer le groupe
+                    </button>
+
+                </form>
+
+            </div>
+        </section>
 </main>
 
     <script>
