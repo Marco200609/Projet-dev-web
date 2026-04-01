@@ -21,7 +21,10 @@ class AccueilCTest extends TestCase
                 $this->callback(function ($settings) {
                     return isset($settings['NbOffres']) && 
                            isset($settings['NbEntreprises']) && 
-                           isset($settings['NbJuniors']);
+                           isset($settings['NbJuniors']) &&
+                           isset($settings['liste_competences']) &&
+                           isset($settings['liste_contrats']) &&
+                           isset($settings['liste_domaines']);
                 })
             )
             ->willReturn('Page Accueil');
