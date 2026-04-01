@@ -31,7 +31,7 @@ class ComptePiloteC
 
     public function PageComptePilote(): void
     {
-        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 4) {
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 3) {
             header('Location:CompteConnexion ');
             exit;
         }
