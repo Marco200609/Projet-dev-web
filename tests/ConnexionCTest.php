@@ -219,8 +219,8 @@ class ConnexionCTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $_POST['nom'] = '';               
-        $_POST['prenom'] = 'Gael';               
+        $_POST['nom'] = 'Favreau';               
+        $_POST['prenom'] = '';               
         $_POST['email'] = 'gael.test@cesi.fr';    
         $_POST['password'] = 'Password123!';     
         $_POST['role'] = '2';                    
@@ -233,16 +233,16 @@ class ConnexionCTest extends TestCase
                   ->with(
                     $this->equalTo('/Compte/InscriptionRechercheEntreprise.html.twig'),
                     $this->callback(function($settings) {
-                    return $settings['errors'][0] === "Nom invalide";
+                    return $settings['errors'][0] === "Prénom invalide";
                     })
                   )
-                  ->willReturn('Page Nom Invalide'); 
+                  ->willReturn('Page Prenom Invalide'); 
 
         $controller = new ConnexionInsC($this->mockTemplateEngine, $mockModel);
 
         $result = $controller->form_inscription();
 
-        $this->assertEquals('Page Nom Invalide', $result);
+        $this->assertEquals('Page Prenom Invalide', $result);
     }
 
     public function testFormInscriptionErrorCodeEntreprise() 
@@ -401,17 +401,14 @@ class ConnexionCTest extends TestCase
         $this->assertArrayNotHasKey('id', $_SESSION); 
     }
 
-    /**
-    * @runInSeparateProcess
-    * @preserveGlobalState disabled
-    **/
+
     public function testFormDeconnexion()
     {
 
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        
+
         $_SESSION['id'] = 42;
 
         $controller = new ConnexionInsC($this->mockTemplateEngine);

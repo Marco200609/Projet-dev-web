@@ -85,7 +85,6 @@ class ConnexionInsC
                     $inscription_page = match((int)$role) {
                         1 => '/Compte/InscriptionEtudiant.html.twig',
                         3 => '/Compte/InscriptionPilote.html.twig',
-                        default => '/Compte/InscriptionEtudiant.html.twig'
                     };
                 }
 
