@@ -136,17 +136,20 @@ class ConnexionCTest extends TestCase
 
         $this->assertEquals('Page Inscription Attente', $result);
     }
-
+ 
     public function testFormInscriptionEntrepriseInxistante() 
     {
-        $_POST['nom'] = 'Favreau';
-        $_POST['prenom'] = 'Gael';
-        $_POST['email'] = 'gael.favreau@viacesi.fr';
-        $_POST['password'] = 'password';
-        $_POST['role'] = '2';
-        $_POST['premier_compte'] = 1; 
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_SERVER['REQUEST_METHOD'] = 'POST';
 
+        $_POST['nom'] = 'Favreau';               
+        $_POST['prenom'] = 'Gael';               
+        $_POST['email'] = 'gael.test@cesi.fr';    
+        $_POST['password'] = 'Password123!';     
+        $_POST['role'] = '2';                    
+        $_POST['premier_compte'] = '1';         
 
+        $mockEntreprise = $this->createMock(\App\Models\EntrepriseM::class);
         $mockModel = $this->createMock(\App\Models\ConnexionInsM::class);
         
         $mockModel->expects($this->once())
@@ -155,33 +158,34 @@ class ConnexionCTest extends TestCase
 
         $controller = new ConnexionInsC($this->mockTemplateEngine, $mockModel);
 
-        $url = $controller->form_inscription();
+        $resultat = $controller->form_inscription();
 
-        $this->assertEquals("/entreprises/add", $url);
+        $this->assertEquals('/entreprises/add', $resultat);
     }
 
     public function testFormInscriptionEntrepriseExistante() 
     {
-        $_POST['nom'] = 'Favreau';
-        $_POST['prenom'] = 'Gael';
-        $_POST['email'] = 'gael.favreau@viacesi.fr';
-        $_POST['password'] = 'password';
-        $_POST['role'] = '1';
-        $_POST['premier_compte'] = 0; 
+        $_SERVER['REQUEST_METHOD'] = 'POST';
 
+        $_POST['nom'] = 'Favreau';               
+        $_POST['prenom'] = 'Gael';               
+        $_POST['email'] = 'gael.test@cesi.fr';    
+        $_POST['password'] = 'Password123!';     
+        $_POST['role'] = '2';                    
+        $_POST['premier_compte'] = '0';         
 
+        $mockEntreprise = $this->createMock(\App\Models\EntrepriseM::class);
         $mockModel = $this->createMock(\App\Models\ConnexionInsM::class);
         
         $mockModel->expects($this->once())
                   ->method('set_id_user')
-                  ->willReturn(2); 
+                  ->willReturn(1); 
 
         $controller = new ConnexionInsC($this->mockTemplateEngine, $mockModel);
 
-        $url = $controller->form_inscription();
+        $resultat = $controller->form_inscription();
 
-        $this->assertEquals("/CompteInscription/Attente?role=" . $_POST['role'], $url);
+        $this->assertEquals('/CompteInscription/Attente?role=' . $_POST['role'], $resultat);
     }
 }
-
 ?>

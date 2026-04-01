@@ -6,10 +6,12 @@ class ConnexionInsC
 {
     private $templateEngine;
     private $model;
+    private $entrepriseModel; // Nouveau
 
-    public function __construct($templateEngine, $model = null) {
+    public function __construct($templateEngine, $model = null, $entrepriseModel = null) {
         $this->templateEngine = $templateEngine;
         $this->model = $model ?? new \App\Models\ConnexionInsM();
+        $this->entrepriseModel = $entrepriseModel ?? new \App\Models\EntrepriseM();
     }
 
     public function page_connexion() {
@@ -87,7 +89,7 @@ class ConnexionInsC
                     };
                 }
 
-                echo $this->templateEngine->render($inscription_page,
+                return $this->templateEngine->render($inscription_page,
                 [
                     'errors'=>$var['errors'],
                     'nom'=>$nom,
@@ -99,9 +101,9 @@ class ConnexionInsC
                     'code_entreprise'=>$code_entreprise,
                     'premier_compte'=>$premier_compte
                 ]);
-                exit;
             }
         }
+    
         $id_user = $this->model->set_id_user(
             $nom,
             $prenom,
@@ -156,7 +158,7 @@ class ConnexionInsC
         $prenom = $_POST['prenom'] ?? '';
         $mot_de_passe = $_POST['password'] ?? '';
         $email = $_POST['email'] ?? '';
-        $telephone = $_POST['telephone'] ?? '';
+        $telephone = $_POST['telephone'] ?? null ;
         $groupe = $_POST['groupe'] ?? null;
         $linkedin = $_POST['linkedin'] ?? null;
 
@@ -182,8 +184,7 @@ class ConnexionInsC
         }
 
         if ($code_entreprise) {
-            $modeleEntreprise = new \App\Models\EntrepriseM();
-            $code_entreprise_existe = $modeleEntreprise->get_code_entreprise($code_entreprise);
+            $code_entreprise_existe = $this->entrepriseModel->get_code_entreprise($code_entreprise);
 
             if (!$code_entreprise_existe) {
                 $errors[] = "Code entreprise invalide";
