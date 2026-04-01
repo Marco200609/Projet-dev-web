@@ -24,6 +24,8 @@ $twig = new \Twig\Environment($loader, [
 ]);
 
 
+
+
 session_start();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -210,6 +212,41 @@ elseif (preg_match('#^/api/etudiants-groupe/(\d+)(/)?$#', $uri, $matches)) {
     header('Content-Type: application/json');
     echo json_encode($etudiants);
     exit;
+}
+
+elseif (preg_match('#^/admin/offre/delete/(\d+)(/)?$#', $uri, $matches)) {
+    $model = new \App\Controllers\CompteAdminC($twig);
+    $model->DeleteOffre($matches[1]);
+}
+
+elseif (preg_match('#^/admin/offre/accept/(\d+)(/)?$#', $uri, $matches)) {
+    $model = new \App\Controllers\CompteAdminC($twig);
+    $model->AcceptOffre($matches[1]);
+}
+
+elseif (preg_match('#^/admin/entreprise/delete/(\d+)(/)?$#', $uri, $matches)) {
+    $model = new \App\Controllers\CompteAdminC($twig);
+    $model->deleteEntreprise($matches[1]);
+}
+
+elseif (preg_match('#^/admin/entreprise/accept/(\d+)(/)?$#', $uri, $matches)) {
+    $model = new \App\Controllers\CompteAdminC($twig);
+    $model->AcceptEntreprise($matches[1]);
+}
+
+elseif (preg_match('#^/admin/pilote/delete/(\d+)(/)?$#', $uri, $matches)) {
+    $model = new \App\Controllers\CompteAdminC($twig);
+    $model->deletePilote($matches[1]);
+}
+
+elseif (preg_match('#^/admin/pilote/accept/(\d+)(/)?$#', $uri, $matches)) {
+    $model = new \App\Controllers\CompteAdminC($twig);
+    $model->AcceptPilote($matches[1]);
+}
+
+elseif ($uri === '/creer-groupe' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $controller = new App\Controllers\ComptePiloteC($twig);
+    $controller->creerGroupe();
 }
 
 else {

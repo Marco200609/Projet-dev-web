@@ -8,7 +8,8 @@ class ComptePiloteM extends PdoM
 {
     public function getInfosPilote($id) : array
     {
-        $rq = $this->pdo->prepare("SELECT utilisateur.id_utilisateur, utilisateur.nom, utilisateur.prenom groupe.groupe FROM utilisateur
+        //ToDo sert à quoi ?
+        $rq = $this->pdo->prepare("SELECT utilisateur.id_utilisateur, utilisateur.nom, utilisateur.prenom FROM utilisateur
                                          WHERE utilisateur.id_utilisateur = :id;");
 
         $rq->bindValue(':id', $id , PDO::PARAM_INT);
@@ -42,8 +43,17 @@ class ComptePiloteM extends PdoM
         $rq->execute();
         return $rq->fetchColumn();
     }
-    public function getGroupesPilote($id_pilote) : array
+
+    public function getGroupesPilote($page, $parpage, $id_pilote) : array
     {
+        $page = (int)$page;
+        $parpage = (int)$parpage;
+
+        if ($parpage ==-1) {
+            $parpage = $this->getNbGroupesPilote($id_pilote);
+        }
+        $start = ($page - 1) * $parpage;
+
         $sql = "SELECT 
                 groupe.id_groupe, 
                 groupe.nom_groupe, 
@@ -55,9 +65,11 @@ class ComptePiloteM extends PdoM
             AND utilisateur_membre.id_permission = 1
             WHERE liaison_pilote.id_utilisateur_fk = :id_pilote
             GROUP BY groupe.id_groupe, groupe.nom_groupe
-            ORDER BY groupe.nom_groupe";
-
+            ORDER BY groupe.nom_groupe
+            LIMIT :start, :parpage";
         $rq = $this->pdo->prepare($sql);
+        $rq->bindValue(':start', $start, PDO::PARAM_INT);
+        $rq->bindValue(':parpage', $parpage, PDO::PARAM_INT);
         $rq->bindValue(':id_pilote', $id_pilote, PDO::PARAM_INT);
         $rq->execute();
 
@@ -79,8 +91,16 @@ class ComptePiloteM extends PdoM
         return $rq->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getCandidaturesEtudiantsPilote($id_pilote) : array
+    public function getCandidaturesEtudiantsPilote($page, $parpage, $id_pilote) : array
     {
+        $page = (int)$page;
+        $parpage = (int)$parpage;
+
+        if ($parpage ==-1) {
+            $parpage = $this->getNbGroupesPilote($id_pilote);
+        }
+        $start = ($page - 1) * $parpage;
+
         $sql = "SELECT 
                 utilisateur.nom, 
                 utilisateur.prenom, 
@@ -98,15 +118,55 @@ class ComptePiloteM extends PdoM
             JOIN entreprise ON offre.id_entreprise_fk = entreprise.id_entreprise
             JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
             WHERE gu_pilote.id_utilisateur_fk = :id_pilote AND utilisateur.id_permission = 1
-            ORDER BY candidature.date_candidature DESC";
-
+            ORDER BY candidature.date_candidature DESC
+            LIMIT :start, :parpage
+            ";
         $rq = $this->pdo->prepare($sql);
+        $rq->bindValue(':start', $start, PDO::PARAM_INT);
+        $rq->bindValue(':parpage', $parpage, PDO::PARAM_INT);
         $rq->bindValue(':id_pilote', $id_pilote, PDO::PARAM_INT);
         $rq->execute();
         return $rq->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getNbCandidaturesEtudiantsPilote($id_pilote) : int
+    {
+        $sql = "SELECT 
+                COUNT(*)
+            FROM utilisateur
+            JOIN groupe_utilisateur AS gu_etudiant ON utilisateur.id_utilisateur = gu_etudiant.id_utilisateur_fk
+            JOIN groupe ON gu_etudiant.id_groupe_fk = groupe.id_groupe
+            JOIN groupe_utilisateur AS gu_pilote ON groupe.id_groupe = gu_pilote.id_groupe_fk
+            JOIN candidature ON utilisateur.id_utilisateur = candidature.id_utilisateur_fk
+            JOIN offre ON candidature.id_offre_fk = offre.id_offre
+            WHERE gu_pilote.id_utilisateur_fk = :id_pilote AND utilisateur.id_permission = 1
+            ";
 
+        $rq = $this->pdo->prepare($sql);
+        $rq->bindValue(':id_pilote', $id_pilote, PDO::PARAM_INT);
+        $rq->execute();
+        return $rq->fetchColumn();
+    }
 
+    public function createGroupe($nomGroupe): int
+    {
+        $sql = "INSERT INTO groupe (nom_groupe) VALUES (:nom)";
+        $rq = $this->pdo->prepare($sql);
+        $rq->bindValue(':nom', $nomGroupe, PDO::PARAM_STR);
+        $rq->execute();
+
+        return $this->pdo->lastInsertId();
+    }
+
+    public function addPiloteToGroupe($idPilote, $idGroupe): void
+    {
+        $sql = "INSERT INTO groupe_utilisateur (id_utilisateur_fk, id_groupe_fk)
+            VALUES (:idPilote, :idGroupe)";
+
+        $rq = $this->pdo->prepare($sql);
+        $rq->bindValue(':idPilote', $idPilote, PDO::PARAM_INT);
+        $rq->bindValue(':idGroupe', $idGroupe, PDO::PARAM_INT);
+        $rq->execute();
+    }
 
 }

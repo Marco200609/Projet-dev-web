@@ -23,6 +23,11 @@ class EntrepriseC
         $this->templateEngine = $templateEngine;
     }
 
+    /**
+     * Valide les données du formulaire d'entreprise et retourne un tableau de données valides ou des erreurs.
+     *
+     * @return array|array[]
+     */
     public function TestsFormEntreprise() : array
     {
         $errors = [];
@@ -69,6 +74,11 @@ class EntrepriseC
         return [ 'nom' => $nom, 'logo' => $logo , 'pays' => $pays, 'departement' => $departement, 'nom_ville' => $ville, 'adresse' => $adresse, 'email' => $mail, 'telephone' => $telephone, 'nb_employe' => $nb_employe, 'description' => $description ];
     }
 
+    /**
+     * Récupère les entreprises associées aux offres d'emploi et les retourne au format JSON.
+     *
+     * @return void
+     */
     public function getEntreprisesOffres() : void
     {
         $nom_ent = $_GET['entreprise'] ?? '';
@@ -77,6 +87,11 @@ class EntrepriseC
         echo json_encode($entreprises);
     }
 
+    /**
+     * Récupère les entreprises associées aux entreprises et les retourne au format JSON.
+     *
+     * @return void
+     */
     public function getEntreprisesEntreprises() : void
     {
         $nom_ent = $_GET['entreprise'] ?? '';
@@ -85,6 +100,11 @@ class EntrepriseC
         echo json_encode($entreprises);
     }
 
+    /**
+     * Affiche la page des entreprises avec pagination et filtres de recherche.
+     *
+     * @return void
+     */
     public function PageEntreprise(): void
     {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -111,6 +131,12 @@ class EntrepriseC
         ]);
     }
 
+    /**
+     * Affiche la page de détail d'une entreprise avec ses informations, sa note et ses offres d'emploi associées.
+     *
+     * @param $id
+     * @return void
+     */
     public function PageDetailEntreprise($id): void
     {
         $modelOffre = new OffreM();
@@ -136,6 +162,11 @@ class EntrepriseC
         ]);
     }
 
+    /**
+     * Affiche la page d'ajout d'une entreprise pour les utilisateurs ayant les rôles 3, 4 ou 5. Redirige vers la page de connexion si l'utilisateur n'est pas connecté ou n'a pas les rôles requis.
+     *
+     * @return void
+     */
     public function PageAddEntreprise(): void
     {
         if (!session_status() ||!isset($_SESSION['id']) || !($_SESSION['role'] == 3 || $_SESSION['role'] == 4 || $_SESSION['role'] == 5)) {
@@ -146,6 +177,12 @@ class EntrepriseC
         }
     }
 
+    /**
+     * Affiche la page de mise à jour d'une entreprise pour les utilisateurs ayant les rôles 3, 4 ou 5. Redirige vers la page de connexion si l'utilisateur n'est pas connecté ou n'a pas les rôles requis. Récupère les informations de l'entreprise à mettre à jour et les affiche dans le formulaire.
+     *
+     * @param $id
+     * @return void
+     */
     public function PageUpdateEntreprise($id): void
     {
         if (!session_status() || !isset($_SESSION['id']) || !($_SESSION['role'] == 3 || $_SESSION['role'] == 4 || $_SESSION['role'] == 5)) {
@@ -160,6 +197,11 @@ class EntrepriseC
         }
     }
 
+    /**
+     * Traite le formulaire d'ajout d'une entreprise. Valide les données du formulaire, ajoute l'entreprise à la base de données et redirige vers la page de l'entreprise ou la page d'attente d'inscription en fonction du contexte. Affiche les erreurs de validation si les données sont invalides.
+     *
+     * @return void
+     */
     public function FormAddEntreprise(): void
     {
         // $nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description
@@ -201,6 +243,11 @@ class EntrepriseC
         }
     }
 
+    /**
+     * Traite le formulaire d'ajout d'une note pour une entreprise. Valide les données du formulaire, ajoute la note à la base de données et redirige vers la page de détail de l'entreprise. Redirige vers la page des entreprises si les données sont invalides ou si l'utilisateur n'est pas connecté ou n'a pas les rôles requis.
+     *
+     * @return void
+     */
     public function FormAddNote(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -220,6 +267,11 @@ class EntrepriseC
         }
     }
 
+    /**
+     * Traite le formulaire de mise à jour d'une entreprise. Valide les données du formulaire, met à jour l'entreprise dans la base de données et redirige vers la page de détail de l'entreprise. Affiche les erreurs de validation si les données sont invalides ou redirige vers la page de connexion si l'utilisateur n'est pas connecté ou n'a pas les rôles requis.
+     *
+     * @return void
+     */
     public function FormUpdateEntreprise(): void
     {
         if (!session_status() || !isset($_SESSION['id']) || !($_SESSION['role'] == 3 || $_SESSION['role'] == 4 || $_SESSION['role'] == 5)) {
