@@ -293,7 +293,7 @@ class OffreM extends PdoM
         return !$present;
     }
 
-    public function addOffre($titre, $pays, $departement, $ville, $adresse, $domaine, $contrat, $entreprise, $mail, $telephone, $competences, $unite_dure=null, $duree=null, $descriptif=null) : bool
+    public function addOffre($titre, $pays, $departement, $ville, $adresse, $domaine, $contrat, $entreprise, $mail, $telephone, $competences, $unite_dure=null, $duree=null, $descriptif=null) : int
     {
         try {
             $this->pdo->beginTransaction();
@@ -326,7 +326,7 @@ class OffreM extends PdoM
             $entrepriseModel = new EntrepriseM();
             $id_entreprise = $entrepriseModel->getIdEntreprise($entreprise);
             if (!$id_entreprise) {
-                return false;
+                return 0;
             }
 
             //8. unite durée
@@ -359,7 +359,7 @@ class OffreM extends PdoM
             if (!$rq->execute()) {
                 $this->pdo->rollBack();
                 echo $rq->errorInfo()[2];
-                return false;
+                return 0;
             }
             $id_offre = $this->pdo->lastInsertId();
 
@@ -368,11 +368,11 @@ class OffreM extends PdoM
             $competencesModel->addCompetencesOffre($id_offre, $competences, $this->pdo);
 
             $this->pdo->commit();
-            return true;
+            return $id_offre;
         } catch (\Exception $e) {
             $this->pdo->rollBack();
             echo $e->getMessage();
-            return false;
+            return 0;
         }
     }
 

@@ -250,9 +250,9 @@ class OffreC
                 exit();
             }
 
+            $id_offre = $this->modelOffre->addOffre($var['titre'], $var['pays'], $var['departement'], $var['ville'], $var['adresse'], $var['domaine'], $var['contrat'], $var['entreprise'], $var['mail'], $var['telephone'], $var['competences'], $var['unite_duree'], $var['duree'], $var['descriptif']);
             // Stockage des données brutes
-            if ($this->modelOffre->addOffre($var['titre'], $var['pays'], $var['departement'], $var['ville'], $var['adresse'], $var['domaine'], $var['contrat'], $var['entreprise'], $var['mail'], $var['telephone'], $var['competences'], $var['unite_duree'], $var['duree'], $var['descriptif'])) {
-                // ToDo modifier le lien
+            if ($id_offre != 0) {
                 $offre = (new OffreM())->getCandidatOffre($id_offre);
                 echo $this->templateEngine->render('Offre/offre_accepte.html.twig', ['offre' => $offre]);
                 exit();

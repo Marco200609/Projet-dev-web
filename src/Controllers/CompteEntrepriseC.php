@@ -29,7 +29,8 @@ class CompteEntrepriseC
 
     public function PageCompteEntreprise(): void
     {
-        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 2) {
+        // ToDo changer l'id user
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
             header('Location:CompteConnexion ');
             exit;
         }
@@ -48,10 +49,10 @@ class CompteEntrepriseC
         $OffresActives = $this->modelCompteEntreprise->getOffresEnCours($page1, $parpage1, $id_entreprise);
         $OffresEnPause = $this->modelCompteEntreprise->getOffresEnPause($page2, $parpage2, $id_entreprise);
 
-        $total1 = $this->modelCompteEntreprise->getNbOffreEnCours($_SESSION['id']);
+        $total1 = $this->modelCompteEntreprise->getNbOffreEnCours($id_entreprise);
         $pagination1 = pagination($total1, $page1, $parpage1, '/CompteEntreprise', $_GET, '1');
 
-        $total2 = $this->modelCompteEntreprise->getNbOffreEnPause($_SESSION['id']);
+        $total2 = $this->modelCompteEntreprise->getNbOffreEnPause($id_entreprise);
         $pagination2 = pagination($total2, $page2, $parpage2, '/CompteEtrenprise', $_GET, '2');
 
         echo $this->templateEngine->render('Compte/CompteEntreprise.html.twig', [
