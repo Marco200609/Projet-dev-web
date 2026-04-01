@@ -15,13 +15,16 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\EntrepriseC;
 
+use function App\Services\mail;
 
 $loader = new \Twig\Loader\FilesystemLoader('../src/Views');
-
 $twig = new \Twig\Environment($loader, [
     'debug' => true,
-    'cache' => false, 
+    'cache' => false,
 ]);
+
+
+
 
 
 session_start();
@@ -31,6 +34,10 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 if ($uri === '/') {
     $controllerEnt = new AcceuilC($twig);
     $controllerEnt->PageAcceuil();
+
+} elseif ($uri === '/MentionsLegales') {
+    $controllerEnt = new AcceuilC($twig);
+    $controllerEnt->PageMentionsLegales();
 
 } elseif ($uri === '/entreprises') {
     $controllerEnt = new EntrepriseC($twig);
@@ -153,7 +160,6 @@ elseif ($uri === '/CompteInscription/Admin') {
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     $controllerInscription->form_inscription();
-    echo "2222";
 }
 
 elseif ($uri === '/CompteConnexion/Traitement' && $_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -190,9 +196,22 @@ elseif ($uri === '/VilleOffres') {
 } elseif ($uri === '/changeWishlist') {
     $controllerCandidature = new App\Controllers\OffreC($twig);
     $controllerCandidature->changeWishlist();
+
+} elseif ($uri === '/offres/togglepause' || $uri === '/offres/togglepause/') {
+    $controllerOffre = new App\Controllers\OffreC($twig);
+    $controllerOffre->ToggleOffrePause();
+} elseif ($uri === '/offres/delete' || $uri === '/offres/delete/') {
+$controllerOffre = new App\Controllers\OffreC($twig);
+$controllerOffre->DeleteOffre();}
+
+
+elseif (preg_match('#^/api/etudiants-groupe/(\d+)(/)?$#', $uri, $matches)) {
+    $model = new \App\Models\ComptePiloteM();
+    $etudiants = $model->getEtudiantsGroupe($matches[1]);
+    header('Content-Type: application/json');
+    echo json_encode($etudiants);
+    exit;
 }
-
-
 
 else {
     // 404

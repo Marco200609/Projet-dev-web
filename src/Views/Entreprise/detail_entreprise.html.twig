@@ -7,7 +7,7 @@
 <main>
     <section class="offre-det">
         <div class="logo-entreprise">
-            <img src="{{ entreprise.logo }}" alt="image entreprise">
+            <img class="img_entreprise" src="{{ entreprise.logo }}" alt="image entreprise">
         </div>
         <h1>{{ entreprise.nom }}</h1>
         <div class="face_a_face">
@@ -26,9 +26,9 @@
                             <i class="bi {% if i <= entreprise.note %}bi-star-fill{% else %}bi-star{% endif %}"></i>
                         {% endif %}
                     {% endfor %}
-                    <i>({{ nb_note }})</i>
+                    <i class="noir">({{ nb_note }})</i>
                     {% if note_user != false %}
-                        <i class="bi bi-bookmark-check"> {{ note_user }}</i>
+                        <i class="bi bi-bookmark-check noir"> {{ note_user }}</i>
                     {% endif %}
                 </span>
             </div>

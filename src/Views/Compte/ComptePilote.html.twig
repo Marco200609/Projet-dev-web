@@ -7,87 +7,171 @@
 <main class="dashboard">
     <div class="profile-overview">
         <div class="glass-card group-card">
-            <h3><i class="bi bi-person-badge"></i> Espace Pilote - Promotion 2026</h3>
+            <h3><i class="bi bi-person-badge"></i> Espace Pilote</h3>
             <div class="group-details">
-                <p><strong>Responsable :</strong> Florent GRELARD</p> <p><strong>Centre :</strong> Lyon</p>
-                <p><strong>Spécialité :</strong> Informatique / Systèmes</p>
+                <p><strong>Responsable :</strong> {{ InfosPilote.prenom }} {{ InfosPilote.nom }}</p>
             </div>
         </div>
 
         <div class="stats-row">
             <div class="mini-stat">
-                <span class="number">120</span>
+                <span class="number">{{ NbEtudiant }}</span>
                 <span class="label">Étudiants</span>
             </div>
             <div class="mini-stat">
-                <span class="number">45</span>
-                <span class="label">Annonces Validées</span> </div>
-            <div class="mini-stat success">
-                <span class="number">12</span>
-                <span class="label">À traiter</span>
+                <span class="number">{{ NbGroupes }}</span>
+                <span class="label">Groupe(s)</span>
             </div>
         </div>
-    </div>
 
-    <section class="glass-card wishlist-section">
-        <h3><i class="bi bi-people-fill"></i> Mes Groupes d'Étudiants</h3>
-        <div class="wishlist-container">
-            <div class="wishlist-item">
-                <div class="wish-info">
-                    <h4>CPI A2 Info</h4> <p>25 étudiants • 15 en recherche</p>
-                    <a href="#" class="view-link">Gérer le groupe <i class="bi bi-arrow-right-short"></i></a>
-                </div>
-                <div class="action-buttons">
-                    <button class="action-btn" title="Pousser une sélection d'annonces au groupe"><i class="bi bi-share-fill"></i></button>
-                </div>
+        <section class="glass-card wishlist-section">
+            <h3><i class="bi bi-people-fill"></i> Mes Groupes d'Étudiants</h3>
+            <div class="Company-container">
+                {% if Groupes|length > 0 %}
+                    {% for groupe in Groupes %}
+                        <div class="Company-offer">
+                            <div class="wish-info">
+                                <h4>{{ groupe.nom_groupe }}</h4>
+                                <p>{{ groupe.nb_etudiants }} étudiant{{ groupe.nb_etudiants > 1 ? 's' : '' }}</p>
+                                <a href="#" class="view-link toggle-etudiants" data-groupe-id="{{ groupe.id_groupe }}">
+                                    Voir les étudiants <i class="bi bi-chevron-down"></i>
+                                </a>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-btn">
+                                    <i class="bi bi-mortarboard"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="etudiants-list" id="etudiants-{{ groupe.id_groupe }}" style="display: none;"></div>
+
+                    {% endfor %}
+                {% else %}
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        Aucun groupe d'étudiants.
+                    </div>
+                {% endif %}
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="glass-card table-section">
+
+        <section class="glass-card table-section">
         <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 20px;">
-            <h3><i class="bi bi-megaphone-fill"></i> Gestion des Annonces</h3>
-            <div class="search-bar">
-                <input type="text" placeholder="Filtrer par entreprise ou type..." style="padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.5);">
+            <h3><i class="bi bi-megaphone-fill"></i> Gestion des Candidatures</h3>
+            <div class="seach-bar-candidatures search-bar ">
+                <input type="text" id="studentSearch" placeholder="Filtrer par étudiant...">
             </div>
         </div>
-        <div class="table-wrapper">
-            <table class="stats-table">
-                <thead>
-                <tr>
-                    <th>Annonce</th>
-                    <th>Entreprise</th>
-                    <th>Type</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><strong>Développeur Web Fullstack</strong></td>
-                    <td><span class="company-name">Tech Solutions</span></td>
-                    <td><span class="type-tag alternance">Alternance</span></td>
-                    <td><span class="badge interview">Validée</span></td>
-                    <td class="cell-actions">
-                        <button class="btn-action chat" title="Proposer au groupe CPI A2 Info"><i class="bi bi-send-plus-fill"></i></button>
-                        <button class="btn-action folder" title="Détails de l'offre"><i class="bi bi-info-circle"></i></button>
-                        <button class="btn-action refuse" title="Masquer"><i class="bi bi-eye-slash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Stage Cloud Architect</strong></td>
-                    <td><span class="company-name">Global Dev</span></td>
-                    <td><span class="type-tag stage">Stage</span></td>
-                    <td><span class="badge pending">En attente</span></td>
-                    <td class="cell-actions">
-                        <button class="btn-action accept" title="Approuver l'annonce"><i class="bi bi-check-circle-fill"></i></button>
-                        <button class="btn-action folder" title="Détails de l'offre"><i class="bi bi-info-circle"></i></button>
-                        <button class="btn-action refuse" title="Refuser"><i class="bi bi-trash3"></i></button>
-                    </td>
-                </tr>
-                </tbody>
-            </table></div>
+            <div class="table-wrapper">
+                <table class="stats-table">
+                    <thead>
+                    <tr>
+                        <th>Étudiant</th>
+                        <th>Groupe</th>
+                        <th>Entreprise</th>
+                        <th>Nom Annonce</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if Candidatures|length > 0 %}
+                        {% for candidature in Candidatures %}
+                            <tr>
+                                <td><strong>{{ candidature.prenom }} {{ candidature.nom|upper }}</strong></td>
+                                <td><span class="company-name">{{ candidature.nom_groupe }}</span></td>
+                                <td>{{ candidature.nom_entreprise }}</td>
+                                <td>{{ candidature.nom_offre }}</td>
+                                <td><span class="type-tag {{ candidature.type_offre|lower == 'stage' ? 'stage' : 'alternance' }}">{{ candidature.type_offre }}</span></td>
+                                <td class="cell-actions">{{ candidature.date_candidature|date("d/m/Y") }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td class = "GestionCandidature" > Aucune candidature enregistrée pour vos groupes.</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
     </section>
 </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.toggle-etudiants').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const groupeId = this.getAttribute('data-groupe-id');
+                    const etudiantsDiv = document.getElementById('etudiants-' + groupeId);
+                    const icon = this.querySelector('i');
+
+                    if (etudiantsDiv.style.display === 'none') {
+                        if (etudiantsDiv.innerHTML === '') {
+                            etudiantsDiv.innerHTML = '<p style="padding: 10px; font-style: italic; opacity: 0.5;">Chargement...</p>';
+
+                            fetch('/api/etudiants-groupe/' + groupeId)
+                                .then(response => response.json())
+                                .then(etudiants => {
+                                    if (etudiants.length > 0) {
+                                        let html = '<div style="display: flex; flex-direction: column;">';
+                                        etudiants.forEach(etudiant => {
+                                            html += `
+                                            <div class="etudiant-item" style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 0.9rem;">
+                                                <i class="bi bi-person-fill" style="margin-right: 8px; opacity: 0.6;"></i>
+                                                ${etudiant.prenom} <strong>${etudiant.nom.toUpperCase()}</strong>
+                                            </div>`;
+                                        });
+                                        html += '</div>';
+                                        etudiantsDiv.innerHTML = html;
+                                    } else {
+                                        etudiantsDiv.innerHTML = '<p style="color: #666; font-style: italic; padding: 10px;">Aucun étudiant dans ce groupe.</p>';
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Erreur:', error);
+                                    etudiantsDiv.innerHTML = '<p style="color: #f00; padding: 10px;">Erreur lors du chargement.</p>';
+                                });
+                        }
+
+                        etudiantsDiv.style.display = 'block';
+                        icon.className = 'bi bi-chevron-up';
+                    } else {
+                        etudiantsDiv.style.display = 'none';
+                        icon.className = 'bi bi-chevron-down';
+                    }
+                });
+            });
+        });
+        // --- Système de filtrage de la table ---
+        const searchInput = document.getElementById('studentSearch');
+        const tableRows = document.querySelectorAll('.stats-table tbody tr');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+
+            tableRows.forEach(row => {
+                // On récupère le texte de la première colonne (Étudiant)
+                const studentCell = row.querySelector('td:first-child');
+
+                if (studentCell) {
+                    const studentName = studentCell.textContent.toLowerCase();
+
+                    // Si le nom contient le terme recherché, on affiche, sinon on cache
+                    if (studentName.includes(searchTerm)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                }
+            });
+
+            // Optionnel : Gérer l'affichage du message "Aucun résultat" si tout est caché
+            const visibleRows = Array.from(tableRows).filter(row => row.style.display !== "none");
+            // Vous pouvez ajouter ici une logique pour afficher un message si visibleRows.length === 0
+        });
+    </script>
+
+
 
 {% endblock %}

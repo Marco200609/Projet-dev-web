@@ -24,7 +24,7 @@
             <span><strong>Reference :</strong> {{ offre.id_offre }} </span>
         </div>
 
-        <form method="post" action="/offres/formcandidature/" enctype="multipart/form-data">
+        <form method="post" action="/offres/formcandidature/" enctype="multipart/form-data" class="candidature">
 
         <input type="hidden" name="id_offre" value="{{ offre.id_offre }}">
 
@@ -35,7 +35,7 @@
 
             <div class="form-group">
                 <label for="filecv">CV (PDF) :</label><br>
-                <input name="cv" type="file" id="filecv" accept="application/pdf" required>
+                <input name="cv" type="file" id="filecv" required>
             </div>
 
             <div class="form-group">
@@ -47,5 +47,6 @@
     </section>
 </main>
 
+    <script src="/Assets/validation_file.js"></script>
 {% endblock %}
 

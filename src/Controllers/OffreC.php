@@ -180,9 +180,9 @@ class OffreC
 
     public function PageFormAddOffre() : void
     {
-        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit;
+        if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: /CompteConnexion');
+            exit();
         }
         $unites_duree = $this->modelOffre->getUnitesDurees();
         $modelContrat = new ContratM();
@@ -192,8 +192,8 @@ class OffreC
 
     public function PageFormUpdateOffre($id) : void
     {
-        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: /CompteConnexion');
             exit;
         }
         $modelContrat = new ContratM();
@@ -208,10 +208,12 @@ class OffreC
                 'liste_contrats' => $liste_contrats]);
     }
 
+
+
     public function FormAddOffre() : void
     {
-        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: /CompteConnexion');
             exit;
         }
         $unites_duree = $this->modelOffre->getUnitesDurees();
@@ -251,7 +253,8 @@ class OffreC
             // Stockage des données brutes
             if ($this->modelOffre->addOffre($var['titre'], $var['pays'], $var['departement'], $var['ville'], $var['adresse'], $var['domaine'], $var['contrat'], $var['entreprise'], $var['mail'], $var['telephone'], $var['competences'], $var['unite_duree'], $var['duree'], $var['descriptif'])) {
                 // ToDo modifier le lien
-                header('Location: /compte/entreprise');
+                $offre = (new OffreM())->getCandidatOffre($id_offre);
+                echo $this->templateEngine->render('Offre/offre_accepte.html.twig', ['offre' => $offre]);
                 exit();
             } else {
                 $errors[] = "Une erreur est survenue";
@@ -270,8 +273,8 @@ class OffreC
 
     public function FormUpdateOffre($id) : void
     {
-        if (!isset($_SESSION['id']) || !session_status() || in_array($_SESSION['role'], [2, 3, 4])) {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
+            header('Location: /CompteConnexion');
             exit;
         }
         $unites_duree = $this->modelOffre->getUnitesDurees();
@@ -312,8 +315,8 @@ class OffreC
 
             // Stockage des données brutes
             if ($this->modelOffre->updateOffre($id, $var['titre'], $var['pays'], $var['departement'], $var['ville'], $var['adresse'], $var['domaine'], $var['contrat'], $var['entreprise'], $var['mail'], $var['telephone'], $var['competences'], $var['unite_duree'], $var['duree'], $var['descriptif'])) {
-                // ToDo modifier le lien
-                header('Location: /compte/entreprise');
+                $offre = (new OffreM())->getCandidatOffre($id);
+                echo $this->templateEngine->render('Offre/offre_accepte.html.twig', ['offre' => $offre]);
                 exit();
             } else {
                 $errors[] = "Une erreur est survenue";
@@ -332,4 +335,61 @@ class OffreC
             exit();
         }
     }
+
+    public function ToggleOffrePause() : void
+    {
+        // ToDo : vérifier droits
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit();
+        }
+
+        $id_offre = isset($_POST['id_offre']) ? (int)$_POST['id_offre'] : 0;
+
+        if ($id_offre <= 0) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'ID offre invalide']);
+            exit();
+        }
+
+        $isPaused = $this->modelOffre->getOffrePause($id_offre);
+
+        if ($isPaused) {
+            $this->modelOffre->unsetOffrePause($id_offre);
+            echo json_encode(['success' => true, 'action' => 'resumed']);
+        } else {
+            $this->modelOffre->setOffrePause($id_offre);
+            echo json_encode(['success' => true, 'action' => 'paused']);
+        }
+        exit();
+    }
+
+    public function DeleteOffre() : void
+    {
+        // ToDo : vérifier droits
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'error' => 'Non autorisé']);
+            exit();
+        }
+
+        $id_offre = isset($_POST['id_offre']) ? (int)$_POST['id_offre'] : 0;
+
+        if ($id_offre <= 0) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'ID offre invalide']);
+            exit();
+        }
+
+        try {
+            $this->modelOffre->deleteOffre($id_offre);
+            echo json_encode(['success' => true, 'message' => 'Offre supprimée avec succès']);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Erreur lors de la suppression']);
+        }
+        exit();
+    }
+
 }

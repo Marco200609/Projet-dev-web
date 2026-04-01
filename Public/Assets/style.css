@@ -1,6 +1,6 @@
 @font-face {
     font-family: NSD;
-    src: url("Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth\,wght.ttf");
+    src: url("Noto_Sans_Display/NotoSansDisplay-VariableFont_wdth,wght.ttf");
 }
 
 /*
@@ -122,12 +122,7 @@ footer {
 
 footer a {
     color: #F8FAFC;
-<<<<<<< HEAD
-    
-=======
-    text-decoration: none;
->>>>>>> d6330812c200c0eebba25b3888cfada947ddf876
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 /* Menu burger */
@@ -465,7 +460,30 @@ h2 {
     color: inherit;
 }
 
- /* entreprise*/
+/* compte */
+
+.liste-compte {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    gap: 2px; 
+    padding: 3%;
+    width: 100%;
+    box-sizing: border-box; 
+}
+
+.link-compte {
+    width: 100%;           
+    max-width: 750px;      
+    min-width: 400px; 
+    min-height: 100px;
+    max-height: 200px;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* entreprise*/
 .liste-entreprise {
     display: flex;
     flex-wrap: wrap;
@@ -600,7 +618,7 @@ h2 {
     display: none;
 }
 
-.wishlist-label .bi-heart {
+.wishlist-label .heart-icon {
     cursor: pointer;
     font-size: 1.4em;
     color: #dd5478;
@@ -638,7 +656,7 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 40%;
+    gap: 16px;
 }
 
 .offre-info .entreprise {
@@ -704,9 +722,16 @@ h2 {
     text-align: left;}
 
 .note {
-    flex: 1;
-    text-align: center;;
-    color: #bdac37;
+    flex: 1 1 200px;
+    min-width: 120px;
+    text-align: left;
+    color: #a59848;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.noir {
+    color: #535953;
 }
 
 .nb-offre {
@@ -767,7 +792,6 @@ h2 {
 .face_a_face{
     display: flex;
     flex-direction: row;
-    gap: 24px;
     width: 100%;
     justify-content: space-between;
     align-items: center;
@@ -847,12 +871,15 @@ h2 {
 
 /* Partie entreprise */
 
+.img_entreprise {
+    height: 50px;
+}
+
 .logo-entreprise {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 50px;
 }
 
 .mail-telephone {
@@ -866,6 +893,8 @@ h2 {
     justify-content: center;
     margin-bottom: 20px;
 }
+
+
 
 /* Candidature */
 
@@ -1082,14 +1111,14 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center; /* IMPORTANT */
+    justify-content: center;
 }
 
 .wishlist-item {
     display: flex;
-    flex-wrap: wrap;          /* permet de passer à la ligne */
-    justify-content: center;  /* centre les éléments */
-    gap: 20px;                /* espace entre les box */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
 
 .wishlist_label {
@@ -1106,15 +1135,47 @@ h2 {
 .wish-info h4 { margin: 0; color: #37463D; }
 .view-link { font-size: 0.85em; color: #5B696B; text-decoration: none; font-weight: bold; }
 
+.Company-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.Company-offer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 18px;
+
+    border: 2px solid #709CA7;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 18px 32px 0 rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(25px);
+
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    min-height: 100px;
+}
+
+.Company-offer:hover {
+    box-shadow: 0 24px 36px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    filter: brightness(1.06);
+    z-index: 10;
+}
+
 
 .action-buttons { display: flex; gap: 10px; }
 .action-btn {
-    background: none; border: none; font-size: 1.4em; cursor: pointer; transition: 0.2s;
+    background: none; border: none; font-size: 1.4em; cursor: pointer; transition: 0.2s; color: #5B696B;
 }
-.action-btn.pause { color: #5B696B; }
+
 .action-btn.pause:hover { color: #f39c12; }
-.action-btn.delete { color: #5B696B; }
 .action-btn.delete:hover { color: #e74c3c; }
+.action-btn.resume:hover { color: #27ae60; }  /* Optional: green hover for a "resume" action */
 
 
 .btn-add-offer {
@@ -1270,3 +1331,54 @@ h2 {
     background: rgba(255, 255, 255, 0.35);
 }
 
+.etudiants-list {
+    max-height: 200px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 0 15px;
+}
+
+
+.etudiants-list::-webkit-scrollbar {
+    width: 6px;
+}
+.etudiants-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.etudiant-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem;
+    color: #444;
+}
+.etudiant-item:last-child {
+    border-bottom: none;
+}
+
+.GestionCandidature {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.seach-bar-candidatures {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.5);
+}
+
+.confirmation-message {
+    background: #d5ecd5;
+    color: #2e7d32;
+    border: 1px solid #2e7d32;
+    border-radius: 12px;
+    padding: 5px 7px;
+    text-align: center;
+    font-size: 1.15rem;
+    margin: 100px auto;
+    max-width: 400px;
+}

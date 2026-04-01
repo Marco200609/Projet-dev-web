@@ -2,21 +2,21 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>{% block title %}{% endblock %} - Juniors </title>
+		<title>{% block title %}{% endblock %} Juniors </title>
                 <link rel="stylesheet" href="/Assets/style.css">
-                <link rel="stylesheet" href="/Assets/acceuil.css">
+                <link rel="stylesheet" href="/Assets/accueil.css">
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
-	<body>  
+	<body class="{% block BodyAcceuil %}{% endblock %}">  
 
         {% block header %}{% endblock %}
 
-        <nav class="navBar">
+        <nav class="navBar {% block Animation %}{% endblock %}">
                 <div class="LogoNav">
-                        <img src="/Assets/Picture/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
-                        <img src="/Assets/Picture/LogoNav2.png" class="LogoNav2">
+                        <img src="/Picture/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+                        <img src="/Picture/LogoNav2.png" class="LogoNav2">
                 </div>
 
                 <input type="checkbox" id="menu-toggle" class="menu-checkbox">

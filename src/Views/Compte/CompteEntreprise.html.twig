@@ -7,30 +7,28 @@
 <main class="dashboard">
     <div class="profile-overview">
         <div class="glass-card group-card">
-            <h3><i class="bi bi-building"></i> {{ entreprise.nom|default('Null') }}</h3>
+            <h3><i class="bi bi-building"></i> {{ InfosEntreprise.nom }}</h3>
             <div class="group-details">
-                <p><strong>Secteur :</strong>{{ entreprise.descriptif|default('null') }}</p>
-                <p><strong>Localisation :</strong>{{ entreprise.nom_ville|default('null') }}</p>
-                <p><strong>Recruteur :</strong>{{ entreprise.recruteur_prenom|default('null') }} {{ entreprise.recruteur_nom|default(null) }}</p>
+                <p><strong>Nombre d'employés :</strong> {{ InfosEntreprise.nb_employe }}</p>
+                <p><strong>Adresse :</strong> {{ InfosEntreprise.adresse }}</p>
+                <p><strong>Descriptif :</strong> {{ InfosEntreprise.descriptif }}</p>
             </div>
         </div>
 
 
-
-
         <div class="stats-row">
             <div class="mini-stat">
-                <span class="number">{{ stats.nb_offres|default(0) }}</span>
+                <span class="number">{{ NbOffres.nb_offres }}</span>
                 <span class="label">Total offres</span>
             </div>
 
             <div class="mini-stat">
-                <span class="number">{{ stats.nb_actives|default(offres|length) }}</span>
+                <span class="number">{{ OffresActives|length }}</span>
                 <span class="label">Offres actives</span>
             </div>
 
             <div class="mini-stat success">
-                <span class="number">0</span>
+                <span class="number">{{ OffresEnPause|length }}</span>
                 <span class="label">Offres en pause</span>
             </div>
         </div>
@@ -38,18 +36,19 @@
 
     <section class="glass-card wishlist-section">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h3><i class="bi bi-megaphone-fill"></i> Offres en cours</h3>
+            <h3><i class="bi bi-megaphone-fill"></i> Offres en cours </h3>
             <a href="/offres/add" class="btn-add-offer"><i class="bi bi-plus-circle-fill"></i> Publier une annonce</a>
         </div>
 
-        <div class="wishlist-container">
-            {% if offres|length > 0 %}
-                {% for offre in offres %}
-                    <div class="wishlist-item">
+        <div class="Company-container">
+            {% if OffresActives|length > 0 %}
+                {% for offre in OffresActives %}
+                    <div class="Company-offer">
                         <div class="wish-info">
                             <h4>{{ offre.titre }}</h4>
                             <p>{{ offre.nom_contrat }} • {{ offre.nb_cand }} candidatures</p>
                             <a href="/offres/update/{{ offre.id_offre }}" class="view-link">Modifier l'offre <i class="bi bi-pencil-square"></i></a>
+
                         </div>
                         <div class="action-buttons">
                             <button class="action-btn pause" title="Mettre en pause" data-id="{{ offre.id_offre }}"><i class="bi bi-pause-circle"></i></button>
@@ -70,10 +69,10 @@
             <h3><i class="bi bi-pause-circle-fill"></i> Offres en Pause</h3>
         </div>
 
-        <div class="wishlist-container">
-            {% if offres_pause|length > 0 %}
-                {% for offre in offres_pause %}
-                    <div class="wishlist-item">
+        <div class="Company-container">
+            {% if OffresEnPause|length > 0 %}
+                {% for offre in OffresEnPause %}
+                    <div class="Company-offer">
                         <div class="wish-info">
                             <h4>{{ offre.titre }}</h4>
                             <p>{{ offre.nom_contrat }} • {{ offre.nb_cand }} candidatures</p>
@@ -82,12 +81,8 @@
                             </a>
                         </div>
                         <div class="action-buttons">
-                            <button class="action-btn resume" title="Remettre en actif" data-id="{{ offre.id_offre }}">
-                                <i class="bi bi-play-circle-fill"></i>
-                            </button>
-                            <button class="action-btn delete" title="Supprimer l'annonce" data-id="{{ offre.id_offre }}">
-                                <i class="bi bi-trash3-fill"></i>
-                            </button>
+                            <button class="action-btn resume" title="Réactiver l'annonce" data-id="{{ offre.id_offre }}"><i class="bi bi-play-circle"></i></button>
+                            <button class="action-btn delete" title="Supprimer l'annonce" data-id="{{ offre.id_offre }}"><i class="bi bi-trash3-fill"></i></button>
                         </div>
                     </div>
                 {% endfor %}
@@ -97,5 +92,69 @@
         </div>
     </section>
 </main>
+
+    <script>
+        // Boutons pause/resume
+        document.querySelectorAll('.action-btn.pause, .action-btn.resume').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const id_offre = this.getAttribute('data-id');
+
+                fetch('/offres/togglepause', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id_offre=' + id_offre
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erreur: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        alert('Une erreur est survenue');
+                    });
+            });
+        });
+
+        // Boutons supprimer
+        document.querySelectorAll('.action-btn.delete').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const id_offre = this.getAttribute('data-id');
+
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette offre ? Cette action est irréversible.')) {
+                    fetch('/offres/delete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'id_offre=' + id_offre
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Offre supprimée avec succès');
+                                location.reload();
+                            } else {
+                                alert('Erreur: ' + data.error);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erreur:', error);
+                            alert('Une erreur est survenue');
+                        });
+                }
+            });
+        });
+    </script>
+
+
+
 
 {% endblock %}
