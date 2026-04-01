@@ -84,10 +84,8 @@ function mail(
     try {
         $response = $mj->post(Resources::$Email, ['body' => $body]);
         if ($response->success()) {
-            echo "Email envoyé avec succès";
             return true;
         } else {
-            echo "Erreur lors de l'envoi : " . $response->getReasonPhrase();
             return false;
         }
     } catch (\Throwable $e) {

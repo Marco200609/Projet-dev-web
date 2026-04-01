@@ -3,6 +3,17 @@
 {% block links %}{{ include('Offre/_links.html.twig') }}{% endblock %}
 
 {% block main %}
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        window.onload = function() {
+            confetti({
+                particleCount: 120,
+                spread: 90,
+                origin: { y: 0.6 }
+            });
+        };
+    </script>
+
 <main>
     <section>
         <h1>{{ offre.titre }}</h1>

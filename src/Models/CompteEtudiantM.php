@@ -42,11 +42,9 @@ class CompteEtudiantM extends PdoM
         return $rq->fetchColumn();
     }
 
-    public function getNbEtudiant($id) : int
+    public function getNbEtudiant() : int
     {
-        $rq = $this->pdo->prepare("SELECT COUNT(*) FROM utilisateur WHERE utilisateur.id_utilisateur = :id ");
-
-        $rq->bindValue(':id', $id, PDO::PARAM_INT);
+        $rq = $this->pdo->prepare("SELECT COUNT(*) FROM utilisateur WHERE id_permission = 1");
         $rq->execute();
         return $rq->fetchColumn();
     }
