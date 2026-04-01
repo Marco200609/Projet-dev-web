@@ -5,31 +5,33 @@ namespace App\Controllers;
 class ConnexionInsC
 {
     private $templateEngine;
+    private $model;
 
-    public function __construct($templateEngine) {
+    public function __construct($templateEngine, $model = null) {
         $this->templateEngine = $templateEngine;
+        $this->model = $model ?? new \App\Models\ConnexionInsM();
     }
 
     public function page_connexion() {
-        echo $this->templateEngine->render('/Compte/Connexion.html.twig');
+        return $this->templateEngine->render('/Compte/Connexion.html.twig');
     }
     public function page_inscription() {
-        echo $this->templateEngine->render('/Compte/ChoixInscription.html.twig');
+        return $this->templateEngine->render('/Compte/ChoixInscription.html.twig');
     }
 
     public function page_inscription_pilote()
     {
-        echo $this->templateEngine->render('/Compte/InscriptionPilote.html.twig');
+        return $this->templateEngine->render('/Compte/InscriptionPilote.html.twig');
     }
 
     public function page_inscription_etudiant()
     {
-        echo $this->templateEngine->render('/Compte/InscriptionEtudiant.html.twig');
+        return $this->templateEngine->render('/Compte/InscriptionEtudiant.html.twig');
     }
 
     public function pageIntermediaire_inscription_entreprise()
     {
-        echo $this->templateEngine->render('/Compte/ChoixIntermediaireEntreprise.html.twig');
+        return $this->templateEngine->render('/Compte/ChoixIntermediaireEntreprise.html.twig');
     }
 
     public function page_inscription_recherche_entreprise()
@@ -37,19 +39,20 @@ class ConnexionInsC
         $uri = $_SERVER['REQUEST_URI'];
         $premier_compte = str_contains($uri, '/Ajouter');
 
-        echo $this->templateEngine->render(
+        return $this->templateEngine->render(
             '/Compte/InscriptionRechercheEntreprise.html.twig',
             ['premier_compte' => $premier_compte]
-        );    }
+        );    
+    }
 
     public function page_inscription_admin()
     {
-        echo $this->templateEngine->render('/Compte/InscriptionAdmin.html.twig');
+        return $this->templateEngine->render('/Compte/InscriptionAdmin.html.twig');
     }
 
     public function page_inscription_attente() {
         $role = $_GET['role'] ?? null;
-        echo $this->templateEngine->render('/Compte/InscriptionAttente.html.twig',
+        return $this->templateEngine->render('/Compte/InscriptionAttente.html.twig',
         ['role'=>$role]);
     }
 
@@ -66,50 +69,41 @@ class ConnexionInsC
         $premier_compte = $_POST['premier_compte'] ?? 0;
         $code_entreprise = $_POST['code_entreprise'] ?? null;
 
+        $id_user = $this->model->set_id_user(
+            $nom,
+            $prenom,
+            $mot_de_passe,
+            $role,
+            $email,
+            $telephone,
+            $groupe,
+            $linkedin
+        );
 
-        $model = new \App\Models\ConnexionInsM();
+        if ($premier_compte == 1) {
+            return "/entreprises/add";
+        }
 
-            $id_user = $model->set_id_user(
-                $nom,
-                $prenom,
-                $mot_de_passe,
-                $role,
-                $email,
-                $telephone,
-                $groupe,
-                $linkedin
-            );
-
-            if ($premier_compte == 1) {
-               header ("Location: /entreprises/add");
-               exit;
-            }
-
-            else {
-                header("Location: /CompteInscription/Attente?role=" . $role);
-                exit;
-            }
+        else {
+            return "/CompteInscription/Attente?role=" . $role;
+        }
     }
 
     public function form_connexion() {
         $email = $_POST['email'];
         $mot_de_passe = $_POST['password'];
-
-        $model = new \App\Models\ConnexionInsM();
-
-        $user = $model->get_id_user($email, $mot_de_passe, null);
+    
+        $user = $this->model->get_id_user($email, $mot_de_passe, null);
 
         if ($user) {
             $_SESSION['id'] = $user['id_utilisateur'];
             $_SESSION['role'] = $user['id_permission'];
 
-            header("Location: /");
-            exit;
+            return "/";
         }
 
         else {
-            header("Location: /CompteConnexion");
-            exit;
+            return "/CompteConnexion";
         }
     }
 

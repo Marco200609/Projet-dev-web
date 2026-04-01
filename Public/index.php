@@ -30,11 +30,11 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 if ($uri === '/') {
     $controllerEnt = new AcceuilC($twig);
-    $controllerEnt->PageAcceuil();
+    echo $controllerEnt->PageAcceuil();
 
 } elseif ($uri === '/MentionsLegales') {
     $controllerEnt = new AcceuilC($twig);
-    $controllerEnt->PageMentionsLegales();
+    echo $controllerEnt->PageMentionsLegales();
 
 } elseif ($uri === '/entreprises') {
     $controllerEnt = new EntrepriseC($twig);
@@ -85,7 +85,7 @@ elseif ($uri ==='/CompteEtudiant') {
 
 elseif ($uri ==='/CompteConnexion') {
     $controllerConnexion = new App\Controllers\ConnexionInsC($twig);
-    $controllerConnexion -> page_connexion();
+    echo $controllerConnexion -> page_connexion();
 
 } elseif (preg_match('#^/detail_offre/(\d+)(/)?$#', $uri, $matches)) {
     $controllerOffre = new App\Controllers\OffreC($twig);
@@ -116,62 +116,57 @@ elseif ($uri ==='/CompteConnexion') {
     $controllerCandidature->FormAddCandidature();
 }
 
-
-
-
-
-
-
 //elseif ($uri.startsWith('https://CompteInscription')) {
 //check si y a ça dans l'url (in machin) rentrer dans cette condition --> après check pour tel ou tel suite d'URL
 
 elseif ($uri === '/CompteInscription'){
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->page_inscription();
+    echo $controllerInscription->page_inscription();
 //    }
 }
 
 elseif ($uri==='/CompteInscription/Pilote') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->page_inscription_pilote();
+    echo $controllerInscription->page_inscription_pilote();
 }
 
 elseif ($uri === '/CompteInscription/Etudiant') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->page_inscription_etudiant();
+    echo $controllerInscription->page_inscription_etudiant();
 }
 
 elseif ($uri === '/CompteInscription/Entreprise') {
 //    renvoie à la page intermédiaire d'inscription du compte entreprise : soit un compte de l'entreprise existe déjà, soit aucun compte n'existe encore
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->pageIntermediaire_inscription_entreprise();
+    echo $controllerInscription->pageIntermediaire_inscription_entreprise();
 }
 
 //ici c la page twig qui va changer selon l'un ou l'autre (avec l'url de provenance) car il y a très peu qui change
 elseif ($uri === '/CompteInscription/Entreprise/Recherche' || $uri === '/CompteInscription/Entreprise/Ajouter') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->page_inscription_recherche_entreprise();
+    echo $controllerInscription->page_inscription_recherche_entreprise();
 }
 
 elseif ($uri === '/CompteInscription/Admin') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->page_inscription_admin();
+    echo $controllerInscription->page_inscription_admin();
 }
 
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->form_inscription();
-    echo "2222";
+    echo $controllerInscription->form_inscription();
 }
 
 elseif ($uri === '/CompteConnexion/Traitement' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerConnexion = new App\Controllers\ConnexionInsC($twig);
-    $controllerConnexion->form_connexion();
+    $redirection = $controllerConnexion->form_connexion();
+    header("Location: " . $redirection);
 }
 
 elseif ($uri ==='/CompteInscription/Attente'){
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $controllerInscription->page_inscription_attente();
+    $redirection = $controllerInscription->form_inscription();
+    header ("Location: ". $redirection);
 }
 
 elseif ($uri === '/deconnexion') {
@@ -202,12 +197,10 @@ elseif ($uri === '/VilleOffres') {
 } elseif ($uri === '/offres/togglepause' || $uri === '/offres/togglepause/') {
     $controllerOffre = new App\Controllers\OffreC($twig);
     $controllerOffre->ToggleOffrePause();
+
 } elseif ($uri === '/offres/delete' || $uri === '/offres/delete/') {
-$controllerOffre = new App\Controllers\OffreC($twig);
-$controllerOffre->DeleteOffre();}
-
-
-
+    $controllerOffre = new App\Controllers\OffreC($twig);
+    $controllerOffre->DeleteOffre();}
 
 else {
     // 404

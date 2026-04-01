@@ -31,7 +31,7 @@ class AcceuilC
         $NbEntreprises = $this->modelEntreprise->getNbEntreprises();
         $NbJuniors = $this->modelCompteEtudiant->getNbEtudiant();
 
-        echo $this->templateEngine->render('Acceuil/Acceuil.html.twig', [
+        return $this->templateEngine->render('Acceuil/Acceuil.html.twig', [
             'NbOffres' => $NbOffres,
             'NbEntreprises' => $NbEntreprises,
             'NbJuniors' => $NbJuniors
@@ -40,7 +40,7 @@ class AcceuilC
 
     public function PageMentionsLegales()
     {
-        echo $this->templateEngine->render('Acceuil/MentionsLegales.html.twig');
+        return $this->templateEngine->render('Acceuil/MentionsLegales.html.twig');
     }
 }
 
