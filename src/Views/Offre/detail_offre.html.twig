@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de l'offre - {% endblock %}
+{% block links %}{{ include('Offre/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+    <section class="offre-det">
+        <div class="offre-header">
+            <span class="date"><i class="bi bi-calendar"></i> {{ off.date_creation }}</span>
+            {% if off.new %}
+                <span class="nouveau">Nouveau</span>
+            {% endif %}
+
+            {% if id_role == 1 %}
+                <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" data-offre-id="{{ off.id_offre }}" {% if off.in_wishlist %}checked{% endif %} />
+                <label for="wish{{ off.id_offre }}" class="wishlist-label">
+                    <i class="heart-icon {% if off.in_wishlist %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                </label>
+            {% endif %}
+        </div>
+        <h1>{{ off.titre }}</h1>
+        <div class="face_a_face">
+            <div class="offre-info">
+                <span class="entreprise">{{ off.nom }}</span>
+                <span class="domaine">{{ off.domaine }}</span>
+            </div>
+            <div class="offre-details">
+                <span class="localisation"><i class="bi bi-geo-alt"></i> {{ off.nom_ville }}</span>
+                <span class="salaire"><i class="bi bi-file-earmark-text"></i>{{ off.nom_contrat }}</span>
+            </div>
+        </div>
+        <p class="descriptif"><strong>Descriptif :</strong>
+            {{ off.descriptif }}
+        </p>
+        <div class="competences-ligne-postuler">
+            <div class="gauche">
+                <strong>Compétences liées :</strong>
+                <div class="offre-competences">
+                    {% for competence in off.competences|split(',') %}
+                        <span>{{ competence }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if id_role == 1 %}
+            <a href="/offres/postuler/{{ off.id_offre }}" class="postuler-button">Postuler</a>
+            {% endif %}
+        </div>
+        <p><strong>Reference :</strong> {{ off.id_offre }} </p>
+    </section>
+
+</main>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% if id_role == 1 %}
+    <script src="/Assets/wishlist.js"></script>
+{% endif %}
+
+{% endblock %}

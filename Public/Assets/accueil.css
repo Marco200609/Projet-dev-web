@@ -1,0 +1,115 @@
+.BodyAcceuil {
+    min-height: 200vh;
+}
+
+header {
+    background-color: #e4ecee;
+    position: relative;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.BoxBigLogo {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: disparitionLogo linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
+}
+
+.BigLogo {
+    max-height: 70vh; 
+    max-width: 85%;
+    width: auto;
+    height: auto;
+
+}
+
+/* Conteneur de l'indicateur */
+.Descendre {
+    position: absolute;
+    bottom: 10%; /* Aligné en bas */
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.Descendre::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-bottom: 3px solid #333; 
+    border-right: 3px solid #333;
+    transform: rotate(45deg);
+    animation: scroll-down 2s infinite;
+}
+
+/* Animation de rebond */
+@keyframes scroll-down {
+    0% {
+        transform: rotate(45deg) translate(0, 0);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(45deg) translate(15px, 15px);
+        opacity: 0;
+    }
+}
+
+.Animation > *{  
+    opacity: 0; 
+    animation: apparition linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 80vh;
+}
+
+
+/* L'animation LogoNavBar */
+@keyframes apparition {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); 
+    }
+    80% {
+        opacity: 0; 
+    }
+    100% {
+        opacity: 1; 
+        z-index: 2;
+        transform: translateY(0);
+    }
+}
+
+@keyframes disparitionLogo {
+    0% {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1); 
+    }
+    100% {
+        opacity: 0; 
+        visibility: hidden;
+        transform: scale(0.8);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Animation > * {
+        animation: none;
+    }
+}
+

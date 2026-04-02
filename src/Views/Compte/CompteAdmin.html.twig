@@ -1,0 +1,223 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Administrateur - {% endblock %}
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main class="dashboard">
+    <div class="profile-overview">
+        <div class="glass-card group-card">
+            <h3><i class="bi bi-database-fill-lock"></i> Administrateur</h3>
+            <div class="group-details">
+                <p><strong>Nom :</strong> {{ NomComplet.nom }} {{ NomComplet.prenom }}</p>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="mini-stat">
+                <span class="number">{{ NbEtudiants }}</span>
+                <span class="label">Étudiants</span>
+            </div>
+            <div class="mini-stat">
+                <span class="number">{{ NbEntreprises }}</span>
+                <span class="label">Entreprises</span>
+            </div>
+            <div class="mini-stat success">
+                <span class="number">{{ NbPilotes }}</span>
+                <span class="label">Pilotes</span>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="glass-card table-section">
+        <h3><i class="bi bi-people-fill"></i> Offres à valider <div class="table-search">
+            </div>
+        </h3>
+        <div class="table-wrapper"><table class="stats-table">
+                <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Entreprise</th>
+                    <th>Type</th>
+                    <th>Domaine</th>
+                    <th>Date de création</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if InfosOffre|length > 0 %}
+                    {% for offre in InfosOffre %}
+                        <tr>
+                            <td><strong>{{ offre.titre }}</strong>{% if offre.new == 1 %}<span class="badge-new">Nouveau !</span>{% endif %}</td>
+                            <td><span class="company-name">{{ offre.nom }}</span></td>
+                            <td><span class="type-tag {{ offre.nom_contrat|lower }}">{{ offre.nom_contrat }}</span></td>
+                            <td>{{ offre.domaine }}</td>
+                            <td>{{ offre.date_creation|date("d/m/Y") }}</td>
+                            <td class="cell-actions">
+                                <a href="/admin/offre/accept/{{ offre.id_offre }}" class="btn-action accept" onclick="return confirm('Accepter cette offre ?')">
+                                    <i class="bi bi-check2-square"></i>
+                                </a>
+                                <a href="/admin/offre/delete/{{ offre.id_offre }}" class="btn-action refuse" onclick="return confirm('Supprimer définitivement cette offre ?')">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="GestionCandidature">
+                            <i class="bi bi-info-circle"></i> Aucune nouvelle offre en attente.
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination1
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage1" id="parpage1" onchange="this.form.submit()">
+                    <option value="12" {% if parpage1 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage1 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage1 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage1 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage1 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
+    </section>
+
+
+    <section class="glass-card table-section">
+        <h3><i class="bi bi-people-fill"></i> Entreprises à valider <div class="table-search">
+            </div>
+        </h3>
+        <div class="table-wrapper"><table class="stats-table">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Mail</th>
+                    <th>Téléphone</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if InfosEntreprise|length > 0 %}
+                    {% for entreprise in InfosEntreprise %}
+                        <tr>
+                            <td><strong>{{ entreprise.nom }}</strong></td>
+                            <td><span class="company-name">{{ entreprise.adresse }}</span></td>
+                            <td>{{ entreprise.email }}</td>
+                            <td>{{ entreprise.telephone }}</td>
+                            <td class="cell-actions">
+                                <a href="/admin/entreprise/accept/{{ entreprise.id_entreprise }}" class="btn-action accept" onclick="return confirm('Accepter cette entreprise ?')">
+                                    <i class="bi bi-check2-square"></i>
+                                </a>
+                                <a href="/admin/entreprise/delete/{{ entreprise.id_entreprise }}" class="btn-action refuse" onclick="return confirm('Supprimer définitivement cette entreprise ?')">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="GestionCandidature">
+                            <i class="bi bi-info-circle"></i> Aucune nouvelle entreprise en attente.
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination2
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage2" id="parpage2" onchange="this.form.submit()">
+                    <option value="12" {% if parpage2 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage2 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage2 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage2 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage2 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
+    </section>
+
+
+    <section class="glass-card table-section">
+        <h3><i class="bi bi-people-fill"></i> Pilotes à valider <div class="table-search"></div>
+        </h3>
+        <div class="table-wrapper"><table class="stats-table">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Mail</th>
+                    <th>Téléphone</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if PiloteInfo|length > 0 %}
+                    {% for pilote in PiloteInfo %}
+                        <tr>
+                            <td><strong> {{ pilote.nom }} {{ pilote.prenom }} </strong></td>
+                            <td><span class="company-name"> {{ pilote.email }} </span></td>
+                            <td><span class="company-name"> {{ pilote.telephone }} </span></td>
+                            <td class="cell-actions">
+                                <a href="/admin/pilote/accept/{{ pilote.id_utilisateur }}" class="btn-action accept" onclick="return confirm('Accepter ce Pilote ?')">
+                                    <i class="bi bi-check2-square"></i>
+                                </a>
+                                <a href="/admin/pilote/delete/{{ pilote.id_utilisateur }}" class="btn-action refuse" onclick="return confirm('Supprimer définitivement ce Pilote ?')">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="GestionCandidature">
+                            <i class="bi bi-info-circle"></i> Aucun nouveau pilote en attente.
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination3
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage3" id="parpage3" onchange="this.form.submit()">
+                    <option value="12" {% if parpage3 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage3 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage3 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage3 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage3 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
+    </section>
+
+
+
+</main>
+
+{% endblock %}
+

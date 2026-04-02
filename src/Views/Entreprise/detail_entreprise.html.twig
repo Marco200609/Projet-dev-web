@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ entreprise.nom }} - {% endblock %}
+{% block links %}{{ include('Entreprise/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+    <section class="offre-det">
+        <div class="logo-entreprise">
+            <img class="img_entreprise" src="{{ entreprise.logo }}" alt="image entreprise">
+        </div>
+        <h1>{{ entreprise.nom }}</h1>
+        <div class="face_a_face">
+            <div class="offre-info">
+                <span class="mail-telephone"> <b> Mail : </b>{{ entreprise.email }}</span>
+                <span class="note">
+                    {% for i in 1..5 %}
+                        {% if id_role == 3 or id_role == 4 %}
+                            <form method="post" action="/detail_entreprise/note" style="display:inline;">
+                                <input type="hidden" name="id_entreprise" value="{{ entreprise.id_entreprise }}">
+                                <button type="submit" name="note" value="{{ i }}" class="bouton_etoile">
+                                    <i class="bi {% if i <= entreprise.note %}bi-star-fill{% else %}bi-star{% endif %}"></i>
+                                </button>
+                            </form>
+                        {% else %}
+                            <i class="bi {% if i <= entreprise.note %}bi-star-fill{% else %}bi-star{% endif %}"></i>
+                        {% endif %}
+                    {% endfor %}
+                    <i class="noir">({{ nb_note }})</i>
+                    {% if note_user != false %}
+                        <i class="bi bi-bookmark-check noir"> {{ note_user }}</i>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="offre-details">
+                <span class="localisation"><i class="bi bi-geo-alt"></i> {{ entreprise.nom_ville }}</span>
+                <span class="salaire"><i class="bi bi-people"></i> {{ entreprise.nb_employe }}</span>
+            </div>
+        </div>
+        <p class="descriptif"><strong>Descriptif :</strong>
+           {{ entreprise.descriptif }}
+        </p>
+        <div class="competences-ligne-postuler">
+
+            {% if entreprise.nb_offre != 0 %}
+                <div class="gauche">
+                <strong>Domaines liés :</strong>
+                <div class="offre-competences">
+                    {% for comp in entreprise.domaines_offres.domaine %}
+                        <span>comp</span>
+                    {% endfor %}
+                </div>
+                </div>
+                <a href="/offres?&entreprise={{ entreprise.nom }}" class="postuler-button">Voir les {{ entreprise.nb_offre}} offres</a>
+            {% endif %}
+        </div>
+    </section>
+
+    {% if offres is empty %}
+        <h2 class="titre-offre">Aucune offre en cours</h2>
+    {% else %}
+    <h2 class="titre-offre">Nos dernières offres</h2>
+    {% endif %}
+
+    <section class="liste_offres">
+        {% for off in offres %}
+            {% include 'Offre/offre.html.twig' with {
+                off: off
+            } %}
+        {% endfor %}
+    </section>
+
+</main>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% if id_role == 1 %}
+    <script src="/Assets/wishlist.js"></script>
+{% endif %}
+
+{% endblock %}

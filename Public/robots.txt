@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# interdire  d'aller sur les compte 
+Disallow: /CompteAdmin
+Disallow: /ComptePilote
+Disallow: /CompteEtudiant
+Disallow: /CompteEntreprise
+
+# interdit les modification
+Disallow: /offres/delete/
+Disallow: /entreprises/update/
+
+Sitemap: https://www.juniors.fr/sitemap.xml

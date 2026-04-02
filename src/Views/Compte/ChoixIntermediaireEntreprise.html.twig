@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Choix type compte entreprise - {% endblock %}
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+
+    <h1>Rechercher une entreprise déjà existante sur notre site ou créer le 1er compte de l'entreprise ?</h1>
+    {% if errors is defined and errors %}
+        <div>
+            <h3>Erreurs :</h3>
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="liste-compte">
+
+        <a href='/CompteInscription/Entreprise/Recherche' class="link-compte">
+        <div class="box-annonce">
+            <h2>Recherche une entrerprise</h2>
+            <p>Pour la gestion de l'entreprise sur notre site.</p>
+        </div>
+        </a>
+
+        <a href='/CompteInscription/Entreprise/Ajouter' class="link-compte">
+        <div class="box-annonce">
+            <h2>Créer le 1er compte entreprise sur notre site</h2>
+        </div>
+        </a>
+
+    </div>
+
+    <form action="/CompteConnexion" class="centrerPage">
+        <button class="postuler-button">Vous avez un compte ? Connectez-vous</button>
+    </form>
+
+</main>
+
+{% endblock %}

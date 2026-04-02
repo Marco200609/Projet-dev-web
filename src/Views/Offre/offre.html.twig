@@ -1,0 +1,36 @@
+<a href="/detail_offre/{{ off.id_offre }}" class="link-annonce">
+    <article class="box-annonce">
+        <div class="offre-header">
+            <span class="date"><i class="bi bi-calendar"></i> {{ off.date_creation }}</span>
+            {% if off.new %}
+                <span class="nouveau">Nouveau</span>
+            {% endif %}
+
+            {% if id_role == 1 %}
+                <input type="checkbox" id="wish{{ off.id_offre }}" class="wishlist-checkbox" data-offre-id="{{ off.id_offre }}" {% if off.in_wishlist %}checked{% endif %} />
+                <label for="wish{{ off.id_offre }}" class="wishlist-label">
+                    <i class="heart-icon {% if off.in_wishlist %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                </label>
+            {% endif %}
+
+        </div>
+        <h2 class="offre-titre">{{ off.titre }}</h2>
+        <div class="offre-content">
+            <div class="offre-main">
+                <div class="offre-info">
+                    <span class="entreprise">{{ off.nom }}</span>
+                    <span class="domaine">{{ off.domaine }}</span>
+                </div>
+                <div class="offre-competences">
+                    {% for competence in off.competences|split(',') %}
+                        <span>{{ competence }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="offre-details">
+                <span class="localisation"><i class="bi bi-geo-alt"></i> {{ off.nom_ville }}</span>
+                <span class="salaire"><i class="bi bi-file-earmark-text"></i>{{ off.nom_contrat }}</span>
+            </div>
+        </div>
+    </article>
+</a>

@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Entreprises - {% endblock %}
+{% block links %}{{ include('Entreprise/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+
+    <h1>Rechercher une entreprise :</h1>
+    <div class="Finder">
+        <form>
+            {% if parpage != 12 %}
+                <input type="hidden" name="parpage" value="{{ parpage }}">
+            {% endif %}
+            <label for="ville">Ville :</label>
+            <input list="villes_ent" id="ville_ent" name="ville" value="{{ ville }}" placeholder="Commencez à taper...">
+            <datalist id="villes_ent"></datalist>
+
+            <!--        Rechercher une entreprise-->
+            <br><br>
+            <label for="ville">Entreprise :</label>
+            <input list="entreprises_ent" id="entreprise_ent" name="entreprise" value="{{ entreprise }}" placeholder="Commencez à taper...">
+            <datalist id="entreprises_ent"></datalist>
+
+
+            <br><br> <!--enlever les br après-->
+
+            <button type="submit" >Rechercher</button>
+            <button><a href="/entreprises"> Réinitialiser</a></button>
+        </form>
+
+    </div>
+
+    {#  Si aucune entreprise affichage message  #}
+    {% if entreprises is empty %}
+        <h1>Aucune entreprise disponible</h1>
+    {% else %}
+
+    <h1>Entreprises disponibles :</h1>
+
+    <section class="liste-entreprise">
+        {% for ent in entreprises %}
+            <a href="detail_entreprise/{{ ent.id_entreprise }}" class="link-entreprise">
+                <article class="box-annonce">
+                    <img src="{{ ent.logo }}" alt="logo_entreprise" class="entreprise-logo">
+                    <h2 class="entreprise-titre">{{ ent.nom }}</h2>
+                    <div class="entreprise-content">
+                        <span class="localisation"><i class="bi bi-geo-alt"></i> {{ ent.nom_ville }}</span>
+                        <span class="note_page_entreprise">
+                            {% if ent.note is not null %}
+                                {% set nb = ent.note %}
+                                {% for i in 1..5 %}
+                                    {% if nb >= 1 %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+                                    {% set nb = nb - 1 %}
+                                {% endfor %}
+                            {% endif %}
+                        </span>
+                        <span class="nb-offre">{{ ent.nb_offre }} offres en cours</span>
+                    </div>
+                </article>
+            </a>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    <nav class="pagination">
+
+        {% include 'pagination.html.twig' with {
+            pagination: pagination
+        } %}
+
+        <form method="get" action="" class="pagination-form">
+            <input type="hidden" name="ville" value="{{ ville }}">
+            <input type="hidden" name="entreprise" value="{{ entreprise }}">
+
+            <select name="parpage" id="parpage" onchange="this.form.submit()">
+                <option value="12" {% if parpage == 12 %}selected{% endif %}>12</option>
+                <option value="24" {% if parpage == 24 %}selected{% endif %}>24</option>
+                <option value="48" {% if parpage == 48 %}selected{% endif %}>48</option>
+                <option value="96" {% if parpage == 96 %}selected{% endif %}>96</option>
+                <option value="-1" {% if parpage == -1 %}selected{% endif %}>illimité</option>
+            </select>
+        </form>
+    </nav>
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/Assets/DonnesRecherche.js"></script>
+{% endblock %}

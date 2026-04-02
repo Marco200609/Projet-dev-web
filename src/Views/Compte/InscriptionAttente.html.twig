@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription en attente - {% endblock %}
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+
+    {% if role == '3' or role == '2' %}
+        <p>Vous vous êtes inscrit. Attendez la confirmation d'un administrateur</p>
+    {% else %}
+        <p>Accès refusé.</p>
+    {% endif %}
+</main>
+
+{% endblock %}
+

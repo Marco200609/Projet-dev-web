@@ -1,0 +1,9 @@
+{% if pagination.prevUrl %}
+    <a href="{{ pagination.prevUrl }}">&laquo;</a>
+{% endif %}
+{% for link in pagination.links %}
+    <a href="{{ link.url }}" {% if link.active %}class="page_active"{% endif %}>{{ link.page }}</a>
+{% endfor %}
+{% if pagination.nextUrl %}
+    <a href="{{ pagination.nextUrl }}">&raquo;</a>
+{% endif %}

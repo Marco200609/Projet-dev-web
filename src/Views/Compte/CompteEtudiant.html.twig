@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte étudiant - {% endblock %}
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+    <section class="dashboard">
+        <div class="profile-overview">
+            <div class="glass-card group-card">
+                <h3><i class="bi bi-people-fill"></i> {{ NomEtGroupe.nom }} {{ NomEtGroupe.prenom }}</h3>
+                <div class="group-details">
+                    <p><strong>Promotion :</strong> {{ NomEtGroupe.nom_groupe }} </p>
+                    <p><strong>Référent :</strong> {{ NomPilote.nom }} {{ NomPilote.prenom }}</p>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="mini-stat">
+                    <span class="number">{{ NbCandidatures }}</span>
+                    <span class="label">Candidatures Envoyées</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="glass-card wishlist-section">
+            <h3><i class="bi bi-heart-fill"></i> Ma Wishlist</h3>
+            <div class="wishlist-container">
+                {% if wishlist is not empty %}
+                <div class="wishlist-item">
+                        {% for off in wishlist %}
+                            {% include 'Offre/offre.html.twig' with {
+                                off: off,
+                                id_role: id_role
+                            } %}
+                        {% endfor %}
+                </div>
+
+                {% else %}
+                    <span class="wishlist_label">Aucune Offre en Wishlist</span>
+                {% endif %}
+            </div>
+
+            <nav class="pagination" style="margin: 10px auto;">
+
+                {% include 'pagination.html.twig' with {
+                    pagination: pagination1
+                } %}
+
+                <form method="get" action="" class="pagination-form">
+
+                    <select name="parpage1" id="parpage1" onchange="this.form.submit()">
+                        <option value="12" {% if parpage1 == 12 %}selected{% endif %}>12</option>
+                        <option value="24" {% if parpage1 == 24 %}selected{% endif %}>24</option>
+                        <option value="48" {% if parpage1 == 48 %}selected{% endif %}>48</option>
+                        <option value="96" {% if parpage1 == 96 %}selected{% endif %}>96</option>
+                        <option value="-1" {% if parpage1 == -1 %}selected{% endif %}>illimité</option>
+                    </select>
+                </form>
+            </nav>
+
+        </section>
+
+
+        <section class="glass-card table-section">
+            <h3><i class="bi bi-graph-up-arrow"></i> Suivi des candidatures</h3>
+            <div class="table-wrapper"><table class="stats-table">
+                    <thead>
+                    <tr>
+                        <th>Entreprise</th>
+                        <th>Type</th>
+                        <th>Poste</th>
+                        <th>Date d'envoi</th>
+                        <th>Lien</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cand in candidatures %}
+                        <tr>
+                            <td>{{ cand.nom }}</td>
+                            <td>{{ cand.nom_contrat }}</td>
+                            <td>{{ cand.titre }}</td>
+                            <td>{{ cand.date_candidature|date('d/m/Y') }}</td>
+                            <td><a href="/detail_offre/{{ cand.id_offre }}" class="wishlist_link"><i class="bi bi-box-arrow-up-right"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table> </div>
+            <nav class="pagination" style="margin: 10px auto;">
+
+                {% include 'pagination.html.twig' with {
+                    pagination: pagination2
+                } %}
+
+                <form method="get" action="" class="pagination-form">
+
+                    <select name="parpage2" id="parpage2" onchange="this.form.submit()">
+                        <option value="12" {% if parpage2 == 12 %}selected{% endif %}>12</option>
+                        <option value="24" {% if parpage2 == 24 %}selected{% endif %}>24</option>
+                        <option value="48" {% if parpage2 == 48 %}selected{% endif %}>48</option>
+                        <option value="96" {% if parpage2 == 96 %}selected{% endif %}>96</option>
+                        <option value="-1" {% if parpage2 == -1 %}selected{% endif %}>illimité</option>
+                    </select>
+                </form>
+            </nav>
+            </section>
+        </section>
+    </section>
+
+</main>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% if id_role == 1 %}
+    <script src="/Assets/wishlist.js"></script>
+{% endif %}
+
+{% endblock %}

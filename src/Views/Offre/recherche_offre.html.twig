@@ -1,0 +1,121 @@
+<form action="/offres" method="get" class="Finder">
+{% if parpage != 12 %}
+    <input type="hidden" name="parpage" value="{{ parpage }}">
+{% endif %}
+
+<label for="nomOffre">Nom de l'offre :</label>
+<input list="nomOffres" id="nomOffre" name="nomOffre" value="{{ nom_offre }}" placeholder="Commencez à taper...">
+
+<br>
+
+<div class="dropdown fleche-wrapper">
+    <button
+            type="button"
+            class="toggle-fleche">
+
+        <svg class="bi bi-chevron-compact-down hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67"/>
+        </svg>
+
+        <svg class="bi bi-chevron-compact-up visible" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894z"/>
+        </svg>
+    </button>
+
+    <div class="dropbtn">Contrat</div>
+    <div class="dropdown-content">
+        {% for contrat in liste_contrats %}
+            <label>
+                <input type="checkbox" name="contrats[]" value="{{ contrat }}"
+                       {% if contrat in contrats %}checked{% endif %}>
+                {{ contrat }}
+            </label><br>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="dropdown fleche-wrapper">
+    <button
+            type="button"
+            class="toggle-fleche">
+
+        <svg class="bi bi-chevron-compact-down hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67"/>
+        </svg>
+
+        <svg class="bi bi-chevron-compact-up visible" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894z"/>
+        </svg>
+    </button>
+
+    <div class="dropbtn">Domaine</div>
+    <div class="dropdown-content">
+        {% for domaine in liste_domaines %}
+            <label>
+                <input type="checkbox" name="domaines[]" value="{{ domaine }}"
+                       {% if domaine in domaines %}checked{% endif %}>
+                {{ domaine }}
+            </label><br>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="dropdown fleche-wrapper">
+
+    <button
+            type="button"
+            class="toggle-fleche">
+
+        <svg class="bi bi-chevron-compact-down icon1 hidden" xmlns="http://www.w3.org/2000/svg" width="16"
+             height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67"/>
+        </svg>
+
+        <svg class="bi bi-chevron-compact-up icon2 visible" xmlns="http://www.w3.org/2000/svg" width="16"
+             height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M7.776 5.553a.5.5 0 0 1 .448 0l6 3a.5.5 0 1 1-.448.894L8 6.56 2.224 9.447a.5.5 0 1 1-.448-.894z"/>
+        </svg>
+    </button>
+
+    <div class="dropbtn">Compétence</div>
+    <div class="dropdown-content">
+        {% for competence in liste_competences %}
+            <label>
+                <input type="checkbox" name="competences[]" value="{{ competence }}"
+                       {% if competence in competences %}checked{% endif %}>
+                {{ competence }}
+            </label><br>
+        {% endfor %}
+    </div>
+</div>
+
+<br><br>
+<label for="ville">Ville :</label>
+<input list="villes_off" id="ville_off" name="ville" value="{{ ville }}" placeholder="Commencez à taper...">
+<datalist id="villes_off"></datalist>
+
+<!--        Rechercher une entreprise-->
+<br><br>
+<label for="ville">Entreprise :</label>
+<input list="entreprises_off" id="entreprise_off" name="entreprise" value="{{ entreprise }}" placeholder="Commencez à taper...">
+<datalist id="entreprises_off"></datalist>
+
+
+<br><br> <!--enlever les br après-->
+
+<button type="submit" >Rechercher</button>
+    <button><a href="/offres" class="btn">Réinitialiser</a></button>
+</form>
+
+<script src="/Assets/DonnesRecherche.js"></script>
+<script src="/Assets/Chevrons_recherche.js"></script>

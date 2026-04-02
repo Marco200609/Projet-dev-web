@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidature - {% endblock %}
+{% block links %}{{ include('Offre/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+    {% if errors is defined and errors|length > 0 %}
+        <div>
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <section>
+        <h1>{{ offre.titre }}</h1>
+        <div class="zone_info">
+            <span class="entreprise"> {{ offre.nom }}</span>
+            <span class="domaine">{{ offre.domaine }}</span>
+            <span class="localisation"><i class="bi bi-geo-alt"></i> {{ offre.nom_ville }}</span>
+            <span><strong>Reference :</strong> {{ offre.id_offre }} </span>
+        </div>
+
+        <form method="post" action="/offres/formcandidature/" enctype="multipart/form-data" class="candidature">
+
+        <input type="hidden" name="id_offre" value="{{ offre.id_offre }}">
+
+            <div class="form-group">
+                <label for="filecv">Lettre de motivation :</label><br>
+                <textarea name="lettre_motivation" rows="10" cols="75" placeholder="Votre message à destination du recruteur" minlength="20" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="filecv">CV (PDF) :</label><br>
+                <input name="cv" type="file" id="filecv" required>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Envoyer">
+                <input type="reset" value="Annuler">
+            </div>
+
+        </form>
+    </section>
+</main>
+
+    <script src="/Assets/validation_file.js"></script>
+{% endblock %}
+

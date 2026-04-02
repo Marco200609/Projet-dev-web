@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}{{ include('Acceuil/_header.html.twig') }}{% endblock %}
+
+{% block BodyAcceuil %}BodyAcceuil{% endblock %}
+
+{% block Animation %}Animation{% endblock %}
+
+{% block links %}{{ include('Acceuil/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+    <main class="Animation">
+        <h1> Avec Juniors, façonnez votre avenir ! </h1>
+
+        <section class="stats-carousel">
+            <input type="radio" name="slider" id="stat-1" checked>
+            <input type="radio" name="slider" id="stat-2">
+            <input type="radio" name="slider" id="stat-3">
+
+            <div class="cards-container">
+                <label class="stat-card" for="stat-1" id="card-1">
+                    <div class="stat-icon">💼</div>
+                    <div class="stat-value"> {{NbOffres}}</div>
+                    <div class="stat-label">Offres actives</div>
+                </label>
+
+                <label class="stat-card" for="stat-2" id="card-2">
+                    <div class="stat-icon">🏢</div>
+                    <div class="stat-value"> {{NbEntreprises}}</div>
+                    <div class="stat-label">Entreprises partenaires</div>
+                </label>
+
+                <label class="stat-card" for="stat-3" id="card-3">
+                    <div class="stat-icon">🎓</div>
+                    <div class="stat-value"> {{NbJuniors}}</div>
+                    <div class="stat-label">Juniors recrutés</div>
+                </label>
+            </div>
+        </section>
+
+    <h1>Rechercher une offre :</h1>
+
+    {% include 'Offre/recherche_offre.html.twig' with {
+        parpage: 12,
+        liste_contrats: liste_contrats,
+        liste_domaines: liste_domaines,
+        liste_competences: liste_competences,
+    } %}
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/Assets/recherche.js"></script>
+{% endblock %}

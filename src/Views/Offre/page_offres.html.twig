@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offres - {% endblock %}
+{% block links %}{{ include('Offre/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main>
+
+    <h1>Rechercher une offre :</h1>
+
+    {% include 'Offre/recherche_offre.html.twig' with {
+        parpage: parpage,
+        nom_offre: nom_offre,
+        liste_contrats: liste_contrats,
+        contrats: contrats,
+        liste_domaines: liste_domaines,
+        domaines: domaines,
+        liste_competences: liste_competences,
+        competences: competences,
+        ville: ville,
+        entreprise: entreprise,
+    } %}
+
+    {% if offres is empty %}
+        <h1> Aucune offre trouvée </h1>
+    {% else %}
+        <h1> Offres disponibles </h1>
+    {% endif %}
+
+    <section class="liste-annonce">
+        {% for off in offres %}
+            {% include 'Offre/offre.html.twig' with {
+                off: off,
+                id_role: id_role
+            } %}
+        {% endfor %}
+
+    </section>
+
+    <nav class="pagination">
+        {% include 'pagination.html.twig' with {
+            pagination: pagination
+        } %}
+
+        <form method="get" action="" class="pagination-form">
+            <input type="hidden" name="nomOffre" value="{{ nom_offre }}">
+            <input type="hidden" name="ville" value="{{ ville }}">
+            <input type="hidden" name="entreprise" value="{{ entreprise }}">
+            {% for c in contrats %}
+                <input type="hidden" name="contrats[]" value="{{ c }}">
+            {% endfor %}
+            {% for d in domaines %}
+                <input type="hidden" name="domaines[]" value="{{ d }}">
+            {% endfor %}
+            {% for comp in competences %}
+                <input type="hidden" name="competences[]" value="{{ comp }}">
+            {% endfor %}
+
+            <select name="parpage" id="parpage" onchange="this.form.submit()">
+                <option value="12" {% if parpage == 12 %}selected{% endif %}>12</option>
+                <option value="24" {% if parpage == 24 %}selected{% endif %}>24</option>
+                <option value="48" {% if parpage == 48 %}selected{% endif %}>48</option>
+                <option value="96" {% if parpage == 96 %}selected{% endif %}>96</option>
+                <option value="-1" {% if parpage == -1 %}selected{% endif %}>illimité</option>
+            </select>
+        </form>
+    </nav>
+
+</main>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% if id_role == 1 %}
+    <script src="/Assets/wishlist.js"></script>
+{% endif %}
+
+{% endblock %}
+
+
+
+

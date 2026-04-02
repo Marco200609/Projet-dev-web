@@ -1,0 +1,241 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte pilote - {% endblock %}
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main class="dashboard">
+    <div class="profile-overview">
+        <div class="glass-card group-card">
+            <h3><i class="bi bi-person-badge"></i> Espace Pilote</h3>
+            <div class="group-details">
+                <p><strong>Responsable :</strong> {{ InfosPilote.prenom }} {{ InfosPilote.nom }}</p>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="mini-stat">
+                <span class="number">{{ NbEtudiant }}</span>
+                <span class="label">Étudiants</span>
+            </div>
+            <div class="mini-stat">
+                <span class="number">{{ NbGroupes }}</span>
+                <span class="label">Groupe(s)</span>
+            </div>
+        </div>
+    </div>
+
+        <section class="glass-card wishlist-section">
+            <h3><i class="bi bi-people-fill"></i> Mes Groupes d'Étudiants</h3>
+            <div class="Company-container">
+                {% if Groupes|length > 0 %}
+                    {% for groupe in Groupes %}
+                        <div class="Company-offer">
+                            <div class="wish-info">
+                                <h4>{{ groupe.nom_groupe }}</h4>
+                                <p>{{ groupe.nb_etudiants }} étudiant{{ groupe.nb_etudiants > 1 ? 's' : '' }}</p>
+                                <a href="#" class="view-link toggle-etudiants" data-groupe-id="{{ groupe.id_groupe }}">
+                                    Voir les étudiants <i class="bi bi-chevron-down"></i>
+                                </a>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-btn">
+                                    <i class="bi bi-mortarboard"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="etudiants-list" id="etudiants-{{ groupe.id_groupe }}" style="display: none;"></div>
+
+                    {% endfor %}
+                {% else %}
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        Aucun groupe d'étudiants.
+                    </div>
+                {% endif %}
+            </div>
+            <nav class="pagination" style="margin: 10px auto;">
+
+                {% include 'pagination.html.twig' with {
+                    pagination: pagination1
+                } %}
+
+                <form method="get" action="" class="pagination-form">
+
+                    <select name="parpage1" id="parpage1" onchange="this.form.submit()">
+                        <option value="12" {% if parpage1 == 12 %}selected{% endif %}>12</option>
+                        <option value="24" {% if parpage1 == 24 %}selected{% endif %}>24</option>
+                        <option value="48" {% if parpage1 == 48 %}selected{% endif %}>48</option>
+                        <option value="96" {% if parpage1 == 96 %}selected{% endif %}>96</option>
+                        <option value="-1" {% if parpage1 == -1 %}selected{% endif %}>illimité</option>
+                    </select>
+                </form>
+            </nav>
+        </section>
+
+
+        <div class="glass-card table-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 20px;">
+            <h3><i class="bi bi-megaphone-fill"></i> Gestion des Candidatures</h3>
+            <div class="search-bar-candidatures">
+                <input type="text" id="studentSearch" placeholder="Filtrer par étudiant...">
+            </div>
+        </div>
+            <div class="table-wrapper">
+                <table class="stats-table">
+                    <thead>
+                    <tr>
+                        <th>Étudiant</th>
+                        <th>Groupe</th>
+                        <th>Entreprise</th>
+                        <th>Nom Annonce</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if Candidatures|length > 0 %}
+                        {% for candidature in Candidatures %}
+                            <tr>
+                                <td><strong>{{ candidature.prenom }} {{ candidature.nom|upper }}</strong></td>
+                                <td><span class="company-name">{{ candidature.nom_groupe }}</span></td>
+                                <td>{{ candidature.nom_entreprise }}</td>
+                                <td>{{ candidature.nom_offre }}</td>
+                                <td><span class="type-tag {{ candidature.type_offre|lower == 'stage' ? 'stage' : 'alternance' }}">{{ candidature.type_offre }}</span></td>
+                                <td class="cell-actions">{{ candidature.date_candidature|date("d/m/Y") }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td class = "GestionCandidature" > Aucune candidature enregistrée pour vos groupes.</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <nav class="pagination" style="margin: 10px auto;">
+
+                {% include 'pagination.html.twig' with {
+                    pagination: pagination2
+                } %}
+
+                <form method="get" action="" class="pagination-form">
+
+                    <select name="parpage2" id="parpage2" onchange="this.form.submit()">
+                        <option value="12" {% if parpage2 == 12 %}selected{% endif %}>12</option>
+                        <option value="24" {% if parpage2 == 24 %}selected{% endif %}>24</option>
+                        <option value="48" {% if parpage2 == 48 %}selected{% endif %}>48</option>
+                        <option value="96" {% if parpage2 == 96 %}selected{% endif %}>96</option>
+                        <option value="-1" {% if parpage2 == -1 %}selected{% endif %}>illimité</option>
+                    </select>
+                </form>
+            </nav>
+        </div>
+    </section>
+
+
+        <section class="glass-card table-section-groupe">
+            <div class="groupCreationTitre">
+                <h3><i class="bi bi-megaphone-fill"></i> Création de groupe </h3>
+            </div>
+            <div class="group-form-container group-creationContainer">
+
+                <form method="POST" action="/creer-groupe">
+
+                    <div class="input-group">
+                        <label for="groupName" class="group-creation">Nom du groupe</label>
+                        <input
+                                type="text"
+                                id="groupName"
+                                name="groupName"
+                                placeholder="Ex: Équipe Alpha"
+                                required
+                                style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white;">
+                    </div>
+
+                    <button
+                            type="submit"
+                            style="margin-top: 10px; padding: 12px; border-radius: 8px; border: none; background: #4CAF50; color: white; font-weight: bold; cursor: pointer;">
+                        Créer le groupe
+                    </button>
+
+                </form>
+
+            </div>
+        </section>
+</main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.toggle-etudiants').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const groupeId = this.getAttribute('data-groupe-id');
+                    const etudiantsDiv = document.getElementById('etudiants-' + groupeId);
+                    const icon = this.querySelector('i');
+
+                    if (etudiantsDiv.style.display === 'none') {
+                        if (etudiantsDiv.innerHTML === '') {
+                            etudiantsDiv.innerHTML = '<p style="padding: 10px; font-style: italic; opacity: 0.5;">Chargement...</p>';
+
+                            fetch('/api/etudiants-groupe/' + groupeId)
+                                .then(response => response.json())
+                                .then(etudiants => {
+                                    if (etudiants.length > 0) {
+                                        let html = '<div style="display: flex; flex-direction: column;">';
+                                        etudiants.forEach(etudiant => {
+                                            html += `
+                                            <div class="etudiant-item" style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 0.9rem;">
+                                                <i class="bi bi-person-fill" style="margin-right: 8px; opacity: 0.6;"></i>
+                                                ${etudiant.prenom} <strong>${etudiant.nom.toUpperCase()}</strong>
+                                            </div>`;
+                                        });
+                                        html += '</div>';
+                                        etudiantsDiv.innerHTML = html;
+                                    } else {
+                                        etudiantsDiv.innerHTML = '<p style="color: #666; font-style: italic; padding: 10px;">Aucun étudiant dans ce groupe.</p>';
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Erreur:', error);
+                                    etudiantsDiv.innerHTML = '<p style="color: #f00; padding: 10px;">Erreur lors du chargement.</p>';
+                                });
+                        }
+
+                        etudiantsDiv.style.display = 'block';
+                        icon.className = 'bi bi-chevron-up';
+                    } else {
+                        etudiantsDiv.style.display = 'none';
+                        icon.className = 'bi bi-chevron-down';
+                    }
+                });
+            });
+        });
+        // --- Système de filtrage de la table ---
+        const searchInput = document.getElementById('studentSearch');
+        const tableRows = document.querySelectorAll('.stats-table tbody tr');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+
+            tableRows.forEach(row => {
+                // On récupère le texte de la première colonne (Étudiant)
+                const studentCell = row.querySelector('td:first-child');
+
+                if (studentCell) {
+                    const studentName = studentCell.textContent.toLowerCase();
+
+                    // Si le nom contient le terme recherché, on affiche, sinon on cache
+                    if (studentName.includes(searchTerm)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
+{% endblock %}

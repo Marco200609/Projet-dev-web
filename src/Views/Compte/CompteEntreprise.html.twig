@@ -1,0 +1,196 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte entreprise - {% endblock %}
+{% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
+
+{% block main %}
+
+<main class="dashboard">
+    <div class="profile-overview">
+        <div class="glass-card group-card">
+            <h3><i class="bi bi-building"></i> {{ InfosEntreprise.nom }}</h3>
+            <div class="group-details">
+                <p><strong>Nombre d'employés :</strong> {{ InfosEntreprise.nb_employe }}</p>
+                <p><strong>Adresse :</strong> {{ InfosEntreprise.adresse }}</p>
+                <p><strong>Descriptif :</strong> {{ InfosEntreprise.descriptif }}</p>
+            </div>
+        </div>
+
+
+        <div class="stats-row">
+            <div class="mini-stat">
+                <span class="number">{{ NbOffres.nb_offres }}</span>
+                <span class="label">Total offres</span>
+            </div>
+
+            <div class="mini-stat">
+                <span class="number">{{ OffresActives|length }}</span>
+                <span class="label">Offres actives</span>
+            </div>
+
+            <div class="mini-stat success">
+                <span class="number">{{ OffresEnPause|length }}</span>
+                <span class="label">Offres en pause</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="glass-card wishlist-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3><i class="bi bi-megaphone-fill"></i> Offres en cours </h3>
+            <a href="/offres/add" class="btn-add-offer"><i class="bi bi-plus-circle-fill"></i> Publier une annonce</a>
+        </div>
+
+        <div class="Company-container">
+            {% if OffresActives|length > 0 %}
+                {% for offre in OffresActives %}
+                    <div class="Company-offer">
+                        <div class="wish-info">
+                            <h4>{{ offre.titre }}</h4>
+                            <p>{{ offre.nom_contrat }} • {{ offre.nb_cand }} candidatures</p>
+                            <a href="/offres/update/{{ offre.id_offre }}" class="view-link">Modifier l'offre <i class="bi bi-pencil-square"></i></a>
+
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn pause" title="Mettre en pause" data-id="{{ offre.id_offre }}"><i class="bi bi-pause-circle"></i></button>
+                            <button class="action-btn delete" title="Supprimer l'annonce" data-id="{{ offre.id_offre }}"><i class="bi bi-trash3-fill"></i></button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    Vous n'avez aucune offre en cours. <a href="/offres/add">Publiez-en une maintenant</a> !
+                </div>
+            {% endif %}
+        </div>
+
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination1
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage1" id="parpage1" onchange="this.form.submit()">
+                    <option value="12" {% if parpage1 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage1 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage1 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage1 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage1 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
+    </section>
+
+    <section class="glass-card wishlist-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3><i class="bi bi-pause-circle-fill"></i> Offres en Pause</h3>
+        </div>
+
+        <div class="Company-container">
+            {% if OffresEnPause|length > 0 %}
+                {% for offre in OffresEnPause %}
+                    <div class="Company-offer">
+                        <div class="wish-info">
+                            <h4>{{ offre.titre }}</h4>
+                            <p>{{ offre.nom_contrat }} • {{ offre.nb_cand }} candidatures</p>
+                            <a href="/offres/update/{{ offre.id_offre }}" class="view-link">
+                                Modifier l'offre <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn resume" title="Réactiver l'annonce" data-id="{{ offre.id_offre }}"><i class="bi bi-play-circle"></i></button>
+                            <button class="action-btn delete" title="Supprimer l'annonce" data-id="{{ offre.id_offre }}"><i class="bi bi-trash3-fill"></i></button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; padding: 40px; color: #666;"> Aucune offre en pause.</div>
+            {% endif %}
+        </div>
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination2
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage2" id="parpage2" onchange="this.form.submit()">
+                    <option value="12" {% if parpage2 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage2 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage2 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage2 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage2 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
+    </section>
+</main>
+
+    <script>
+        // Boutons pause/resume
+        document.querySelectorAll('.action-btn.pause, .action-btn.resume').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const id_offre = this.getAttribute('data-id');
+
+                fetch('/offres/togglepause', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id_offre=' + id_offre
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Erreur: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        alert('Une erreur est survenue');
+                    });
+            });
+        });
+
+        // Boutons supprimer
+        document.querySelectorAll('.action-btn.delete').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const id_offre = this.getAttribute('data-id');
+
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette offre ? Cette action est irréversible.')) {
+                    fetch('/offres/delete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'id_offre=' + id_offre
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Offre supprimée avec succès');
+                                location.reload();
+                            } else {
+                                alert('Erreur: ' + data.error);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erreur:', error);
+                            alert('Une erreur est survenue');
+                        });
+                }
+            });
+        });
+    </script>
+
+
+
+
+{% endblock %}
