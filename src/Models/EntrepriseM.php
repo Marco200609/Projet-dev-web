@@ -14,14 +14,14 @@ class EntrepriseM extends PdoM
         }
         $start = ($page - 1) * $parpage;
 
-        $rq = $this->pdo->prepare("SELECT entreprise.id_entreprise, entreprise.nom, entreprise.logo, villes.nom_ville, AVG(note_entreprise.note)AS note, COUNT(offre.id_offre) AS nb_offre FROM entreprise
+        $rq = $this->pdo->prepare("SELECT entreprise.id_entreprise, entreprise.nom, entreprise.logo, villes.nom_ville, AVG(note_entreprise.note)AS note, COUNT(DISTINCT offre.id_offre) AS nb_offre FROM entreprise
                                     LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
                                     LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
                                     LEFT JOIN note_entreprise ON entreprise.id_entreprise = note_entreprise.id_entreprise_fk
                                     LEFT JOIN offre ON entreprise.id_entreprise = offre.id_entreprise_fk
                                     WHERE entreprise.nom LIKE :nom AND villes.nom_ville LIKE :ville AND entreprise.visible = 1
-                                    GROUP BY entreprise.id_entreprise
-                                    ORDER BY entreprise.nom asc
+                                    GROUP BY entreprise.id_entreprise, entreprise.nom
+                                    ORDER BY entreprise.nom
                                     LIMIT :start, :parpage
                                     ");
         $rq->bindValue(':start', (int)$start, PDO::PARAM_INT);
@@ -44,7 +44,7 @@ class EntrepriseM extends PdoM
     }
 
     public function getDetailEntreprise($id) : array
-    {        $rq = $this->pdo->prepare("SELECT entreprise.id_entreprise, entreprise.nom, entreprise.logo, villes.nom_ville, AVG(note_entreprise.note)AS note, COUNT(offre.id_offre) AS nb_offre, entreprise.descriptif, entreprise.nb_employe, contact.email FROM entreprise
+    {        $rq = $this->pdo->prepare("SELECT entreprise.id_entreprise, entreprise.nom, entreprise.logo, villes.nom_ville, AVG(note_entreprise.note)AS note, COUNT(DISTINCT offre.id_offre) AS nb_offre, entreprise.descriptif, entreprise.nb_employe, contact.email FROM entreprise
                                     LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
                                     LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
                                     LEFT JOIN note_entreprise ON entreprise.id_entreprise = note_entreprise.id_entreprise_fk

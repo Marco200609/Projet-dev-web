@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Choix type compte entreprise - {% endblock %}
 {% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
 
 {% block main %}
@@ -18,15 +19,19 @@
         </div>
     {% endif %}
 
-    <div class="choix-compte">
+    <div class="liste-compte">
 
-        <a href='/CompteInscription/Entreprise/Recherche' class="Finder">
+        <a href='/CompteInscription/Entreprise/Recherche' class="link-compte">
+        <div class="box-annonce">
             <h2>Recherche une entrerprise</h2>
             <p>Pour la gestion de l'entreprise sur notre site.</p>
+        </div>
         </a>
 
-        <a href='/CompteInscription/Entreprise/Ajouter' class="Finder">
+        <a href='/CompteInscription/Entreprise/Ajouter' class="link-compte">
+        <div class="box-annonce">
             <h2>Créer le 1er compte entreprise sur notre site</h2>
+        </div>
         </a>
 
     </div>

@@ -12,6 +12,11 @@ class VilleC
             $this->modelVille = new VilleM();
         }
 
+    /**
+     * Récupère les villes associées aux offres d'emploi et les retourne au format JSON.
+     *
+     * @return void
+     */
     public function getVilleOffre() : void
     {
         $ville = $_GET['ville'] ?? '';
@@ -20,6 +25,11 @@ class VilleC
         echo json_encode($villes);
     }
 
+    /**
+     * Récupère les villes associées aux entreprises et les retourne au format JSON.
+     *
+     * @return void
+     */
     public function getVilleEntreprise() : void
     {
         $ville = $_GET['ville'] ?? '';

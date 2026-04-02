@@ -20,6 +20,25 @@ class OffreC
         $this->templateEngine = $templateEngine;
     }
 
+    /**
+     * Tests de validation du formulaire d'offre
+     *
+     * @param $titre
+     * @param $pays
+     * @param $departement
+     * @param $ville
+     * @param $adresse
+     * @param $domaine
+     * @param $contrat
+     * @param $entreprise
+     * @param $mail
+     * @param $telephone
+     * @param $competences
+     * @param $descriptif
+     * @param $unite_duree
+     * @param $duree
+     * @return array|array[]
+     */
     public function TestsFormOffre($titre, $pays, $departement, $ville, $adresse, $domaine, $contrat, $entreprise, $mail, $telephone, $competences, $descriptif, $unite_duree=null, $duree=null) : array
     {
         $errors = [];
@@ -85,6 +104,11 @@ class OffreC
             ];
     }
 
+    /**
+     *  AJAX : Ajoute ou retire une offre des favoris de l'utilisateur
+     *
+     * @return void
+     */
     public function ChangeWishlist() : void
     {
         if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
@@ -104,6 +128,11 @@ class OffreC
     }
 
 
+    /**
+     *  Affiche la page de recherche d'offres avec les résultats filtrés selon les critères de recherche
+     *
+     * @return void
+     */
     public function PageOffres() : void
     {
         if (session_status() and isset($_SESSION['id'])) {
@@ -135,6 +164,7 @@ class OffreC
 
         $pagination = pagination($total, $page, $parpage, '/offres', $_GET);
 
+
         echo $this->templateEngine->render('Offre/page_offres.html.twig', [
             'offres' => $offres,
             'id_role' => $_SESSION['role'] ?? 0,
@@ -158,6 +188,12 @@ class OffreC
         ]);
     }
 
+    /**
+     *  Affiche la page de détail d'une offre avec les informations complètes de l'offre et les actions possibles selon le rôle de l'utilisateur (candidater, ajouter aux favoris, etc.)
+     *
+     * @param $id_offre
+     * @return void
+     */
     public function PageDetailOffre($id_offre) : void
     {
         if (session_status() && isset($_SESSION['id'])) {
@@ -178,6 +214,11 @@ class OffreC
         ]);
     }
 
+    /**
+     *  Affiche la page de formulaire d'ajout d'offre avec les champs nécessaires pour créer une nouvelle offre et les options disponibles (contrats, domaines, etc.)
+     *
+     * @return void
+     */
     public function PageFormAddOffre() : void
     {
         if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
@@ -190,6 +231,12 @@ class OffreC
         echo $this->templateEngine->render('Compte/add_offre.html.twig', ['unites_duree' =>$unites_duree, 'liste_contrats' => $liste_contrats]);
     }
 
+    /**
+     *  Affiche la page de formulaire de modification d'offre avec les champs pré-remplis avec les informations de l'offre à modifier et les options disponibles (contrats, domaines, etc.)
+     *
+     * @param $id
+     * @return void
+     */
     public function PageFormUpdateOffre($id) : void
     {
         if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
@@ -209,7 +256,11 @@ class OffreC
     }
 
 
-
+    /**
+     *  Traite les données du formulaire d'ajout d'offre, effectue les validations nécessaires et enregistre la nouvelle offre dans la base de données si les données sont valides, sinon affiche les erreurs de validation
+     *
+     * @return void
+     */
     public function FormAddOffre() : void
     {
         if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
@@ -250,9 +301,9 @@ class OffreC
                 exit();
             }
 
+            $id_offre = $this->modelOffre->addOffre($var['titre'], $var['pays'], $var['departement'], $var['ville'], $var['adresse'], $var['domaine'], $var['contrat'], $var['entreprise'], $var['mail'], $var['telephone'], $var['competences'], $var['unite_duree'], $var['duree'], $var['descriptif']);
             // Stockage des données brutes
-            if ($this->modelOffre->addOffre($var['titre'], $var['pays'], $var['departement'], $var['ville'], $var['adresse'], $var['domaine'], $var['contrat'], $var['entreprise'], $var['mail'], $var['telephone'], $var['competences'], $var['unite_duree'], $var['duree'], $var['descriptif'])) {
-                // ToDo modifier le lien
+            if ($id_offre != 0) {
                 $offre = (new OffreM())->getCandidatOffre($id_offre);
                 echo $this->templateEngine->render('Offre/offre_accepte.html.twig', ['offre' => $offre]);
                 exit();
@@ -271,6 +322,12 @@ class OffreC
         }
     }
 
+    /**
+     *  Traite les données du formulaire de modification d'offre, effectue les validations nécessaires et met à jour l'offre dans la base de données si les données sont valides, sinon affiche les erreurs de validation
+     *
+     * @param $id
+     * @return void
+     */
     public function FormUpdateOffre($id) : void
     {
         if (!isset($_SESSION['id']) || !session_status() || !in_array($_SESSION['role'], [2, 3, 4])) {
@@ -336,10 +393,14 @@ class OffreC
         }
     }
 
+    /**
+     *  AJAX : Met en pause ou reprend une offre selon son état actuel (si l'offre est actuellement active, elle sera mise en pause, et si elle est actuellement en pause, elle sera reprise)
+     *
+     * @return void
+     */
     public function ToggleOffrePause() : void
     {
-        // ToDo : vérifier droits
-        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 2) {
             http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
             exit();
@@ -365,10 +426,14 @@ class OffreC
         exit();
     }
 
+    /**
+     *  AJAX : Supprime une offre de la base de données en fonction de son ID, après avoir vérifié que l'utilisateur a les droits nécessaires pour effectuer cette action
+     *
+     * @return void
+     */
     public function DeleteOffre() : void
     {
-        // ToDo : vérifier droits
-        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+        if (!isset($_SESSION['id']) || !session_status() || ($_SESSION['role'] == 2)) {
             http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
             exit();
@@ -385,7 +450,7 @@ class OffreC
         try {
             $this->modelOffre->deleteOffre($id_offre);
             echo json_encode(['success' => true, 'message' => 'Offre supprimée avec succès']);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode(['success' => false, 'error' => 'Erreur lors de la suppression']);
         }

@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Mon compte entreprise - {% endblock %}
 {% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
 
 {% block main %}
@@ -62,6 +63,24 @@
                 </div>
             {% endif %}
         </div>
+
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination1
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage1" id="parpage1" onchange="this.form.submit()">
+                    <option value="12" {% if parpage1 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage1 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage1 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage1 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage1 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
     </section>
 
     <section class="glass-card wishlist-section">
@@ -90,6 +109,23 @@
                 <div style="text-align: center; padding: 40px; color: #666;"> Aucune offre en pause.</div>
             {% endif %}
         </div>
+        <nav class="pagination" style="margin: 10px auto;">
+
+            {% include 'pagination.html.twig' with {
+                pagination: pagination2
+            } %}
+
+            <form method="get" action="" class="pagination-form">
+
+                <select name="parpage2" id="parpage2" onchange="this.form.submit()">
+                    <option value="12" {% if parpage2 == 12 %}selected{% endif %}>12</option>
+                    <option value="24" {% if parpage2 == 24 %}selected{% endif %}>24</option>
+                    <option value="48" {% if parpage2 == 48 %}selected{% endif %}>48</option>
+                    <option value="96" {% if parpage2 == 96 %}selected{% endif %}>96</option>
+                    <option value="-1" {% if parpage2 == -1 %}selected{% endif %}>illimité</option>
+                </select>
+            </form>
+        </nav>
     </section>
 </main>
 

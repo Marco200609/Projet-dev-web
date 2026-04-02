@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Mon compte pilote - {% endblock %}
 {% block links %}{{ include('Compte/_links.html.twig') }}{% endblock %}
 
 {% block main %}
@@ -23,6 +24,7 @@
                 <span class="label">Groupe(s)</span>
             </div>
         </div>
+    </div>
 
         <section class="glass-card wishlist-section">
             <h3><i class="bi bi-people-fill"></i> Mes Groupes d'Étudiants</h3>
@@ -52,13 +54,30 @@
                     </div>
                 {% endif %}
             </div>
+            <nav class="pagination" style="margin: 10px auto;">
+
+                {% include 'pagination.html.twig' with {
+                    pagination: pagination1
+                } %}
+
+                <form method="get" action="" class="pagination-form">
+
+                    <select name="parpage1" id="parpage1" onchange="this.form.submit()">
+                        <option value="12" {% if parpage1 == 12 %}selected{% endif %}>12</option>
+                        <option value="24" {% if parpage1 == 24 %}selected{% endif %}>24</option>
+                        <option value="48" {% if parpage1 == 48 %}selected{% endif %}>48</option>
+                        <option value="96" {% if parpage1 == 96 %}selected{% endif %}>96</option>
+                        <option value="-1" {% if parpage1 == -1 %}selected{% endif %}>illimité</option>
+                    </select>
+                </form>
+            </nav>
         </section>
 
 
-        <section class="glass-card table-section">
+        <div class="glass-card table-section">
         <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 20px;">
             <h3><i class="bi bi-megaphone-fill"></i> Gestion des Candidatures</h3>
-            <div class="seach-bar-candidatures search-bar ">
+            <div class="search-bar-candidatures">
                 <input type="text" id="studentSearch" placeholder="Filtrer par étudiant...">
             </div>
         </div>
@@ -94,7 +113,56 @@
                     </tbody>
                 </table>
             </div>
+            <nav class="pagination" style="margin: 10px auto;">
+
+                {% include 'pagination.html.twig' with {
+                    pagination: pagination2
+                } %}
+
+                <form method="get" action="" class="pagination-form">
+
+                    <select name="parpage2" id="parpage2" onchange="this.form.submit()">
+                        <option value="12" {% if parpage2 == 12 %}selected{% endif %}>12</option>
+                        <option value="24" {% if parpage2 == 24 %}selected{% endif %}>24</option>
+                        <option value="48" {% if parpage2 == 48 %}selected{% endif %}>48</option>
+                        <option value="96" {% if parpage2 == 96 %}selected{% endif %}>96</option>
+                        <option value="-1" {% if parpage2 == -1 %}selected{% endif %}>illimité</option>
+                    </select>
+                </form>
+            </nav>
+        </div>
     </section>
+
+
+        <section class="glass-card table-section-groupe">
+            <div class="groupCreationTitre">
+                <h3><i class="bi bi-megaphone-fill"></i> Création de groupe </h3>
+            </div>
+            <div class="group-form-container group-creationContainer">
+
+                <form method="POST" action="/creer-groupe">
+
+                    <div class="input-group">
+                        <label for="groupName" class="group-creation">Nom du groupe</label>
+                        <input
+                                type="text"
+                                id="groupName"
+                                name="groupName"
+                                placeholder="Ex: Équipe Alpha"
+                                required
+                                style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white;">
+                    </div>
+
+                    <button
+                            type="submit"
+                            style="margin-top: 10px; padding: 12px; border-radius: 8px; border: none; background: #4CAF50; color: white; font-weight: bold; cursor: pointer;">
+                        Créer le groupe
+                    </button>
+
+                </form>
+
+            </div>
+        </section>
 </main>
 
     <script>
@@ -165,10 +233,6 @@
                     }
                 }
             });
-
-            // Optionnel : Gérer l'affichage du message "Aucun résultat" si tout est caché
-            const visibleRows = Array.from(tableRows).filter(row => row.style.display !== "none");
-            // Vous pouvez ajouter ici une logique pour afficher un message si visibleRows.length === 0
         });
     </script>
 

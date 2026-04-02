@@ -7,9 +7,13 @@ use App\Models\ConnexionInsM;
 class ConnexionInsC
 {
     private $templateEngine;
+    private $model;
+    private $entrepriseModel; // Nouveau
 
-    public function __construct($templateEngine) {
+    public function __construct($templateEngine, $model = null, $entrepriseModel = null) {
         $this->templateEngine = $templateEngine;
+        $this->model = $model ?? new \App\Models\ConnexionInsM();
+        $this->entrepriseModel = $entrepriseModel ?? new \App\Models\EntrepriseM();
     }
 
     public function page_connexion() {
@@ -34,22 +38,22 @@ class ConnexionInsC
     }
 
     public function page_inscription() {
-        echo $this->templateEngine->render('/Compte/ChoixInscription.html.twig');
+        return $this->templateEngine->render('/Compte/ChoixInscription.html.twig');
     }
 
     public function page_inscription_pilote()
     {
-        echo $this->templateEngine->render('/Compte/InscriptionPilote.html.twig');
+        return $this->templateEngine->render('/Compte/InscriptionPilote.html.twig');
     }
 
     public function page_inscription_etudiant()
     {
-        echo $this->templateEngine->render('/Compte/InscriptionEtudiant.html.twig');
+        return $this->templateEngine->render('/Compte/InscriptionEtudiant.html.twig');
     }
 
     public function pageIntermediaire_inscription_entreprise()
     {
-        echo $this->templateEngine->render('/Compte/ChoixIntermediaireEntreprise.html.twig');
+        return $this->templateEngine->render('/Compte/ChoixIntermediaireEntreprise.html.twig');
     }
 
     public function page_inscription_recherche_entreprise()
@@ -57,7 +61,7 @@ class ConnexionInsC
         $uri = $_SERVER['REQUEST_URI'];
         $premier_compte = str_contains($uri, '/Ajouter');
 
-        echo $this->templateEngine->render(
+        return $this->templateEngine->render(
             '/Compte/InscriptionRechercheEntreprise.html.twig',
             ['premier_compte' => $premier_compte]
         );
@@ -65,12 +69,12 @@ class ConnexionInsC
 
     public function page_inscription_admin()
     {
-        echo $this->templateEngine->render('/Compte/InscriptionAdmin.html.twig');
+        return $this->templateEngine->render('/Compte/InscriptionAdmin.html.twig');
     }
 
     public function page_inscription_attente() {
         $role = $_GET['role'] ?? null;
-        echo $this->templateEngine->render('/Compte/InscriptionAttente.html.twig',
+        return $this->templateEngine->render('/Compte/InscriptionAttente.html.twig',
         ['role'=>$role]);
     }
 
@@ -101,11 +105,10 @@ class ConnexionInsC
                     $inscription_page = match((int)$role) {
                         1 => '/Compte/InscriptionEtudiant.html.twig',
                         3 => '/Compte/InscriptionPilote.html.twig',
-                        default => '/Compte/InscriptionEtudiant.html.twig'
                     };
                 }
 
-                echo $this->templateEngine->render($inscription_page,
+                return $this->templateEngine->render($inscription_page,
                 [
                     'errors'=>$var['errors'],
                     'nom'=>$nom,
@@ -117,33 +120,28 @@ class ConnexionInsC
                     'code_entreprise'=>$code_entreprise,
                     'premier_compte'=>$premier_compte
                 ]);
-                exit;
             }
         }
 
-        $model = new \App\Models\ConnexionInsM();
+        $id_user = $this->model->set_id_user(
+            $nom,
+            $prenom,
+            $mot_de_passe,
+            $role,
+            $email,
+            $telephone,
+            $groupe,
+            $linkedin,
+            $code_entreprise,
+        );
 
-            $id_user = $model->set_id_user(
-                $nom,
-                $prenom,
-                $mot_de_passe,
-                $role,
-                $email,
-                $telephone,
-                $groupe,
-                $linkedin,
-                $code_entreprise,
-            );
+        if ($premier_compte == 1) {
+            return "/entreprises/add";
+        }
 
-            if ($premier_compte == 1) {
-               header ("Location: /entreprises/add");
-               exit;
-            }
-
-            else {
-                header("Location: /CompteInscription/Attente?role=" . $role);
-                exit;
-            }
+        else {
+            return "/CompteInscription/Attente?role=" . $role;
+        }
     }
 
     public function form_connexion() {
@@ -152,27 +150,24 @@ class ConnexionInsC
 
         $model = new \App\Models\ConnexionInsM();
 
-        $user = $model->get_id_user($email, $mot_de_passe);
+        $user = $model->get_id_user($email, $mot_de_passe, null);
 
         if ($user) {
             $_SESSION['id'] = $user['id_utilisateur'];
             $_SESSION['role'] = $user['id_permission'];
 
-            header("Location: /");
-            exit;
+            return "/";
         }
 
         else {
-            header("Location: /CompteConnexion");
-            exit;
+            return "/CompteConnexion";
         }
     }
 
     public function form_deconnexion() {
         $_SESSION = [];
         session_destroy();
-        header("Location: /");
-        exit;
+        return "/";
     }
 
     public function TestFormInscription($code_entreprise = null)
@@ -208,9 +203,8 @@ class ConnexionInsC
             $errors[] = "Mot de passe invalide";
         }
 
-        if ($code_entreprise) {
-            $modeleEntreprise = new \App\Models\EntrepriseM();
-            $code_entreprise_existe = $modeleEntreprise->get_code_entreprise($code_entreprise);
+        if (!empty($code_entreprise)) {
+            $code_entreprise_existe = $this->entrepriseModel->get_code_entreprise($code_entreprise);
 
             if (!$code_entreprise_existe) {
                 $errors[] = "Code entreprise invalide";
@@ -218,7 +212,7 @@ class ConnexionInsC
         }
 
         if ($linkedin && (!filter_var($linkedin, FILTER_VALIDATE_URL) || !preg_match('/linkedin\.com\/in/', $linkedin))) {
-            $errors[] = "URL du logo invalide";
+            $errors[] = "URL LinkedIn invalide";
         }
 
 

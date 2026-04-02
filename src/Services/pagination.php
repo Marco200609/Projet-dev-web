@@ -1,16 +1,16 @@
 <?php
 namespace App\Services;
 
-function pagination($total, $page, $parpage, $baseUrl, $parametresRequete = []): array
+function pagination($total, $page, $parpage, $baseUrl, $parametresRequete = [], $index=''): array
 {
-    unset($parametresRequete['page'], $parametresRequete['parpage']);
+    unset($parametresRequete['page'.$index], $parametresRequete['parpage'.$index]);
     $totalPages = $parpage == -1 ? 1 : (int) ceil($total / $parpage);
     $startPage = max(1, $page - 2);
     $endPage = min($totalPages, $startPage + 4);
 
     $links = [];
     for ($p = $startPage; $p <= $endPage; $p++) {
-        $params = array_merge($parametresRequete, ['page' => $p, 'parpage' => $parpage]);
+        $params = array_merge($parametresRequete, ['page'.$index => $p, 'parpage'.$index => $parpage]);
         $url = $baseUrl . '?' . http_build_query($params);
         $links[] = [
             'page' => $p,
@@ -19,8 +19,8 @@ function pagination($total, $page, $parpage, $baseUrl, $parametresRequete = []):
         ];
     }
 
-    $prevUrl = $page > 1 ? $baseUrl . '?' . http_build_query(array_merge($parametresRequete, ['page' => $page - 1, 'parpage' => $parpage])) : null;
-    $nextUrl = $page < $totalPages ? $baseUrl . '?' . http_build_query(array_merge($parametresRequete, ['page' => $page + 1, 'parpage' => $parpage])) : null;
+    $prevUrl = $page > 1 ? $baseUrl . '?' . http_build_query(array_merge($parametresRequete, ['page'.$index => $page - 1, 'parpage'.$index => $parpage])) : null;
+    $nextUrl = $page < $totalPages ? $baseUrl . '?' . http_build_query(array_merge($parametresRequete, ['page'.$index => $page + 1, 'parpage'.$index => $parpage])) : null;
 
     return [
         'links' => $links,

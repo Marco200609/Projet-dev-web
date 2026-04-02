@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} Entreprises - {% endblock %}
 {% block links %}{{ include('Entreprise/_links.html.twig') }}{% endblock %}
 
 {% block main %}
@@ -26,7 +27,7 @@
             <br><br> <!--enlever les br après-->
 
             <button type="submit" >Rechercher</button>
-            <button type="reset">Réinitialiser</button>
+            <button><a href="/entreprises"> Réinitialiser</a></button>
         </form>
 
     </div>
@@ -46,7 +47,7 @@
                     <h2 class="entreprise-titre">{{ ent.nom }}</h2>
                     <div class="entreprise-content">
                         <span class="localisation"><i class="bi bi-geo-alt"></i> {{ ent.nom_ville }}</span>
-                        <span class="note">
+                        <span class="note_page_entreprise">
                             {% if ent.note is not null %}
                                 {% set nb = ent.note %}
                                 {% for i in 1..5 %}
