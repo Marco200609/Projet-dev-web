@@ -400,8 +400,7 @@ class OffreC
      */
     public function ToggleOffrePause() : void
     {
-        // ToDo : vérifier droits
-        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 2) {
             http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
             exit();
@@ -434,8 +433,7 @@ class OffreC
      */
     public function DeleteOffre() : void
     {
-        // ToDo : vérifier droits
-        if (!isset($_SESSION['id']) || !session_status() || ($_SESSION['role'] == 1 || $_SESSION['role'] == 3)) {
+        if (!isset($_SESSION['id']) || !session_status() || ($_SESSION['role'] == 2)) {
             http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
             exit();

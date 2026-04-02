@@ -670,22 +670,4 @@ class OffreM extends PdoM
         $rq = $this->pdo->query("SELECT DISTINCT nom_unite FROM unite_temps");
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
-
-    /**
-     * Permet de mettre à jour le statut de pause d'une offre (invisible ou non sur le site)
-     *
-     * @param $id
-     * @param $state
-     * @return mixed
-     */
-    public function updatePauseStatus($id, $state) {
-        // ToDo sert à rien ?
-        $db = \App\Models\Database::getConnection(); // Ajuste selon ta méthode de connexion
-        $sql = "UPDATE offre SET Pause = :state WHERE id_offre = :id";
-        $stmt = $db->prepare($sql);
-        return $stmt->execute([
-            'state' => $state,
-            'id'    => $id
-        ]);
-    }
 }
