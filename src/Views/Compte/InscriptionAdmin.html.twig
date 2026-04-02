@@ -7,7 +7,19 @@
 
 <main>
     <h1>Inscription</h1>
-    <form class="Finder" method="POST" action="/CompteInscription/Traitement">
+
+    {% if errors is defined and errors %}
+        <div>
+            <h3>Erreurs :</h3>
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form class="Finder" method="POST" action="/CompteInscription/Traitement" novalidate>
         <input type="hidden" name="role" value="3">
 
         <section>
@@ -16,6 +28,7 @@
                     id="nom"
                     name="nom"
                     type="text"
+                    value="{{ nom ?? '' }}"
                     required>
         </section>
         <br>
@@ -25,6 +38,7 @@
                     id="prenom"
                     name="prenom"
                     type="text"
+                    value="{{ prenom ?? '' }}"
                     required>
         </section>
 
@@ -36,6 +50,7 @@
                     id="email"
                     name="email"
                     type="email"
+                    value="{{ email ?? '' }}"
                     autocomplete="username"
                     required>
         </section>
@@ -46,6 +61,7 @@
                 id="tel"
                 name="tel"
                 type="tel"
+                value = "{{ tel ?? '' }}"
                 autocomplete="username">
         </section>
 
@@ -81,7 +97,7 @@
                 </button>
             </div>
 
-            <div id="password-constraints">Huit ou plus de caractères avec au moins une minuscule, une majuscule et un caractère spécial.
+            <div id="password-constraints">Huit ou plus de caractères avec au moins une minuscule, une majuscule, un chiffre et un caractère spécial.
             </div>
         </section>
         <br>
@@ -98,5 +114,6 @@
 
 {% block scripts %}
 <script src="/Assets/ConnexionIns.js"></script>
+<script src="/Assets/Mot_de_passe.js"></script>
 {% endblock %}
 
