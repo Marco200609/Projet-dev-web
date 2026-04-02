@@ -409,6 +409,11 @@ footer a {
     border-radius: 5px;
 }
 
+.Finder button > * {
+    text-decoration: none;
+    color: black;
+}
+
 .Finder button:hover {
     transform: scale(1.04);
     transition: box-shadow 0.2s, transform 0.2s;
