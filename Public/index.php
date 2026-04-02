@@ -173,7 +173,7 @@ elseif ($uri ==='/CompteInscription/Attente'){
 
 elseif ($uri === '/deconnexion') {
     $controller = new App\Controllers\ConnexionInsC($twig);
-    $redirection = $controllerConnexion->form_deconnexion();
+    $redirection = $controller->form_deconnexion();
     header("Location: " . $redirection);
 }
 
@@ -250,6 +250,19 @@ elseif ($uri === '/creer-groupe' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 else {
-    // 404
-    echo '404 Not Found';
+    // Page 404
+    echo "<!DOCTYPE html> 
+    <html lang='fr'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>404 Not Found</title>
+    </head>
+    <body>
+        <h1>404 Not Found</h1>
+        <p>La page que vous recherchez n'existe pas.</p>
+        <a href='/'>Retour à l'accueil</a>
+    </body>
+    </html>";
+    http_response_code(404);
 }
