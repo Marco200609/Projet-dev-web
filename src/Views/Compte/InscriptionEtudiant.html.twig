@@ -27,6 +27,7 @@
                     id="nom"
                     name="nom"
                     type="text"
+                    value="{{ nom ?? '' }}"
                     required>
         </section>
         <br>
@@ -36,6 +37,7 @@
                     id="prenom"
                     name="prenom"
                     type="text"
+                    value="{{ prenom ?? '' }}"
                     required>
         </section>
 
@@ -47,6 +49,7 @@
                     id="email"
                     name="email"
                     type="email"
+                    value="{{ email ?? '' }}"
                     autocomplete="username"
                     required>
         </section>
@@ -56,8 +59,9 @@
             <input
                 id="linkedin"
                 name="linkedin"
-                autocomplete="linkedin"
-                type="url">
+                type="url"
+                value="{{ linkedin ?? '' }}"
+                autocomplete="linkedin">
         </section>
 
         <br>
@@ -92,7 +96,7 @@
                 </button>
             </div>
 
-            <div id="password-constraints">Huit ou plus de caractères avec au moins une minuscule et une majuscule.
+            <div id="password-constraints">Huit ou plus de caractères avec au moins une minuscule, une majuscule, un chiffre et un caratère spécial.
             </div>
 
             <section>
@@ -101,10 +105,9 @@
                         id="groupe"
                         name="groupe"
                         type="text"
+                        value="{{ groupe ?? '' }}"
                         required>
             </section>
-
-
         </section>
         <br>
         <button id="signin" type="submit">Créer un compte</button>
@@ -120,4 +123,6 @@
 
 {% block scripts %}
 <script src="/Assets/ConnexionIns.js"></script>
+<script src="/Assets/Mot_de_passe.js"></script>
+
 {% endblock %}

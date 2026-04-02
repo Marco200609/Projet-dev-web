@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\ConnexionInsM;
+
 class ConnexionInsC
 {
     private $templateEngine;
@@ -11,8 +13,26 @@ class ConnexionInsC
     }
 
     public function page_connexion() {
-        echo $this->templateEngine->render('/Compte/Connexion.html.twig');
+        if (isset($_SESSION['id']) && isset($_SESSION['role'])) {
+
+            $role = (string)$_SESSION['role'];
+
+            $templates = [
+                '1' => 'Compte/CompteEtudiant.html.twig',
+                '2' => 'Compte/CompteEntreprise.html.twig',
+                '3' => 'Compte/ComptePilote.html.twig',
+                '4' => 'Compte/CompteAdmin.html.twig'
+            ];
+
+            if (array_key_exists($role, $templates)) {
+                echo $this->templateEngine->render($templates[$role]);
+                return;
+            }
+        }
+
+        echo $this->templateEngine->render('Compte/Connexion.html.twig');
     }
+
     public function page_inscription() {
         echo $this->templateEngine->render('/Compte/ChoixInscription.html.twig');
     }
@@ -40,7 +60,8 @@ class ConnexionInsC
         echo $this->templateEngine->render(
             '/Compte/InscriptionRechercheEntreprise.html.twig',
             ['premier_compte' => $premier_compte]
-        );    }
+        );
+    }
 
     public function page_inscription_admin()
     {
@@ -131,7 +152,7 @@ class ConnexionInsC
 
         $model = new \App\Models\ConnexionInsM();
 
-        $user = $model->get_id_user($email, $mot_de_passe, null);
+        $user = $model->get_id_user($email, $mot_de_passe);
 
         if ($user) {
             $_SESSION['id'] = $user['id_utilisateur'];
@@ -162,7 +183,7 @@ class ConnexionInsC
         $prenom = $_POST['prenom'] ?? '';
         $mot_de_passe = $_POST['password'] ?? '';
         $email = $_POST['email'] ?? '';
-        $telephone = $_POST['telephone'] ?? '';
+        $telephone = $_POST['telephone'] ?? null;
         $groupe = $_POST['groupe'] ?? null;
         $linkedin = $_POST['linkedin'] ?? null;
 

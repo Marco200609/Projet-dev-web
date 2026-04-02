@@ -26,7 +26,7 @@
     {% endif %}
 
 
-    <form class="Finder" method="post" action="/CompteInscription/Traitement">
+    <form class="Finder" method="post" action="/CompteInscription/Traitement" novalidate>
 
         <section>
             <label for="nom">Nom *</label>
@@ -127,6 +127,6 @@
 
 {% block scripts %}
 <script src="/Assets/ConnexionIns.js"></script>
-{#<script src="../javascript/Connexion.js"></script> //ici pas besoin mais je laisse au cas où#}
+<script src="/Assets/Mot_de_passe.js"></script>
 {% endblock %}
 

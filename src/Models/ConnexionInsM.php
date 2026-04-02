@@ -47,6 +47,8 @@ class ConnexionInsM extends PdoM
     {
         $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
 
+        $approuve = ($id_permission == self::ROLE_ETUDIANT) ? 1 : 0;
+
         $sql_contact = "INSERT INTO contact (email, telephone)
                         VALUES (:email, :telephone)";
 
@@ -56,21 +58,22 @@ class ConnexionInsM extends PdoM
 
         $id_contact = $this->pdo->lastInsertId();
 
-        $sql_user = "INSERT INTO utilisateur (nom, prenom, mot_de_passe, id_permission,id_contact_fk)
-                    VALUES (:nom, :prenom, :mot_de_passe, :id_permission, :id_contact)";
+        $sql_user = "INSERT INTO utilisateur (nom, prenom, mot_de_passe, id_permission,id_contact_fk, approuve)
+                    VALUES (:nom, :prenom, :mot_de_passe, :id_permission, :id_contact, :approuve)";
 
         $rq = $this->pdo->prepare($sql_user);
         $rq->execute(['nom' => $nom,
             'prenom' => $prenom,
             'mot_de_passe' => $mot_de_passe_hash,
             'id_permission' => $id_permission,
-            'id_contact' => $id_contact]);
+            'id_contact' => $id_contact,
+            'approuve' => $approuve]);
 
         $id_user = $this->pdo->lastInsertId();
 
         if ($code_entreprise !== null && $code_entreprise !== "") {
             $sql_entreprise = "UPDATE utilisateur 
-                       SET id_entreprise_fk = (
+                       SET id_entrprise_fk = (
                            SELECT id_entreprise 
                            FROM entreprise 
                            WHERE code_entreprise = :code_entreprise
