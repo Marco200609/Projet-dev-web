@@ -164,6 +164,7 @@ class OffreC
 
         $pagination = pagination($total, $page, $parpage, '/offres', $_GET);
 
+
         echo $this->templateEngine->render('Offre/page_offres.html.twig', [
             'offres' => $offres,
             'id_role' => $_SESSION['role'] ?? 0,
@@ -434,7 +435,7 @@ class OffreC
     public function DeleteOffre() : void
     {
         // ToDo : vérifier droits
-        if (!isset($_SESSION['id']) || !session_status() || $_SESSION['role'] !== 1) {
+        if (!isset($_SESSION['id']) || !session_status() || ($_SESSION['role'] == 1 || $_SESSION['role'] == 3)) {
             http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Non autorisé']);
             exit();

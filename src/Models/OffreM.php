@@ -27,7 +27,7 @@ class OffreM extends PdoM
                                 LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
                                 LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
                                 LEFT JOIN competence_offre ON offre.id_offre = competence_offre.id_offre_fk
-                                LEFT JOIN competences ON competence_offre.id_competence_fk = competences.competence
+                                LEFT JOIN competences ON competence_offre.id_competence_fk = competences.id_competence
                                 LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
                                 WHERE offre.titre LIKE ?
                                 AND villes.nom_ville LIKE ?
@@ -97,11 +97,7 @@ class OffreM extends PdoM
                      LEFT JOIN adresse ON offre.id_adresse_fk = adresse.id_adresse
                      LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
                      LEFT JOIN contrat ON offre.id_contrat_fk = contrat.id_contrat
-            WHERE offre.titre LIKE ?
-              AND villes.nom_ville LIKE ?
-              AND entreprise.nom LIKE ?
-              AND offre.visible = ?
-              AND offre.Pause = ?";
+            ";
 
         $params = [
             $id,
@@ -112,6 +108,17 @@ class OffreM extends PdoM
             "$pause"
         ];
 
+        if (!empty($competence)) {
+            $sql .= " LEFT JOIN competence_offre ON offre.id_offre = competence_offre.id_offre_fk
+                      LEFT JOIN competences ON competence_offre.id_competence_fk = competences.id_competence";
+        }
+
+        $sql.= " WHERE offre.titre LIKE ?
+              AND villes.nom_ville LIKE ?
+              AND entreprise.nom LIKE ?
+              AND offre.visible = ?
+              AND offre.Pause = ?";
+        
         // filtres simples
         if (!empty($domaines)) {
             $sql .= " AND offre.domaine IN (" . implode(',', array_fill(0, count($domaines), '?')) . ")";
