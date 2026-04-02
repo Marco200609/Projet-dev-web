@@ -22,14 +22,14 @@ class ConnexionInsC
             $role = (string)$_SESSION['role'];
 
             $templates = [
-                '1' => 'Compte/CompteEtudiant.html.twig',
-                '2' => 'Compte/CompteEntreprise.html.twig',
-                '3' => 'Compte/ComptePilote.html.twig',
-                '4' => 'Compte/CompteAdmin.html.twig'
+                '1' => '/CompteEtudiant',
+                '2' => '/CompteEntreprise',
+                '3' => '/ComptePilote',
+                '4' => '/CompteAdmin'
             ];
 
             if (array_key_exists($role, $templates)) {
-                echo $this->templateEngine->render($templates[$role]);
+                header('Location: ' . $templates[$role]);
                 return;
             }
         }
