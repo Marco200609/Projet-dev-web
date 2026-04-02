@@ -150,7 +150,7 @@ class ConnexionInsC
 
         $model = new \App\Models\ConnexionInsM();
 
-        $user = $model->get_id_user($email, $mot_de_passe, null);
+        $user = $model->get_id_user($email, $mot_de_passe);
 
         if ($user) {
             $_SESSION['id'] = $user['id_utilisateur'];
