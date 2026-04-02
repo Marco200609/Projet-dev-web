@@ -2,4 +2,3 @@
 /Config/.env
 /composer.lock
 /Public/.htaccess
-/Config/.htaccess
