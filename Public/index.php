@@ -24,7 +24,14 @@ $twig = new \Twig\Environment($loader, [
 ]);
 
 
-
+session_set_cookie_params([
+    'lifetime' => 0, //signifie que le cookie expire quand le navigateur est fermé
+    'path' => '/',
+    'domain' => '',
+    'secure' => isset($_SERVER['HTTPS']), //seulement si le site est en HTTPS
+    'httponly' => true, //Contre les attaques XSS
+    'samesite' => 'Strict' //Contre les attaques CSRF
+]);
 
 session_start();
 
@@ -85,9 +92,14 @@ elseif ($uri ==='/CompteEtudiant') {
     $controllerConnexion -> PageCompteAdmin();
 }
 
-elseif ($uri ==='/CompteConnexion') {
+elseif ($uri ==='/CompteConnexion/Verification') {
     $controllerConnexion = new App\Controllers\ConnexionInsC($twig);
-    echo $controllerConnexion -> page_connexion();
+    $redirection = $controllerConnexion -> page_connexion();
+    header('Location: ' . $redirection);
+
+} elseif ($uri ==='/CompteConnexion') {
+    $controllerConnexion = new App\Controllers\ConnexionInsC($twig);
+    echo $controllerConnexion->page_nonConnecte();
 
 } elseif (preg_match('#^/detail_offre/(\d+)(/)?$#', $uri, $matches)) {
     $controllerOffre = new App\Controllers\OffreC($twig);
@@ -124,7 +136,6 @@ elseif ($uri ==='/CompteConnexion') {
 elseif ($uri === '/CompteInscription'){
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
     echo $controllerInscription->page_inscription();
-//    }
 }
 
 elseif ($uri==='/CompteInscription/Pilote') {
@@ -156,25 +167,26 @@ elseif ($uri === '/CompteInscription/Admin') {
 
 elseif ($uri =='/CompteInscription/Traitement'&& $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    echo $controllerInscription->form_inscription();
+    $redirection = $controllerInscription->form_inscription();
+    header("Location:" . $redirection) ;
 }
 
 elseif ($uri === '/CompteConnexion/Traitement' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $controllerConnexion = new App\Controllers\ConnexionInsC($twig);
     $redirection = $controllerConnexion->form_connexion();
-    header("Location: " . $redirection);
+    header("Location:" . $redirection) ;
 }
 
 elseif ($uri ==='/CompteInscription/Attente'){
     $controllerInscription = new App\Controllers\ConnexionInsC($twig);
-    $redirection = $controllerInscription->form_inscription();
-    header ("Location: ". $redirection);
+    $redirection = $controllerInscription->page_inscription_attente();
+    echo $redirection;
 }
 
 elseif ($uri === '/deconnexion') {
     $controller = new App\Controllers\ConnexionInsC($twig);
     $redirection = $controller->form_deconnexion();
-    header("Location: " . $redirection);
+    header ("Location: $redirection");
 }
 
 elseif ($uri === '/VilleOffres') {
@@ -266,3 +278,4 @@ else {
     </html>";
     http_response_code(404);
 }
+ 
