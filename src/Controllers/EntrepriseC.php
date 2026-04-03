@@ -226,8 +226,7 @@ class EntrepriseC
                         exit;
                     }
 
-                    // ToDo modifier le lien
-                    header('Location: /compte/entreprise');
+                    header('Location: /CompteEtreprise');
                     exit();
                 } else {
                     $errors[] = "L'entreprise existe déjà ou une erreur est survenue";

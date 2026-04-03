@@ -5,6 +5,14 @@ Use PDO;
 
 class CompetenceM extends PdoM
 {
+    /**
+     * Associe les compétences à une offre d'emploi en insérant les compétences dans la table "competences" si elles n'existent pas déjà, puis en créant les associations dans la table "competence_offre".
+     *
+     * @param $id_offre
+     * @param $competences
+     * @param $pdoinstance
+     * @return void
+     */
     public function addCompetencesOffre($id_offre, $competences, $pdoinstance) : void
     {
         foreach ($competences as $competence) {
@@ -20,6 +28,7 @@ class CompetenceM extends PdoM
     }
 
     /**
+     * Récupère l'ID d'une compétence à partir de son nom
      * @param $competence
      * @return int
      */
@@ -32,6 +41,8 @@ class CompetenceM extends PdoM
     }
 
     /**
+     * Insère une compétence dans la table "competences" si elle n'existe pas déjà
+     *
      * @param $competence
      * @return void
      */
@@ -42,6 +53,11 @@ class CompetenceM extends PdoM
         $rq->execute();
     }
 
+    /**
+     * Récupère la liste de toutes les compétences distinctes présentes dans la table "competences"
+     *
+     * @return array
+     */
     public function getListeCompetences() : array
     {
         $rq = $this->pdo->query("SELECT DISTINCT competence FROM competences");

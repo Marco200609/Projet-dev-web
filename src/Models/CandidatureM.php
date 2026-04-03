@@ -6,6 +6,12 @@ Use PDO;
 class CandidatureM extends PdoM
 {
 
+    /**
+     *  Récupère les informations d'une candidature spécifique pour un utilisateur et une offre donnés
+     * @param $id_user
+     * @param $id_offre
+     * @return array
+     */
     public function getCandidature($id_user, $id_offre) : array
     {
         $rq = $this->pdo->prepare("SELECT candidature.cv, candidature.lettre_motivation, candidature.date_candidature FROM candidature
@@ -16,6 +22,12 @@ class CandidatureM extends PdoM
         return $rq->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Récupère les informations de toutes les candidatures pour une offre donnée
+     *
+     * @param $id_offre
+     * @return array
+     */
     public function getCandidaturesOffre($id_offre) : array
     {
         $rq = $this->pdo->prepare("SELECT candidature.id_candidature, utilisateur.prenom, utilisateur.nom, contact.email, contact.telephone, candidature.date_candidature FROM candidature
@@ -28,6 +40,14 @@ class CandidatureM extends PdoM
         return $rq->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Récupère les informations de toutes les candidatures pour un utilisateur donné, avec pagination
+     *
+     * @param $id_user
+     * @param $page
+     * @param $parpage
+     * @return array
+     */
     public function getCandidaturesUtilisateur($id_user, $page, $parpage) : array
     {
         $page = (int)$page;
@@ -51,6 +71,12 @@ class CandidatureM extends PdoM
         return $rq->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Récupère les détails d'une candidature spécifique, y compris les informations de l'utilisateur, de l'offre et de l'entreprise associées
+     *
+     * @param $id_candidature
+     * @return array
+     */
     public function getDetailCandidature($id_candidature) : array
     {
         $rq = $this->pdo->prepare("SELECT utilisateur.prenom, utilisateur.nom, candidature.cv, candidature.lettre_motivation, candidature.date_candidature, offre.titre, offre.domaine, entreprise.nom FROM candidature
@@ -63,6 +89,11 @@ class CandidatureM extends PdoM
         return $rq->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Récupère le nombre total de candidatures pour un utilisateur donné notamment afin de faciliter la pagination
+     * @param $id_user
+     * @return int
+     */
     public function getNbCandidatureUtilisateur($id_user) : int
     {
         $rq = $this->pdo->prepare("SELECT COUNT(*) FROM candidature WHERE id_utilisateur_fk = :id_user");
@@ -71,6 +102,15 @@ class CandidatureM extends PdoM
         return $rq->fetchColumn();
     }
 
+    /**
+     * Ajoute une nouvelle candidature à la base de données pour un utilisateur et une offre donnés, en utilisant une transaction pour garantir l'intégrité des données
+     *
+     * @param $id_user
+     * @param $id_offre
+     * @param $cv
+     * @param $lettre_motivation
+     * @return bool
+     */
     public function AddCandidature($id_user, $id_offre, $cv, $lettre_motivation) : bool
     {
         try{
@@ -92,6 +132,13 @@ class CandidatureM extends PdoM
         }
     }
 
+    /**
+     * Supprime une candidature de la base de données pour un utilisateur et une offre donnés, en utilisant une transaction pour garantir l'intégrité des données
+     *
+     * @param $id_user
+     * @param $id_offre
+     * @return bool
+     */
     public function deleteCandidature($id_user, $id_offre) : bool
     {
         try{

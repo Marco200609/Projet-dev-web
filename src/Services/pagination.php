@@ -1,6 +1,17 @@
 <?php
 namespace App\Services;
 
+/**
+ * Génère les données de pagination pour une liste d'items
+ *
+ * @param $total
+ * @param $page
+ * @param $parpage
+ * @param $baseUrl
+ * @param $parametresRequete
+ * @param $index
+ * @return array
+ */
 function pagination($total, $page, $parpage, $baseUrl, $parametresRequete = [], $index=''): array
 {
     unset($parametresRequete['page'.$index], $parametresRequete['parpage'.$index]);

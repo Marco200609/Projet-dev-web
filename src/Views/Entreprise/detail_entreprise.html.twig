@@ -47,8 +47,8 @@
                 <div class="gauche">
                 <strong>Domaines liés :</strong>
                 <div class="offre-competences">
-                    {% for comp in entreprise.domaines_offres.domaine %}
-                        <span>comp</span>
+                    {% for domaine in entreprise.domaines_offres %}
+                        <span>{{ domaine }}</span>
                     {% endfor %}
                 </div>
                 </div>
