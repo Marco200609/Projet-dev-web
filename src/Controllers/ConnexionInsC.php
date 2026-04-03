@@ -43,11 +43,7 @@ class ConnexionInsC
                 '2' => '/CompteEntreprise',
                 '3' => '/ComptePilote',
                 '4' => '/CompteAdmin'
-                '1' => '/CompteEtudiant',
-                '2' => '/CompteEntreprise',
-                '3' => '/ComptePilote',
-                '4' => '/CompteAdmin'
-            ];
+                ];
 
             if (array_key_exists($role, $templates)) {
                 return $templates[$role];
