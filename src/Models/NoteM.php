@@ -5,6 +5,13 @@ use PDO;
 
 class NoteM extends PdoM
 {
+    /**
+     * Récupère la note donnée par un utilisateur à une entreprise
+     *
+     * @param $id_entreprise
+     * @param $id_user
+     * @return int|null
+     */
     public function getNoteUser($id_entreprise, $id_user) : ?int
     {
         $rq = $this->pdo->prepare("SELECT note FROM note_entreprise WHERE id_entreprise_fk = :id_entreprise AND id_utilisateur_fk = :id_user");
@@ -14,6 +21,12 @@ class NoteM extends PdoM
         return $rq->fetchColumn();
     }
 
+    /**
+     * Récupère le nombre de notes données à une entreprise
+     *
+     * @param $id_entreprise
+     * @return int|null
+     */
     public function getNbNote($id_entreprise) : ?int
     {
         $rq = $this->pdo->prepare("SELECT COUNT(*) FROM note_entreprise WHERE id_entreprise_fk = :id_entreprise");
@@ -22,6 +35,12 @@ class NoteM extends PdoM
         return $rq->fetchColumn();
     }
 
+    /**
+     * Récupère la moyenne des notes données à une entreprise
+     *
+     * @param $id_entreprise
+     * @return int
+     */
     public function getMoyenneNoteEntreprise($id_entreprise) : int
     {
         $rq = $this->pdo->prepare("SELECT AVG(note) FROM note_entreprise WHERE id_entreprise_fk = :id_entreprise");
@@ -30,6 +49,14 @@ class NoteM extends PdoM
         return round($rq->fetchColumn());
     }
 
+    /**
+     * Enregistre ou met à jour la note donnée par un utilisateur à une entreprise
+     *
+     * @param $note
+     * @param $id_entreprise
+     * @param $id_user
+     * @return bool
+     */
     public function setNote($note, $id_entreprise, $id_user) : bool
     {
         try{

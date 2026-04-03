@@ -8,7 +8,6 @@ class ComptePiloteM extends PdoM
 {
     public function getInfosPilote($id) : array
     {
-        //ToDo sert à quoi ?
         $rq = $this->pdo->prepare("SELECT utilisateur.id_utilisateur, utilisateur.nom, utilisateur.prenom FROM utilisateur
                                          WHERE utilisateur.id_utilisateur = :id;");
 

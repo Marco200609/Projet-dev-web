@@ -7,6 +7,19 @@ require __DIR__ . '/../../vendor/autoload.php';
 use \Mailjet\Client;
 use \Mailjet\Resources;
 
+/**
+ * Envoie un email de candidature à l'entreprise avec les détails de l'étudiant et la lettre de motivation, ainsi que le CV en pièce jointe. (utilise l'API Mailjet)
+ *
+ * @param $emailDestination
+ * @param $titreOffre
+ * @param $nom
+ * @param $prenom
+ * @param $emailEtudiant
+ * @param $cv
+ * @param $lettreMotivation
+ * @param $linkedin
+ * @return bool
+ */
 function mail(
     $emailDestination,
     $titreOffre,

@@ -43,6 +43,10 @@ class ConnexionInsC
                 '2' => '/CompteEntreprise',
                 '3' => '/ComptePilote',
                 '4' => '/CompteAdmin'
+                '1' => '/CompteEtudiant',
+                '2' => '/CompteEntreprise',
+                '3' => '/ComptePilote',
+                '4' => '/CompteAdmin'
             ];
 
             if (array_key_exists($role, $templates)) {
@@ -190,6 +194,7 @@ class ConnexionInsC
 
         $model = new \App\Models\ConnexionInsM();
 
+        $user = $model->get_id_user($email, $mot_de_passe);
         $user = $model->get_id_user($email, $mot_de_passe);
 
         if ($user) {

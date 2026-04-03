@@ -5,6 +5,13 @@ use PDO;
 
 class AdresseM extends PdoM
 {
+    /**
+     *  Récupère l'ID de l'adresse si elle existe, sinon retourne 0
+     *
+     * @param $adresse
+     * @param $id_ville
+     * @return int
+     */
     public function getIdAdresse($adresse, $id_ville) : int
     {
         $rq = $this->pdo->prepare("SELECT id_adresse FROM adresse WHERE adresse = :adresse AND id_ville_fk = :ville");
@@ -14,6 +21,13 @@ class AdresseM extends PdoM
         return $rq->fetchColumn();
     }
 
+    /**
+     * Récupère l'ID de l'adresse si elle existe, sinon la crée et retourne son ID
+     *
+     * @param $adresse
+     * @param $id_ville
+     * @return int
+     */
     public function getOrCreateAdresse($adresse, $id_ville) : int
     {
         $id_adresse = $this->getIdAdresse($adresse, $id_ville);
@@ -27,6 +41,12 @@ class AdresseM extends PdoM
         return $id_adresse;
     }
 
+    /**
+     *  Supprime une adresse de la base de données
+     *
+     * @param $id_adresse
+     * @return bool
+     */
     public function deleteAdresse($id_adresse) : bool
     {
         $rq = $this->pdo->prepare("DELETE FROM adresse WHERE id_adresse = :id");
