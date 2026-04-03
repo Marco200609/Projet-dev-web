@@ -127,10 +127,16 @@
             </form>
         </nav>
     </section>
+
+    <td class="cell-disconnect">
+        <a href="/deconnexion" class="btn-action-disconnect" onclick="return confirm('Confirmer la déconnexion ?')">
+            <i class="bi-box-arrow-right"> Se déconnecter</i>
+        </a>
+    </td>
+
 </main>
 
     <script>
-        // Boutons pause/resume
         document.querySelectorAll('.action-btn.pause, .action-btn.resume').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -158,7 +164,6 @@
             });
         });
 
-        // Boutons supprimer
         document.querySelectorAll('.action-btn.delete').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();

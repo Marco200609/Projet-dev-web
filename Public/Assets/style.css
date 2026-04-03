@@ -1114,6 +1114,36 @@ h2 {
 
 .cell-actions { display: flex; gap: 8px; align-items: center; }
 
+
+.cell-disconnect {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px;
+}
+
+.btn-action-disconnect {
+    display: inline-flex; /* On garde le flex sur le bouton pour l'icône et le texte */
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: 0.3s;
+    text-decoration: none;
+    color: inherit; /* Ou la couleur de ton choix */
+}
+
+.btn-action-disconnect:hover {
+    background: rgba(255, 255, 255, 0.5);
+    color: #dc3545; /* Devient rouge au survol pour le côté "déconnexion" */
+}
+
 .btn-action {
     border: none;
     background: rgba(255, 255, 255, 0.3);
