@@ -58,7 +58,6 @@ class OffreM extends PdoM
             $sql .= " AND competences.competence IN (" . implode(',', array_fill(0, count($competence), '?')) . ")";
             $params = array_merge($params, $competence);
         }
-
         $rq = $this->pdo->prepare($sql);
         $rq->execute($params);
         return $rq->fetchColumn();
