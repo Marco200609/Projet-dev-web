@@ -4,18 +4,35 @@ namespace App\Controllers;
 
 use App\Models\ConnexionInsM;
 
+/**
+ * Contrôleur gérant :
+ * - l'affichage des pages de connexion / inscription
+ * - le traitement des formulaires
+ * - la gestion de session utilisateur
+ */
+
 class ConnexionInsC
 {
     private $templateEngine;
     private $model;
     private $entrepriseModel; // Nouveau
 
+    /**
+     * param mixed $templateEngine Moteur Twig
+     * param ConnexionInsM|null $model
+     * param EntrepriseM|null $entrepriseModel
+     */
     public function __construct($templateEngine, $model = null, $entrepriseModel = null) {
         $this->templateEngine = $templateEngine;
         $this->model = $model ?? new \App\Models\ConnexionInsM();
         $this->entrepriseModel = $entrepriseModel ?? new \App\Models\EntrepriseM();
     }
 
+    /**
+     * Affiche la page de connexion.
+     *
+     * Si l'utilisateur est déjà connecté, redirige selon son rôle.
+     */
     public function page_connexion() {
         if (isset($_SESSION['id']) && isset($_SESSION['role'])) {
 
@@ -26,15 +43,18 @@ class ConnexionInsC
                 '2' => '/CompteEntreprise',
                 '3' => '/ComptePilote',
                 '4' => '/CompteAdmin'
-            ];
+                ];
 
             if (array_key_exists($role, $templates)) {
-                header('Location: ' . $templates[$role]);
-                return;
+                return $templates[$role];
             }
         }
 
-        echo $this->templateEngine->render('Compte/Connexion.html.twig');
+        return "/CompteConnexion";
+    }
+
+    public function page_nonConnecte() {
+        return $this->templateEngine->render('/Compte/Connexion.html.twig');
     }
 
     public function page_inscription() {
@@ -78,6 +98,12 @@ class ConnexionInsC
         ['role'=>$role]);
     }
 
+    /**
+     * Traite le formulaire d'inscription :
+     * - validation des données
+     * - création utilisateur
+     * - redirection selon rôle
+     */
     public function form_inscription() {
         $nom = $_POST['nom'] ?? '';
         $prenom = $_POST['prenom'] ?? '';
@@ -136,23 +162,39 @@ class ConnexionInsC
         );
 
         if ($premier_compte == 1) {
-            return "/entreprises/add";
+            header("Location: /entreprises/add");
+            exit;
+        }
+
+        if ((int)$role === 1) {
+            return"/CompteConnexion";
         }
 
         else {
-            return "/CompteInscription/Attente?role=" . $role;
+            return "/CompteInscription/Attente?role=".$role;
         }
     }
 
+    /**
+     * Traite la connexion utilisateur.
+     *
+     * - vérifie email/mot de passe
+     * - crée session
+     * - régénère l’ID de session (sécurité)
+     *
+     * return string URL de redirection
+     */
     public function form_connexion() {
         $email = $_POST['email'];
         $mot_de_passe = $_POST['password'];
 
         $model = new \App\Models\ConnexionInsM();
 
-        $user = $model->get_id_user($email, $mot_de_passe, null);
+        $user = $model->get_id_user($email, $mot_de_passe);
+        $user = $model->get_id_user($email, $mot_de_passe);
 
         if ($user) {
+            session_regenerate_id(true);
             $_SESSION['id'] = $user['id_utilisateur'];
             $_SESSION['role'] = $user['id_permission'];
 
@@ -164,11 +206,34 @@ class ConnexionInsC
         }
     }
 
+    /**
+     * Déconnecte l'utilisateur :
+     * - supprime les variables de session
+     * - détruit la session
+     */
     public function form_deconnexion() {
         $_SESSION = [];
         session_destroy();
         return "/";
     }
+
+    /**
+     * Valide les données du formulaire d'inscription.
+     *
+     * Vérifie :
+     * - nom, prénom
+     * - email
+     * - téléphone
+     * - mot de passe (complexité)
+     * - si le code entreprise existe dans la BDD
+     * - URL LinkedIn
+     *
+     * param string|null $code_entreprise
+     *
+     * return array
+     * - ['errors' => [...]] en cas d'erreurs
+     * - données validées sinon
+     */
 
     public function TestFormInscription($code_entreprise = null)
     {
@@ -230,3 +295,4 @@ class ConnexionInsC
         ];
     }
 }
+ 

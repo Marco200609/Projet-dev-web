@@ -20,6 +20,13 @@ class CandidatureC
         $this->templateEngine = $templateEngine;
     }
 
+    /**
+     * Valide les données de la candidature
+     *
+     * @param $cv_file
+     * @param $lettre_motivation
+     * @return array
+     */
     public function TestCandidature($cv_file, $lettre_motivation) : array
     {
         $extension = [
@@ -48,6 +55,12 @@ class CandidatureC
         return $errors;
     }
 
+    /**
+     * Affiche la page de candidature pour une offre donnée, en vérifiant que l'utilisateur est connecté et a le rôle d'étudiant
+     *
+     * @param $id_offre
+     * @return void
+     */
     public function PageCandidature($id_offre) : void
     {
         if (!session_status() || !isset($_SESSION['id'])) {
@@ -65,6 +78,11 @@ class CandidatureC
         echo $this->templateEngine->render('Offre/candidature.html.twig', ['offre' => $offre]);
     }
 
+    /**
+     * Traite la soumission du formulaire de candidature, en validant les données, en stockant le CV et en enregistrant la candidature dans la base de données. En cas de succès, envoie un email à l'entreprise avec les détails de la candidature.
+     *
+     * @return void
+     */
     public function FormAddCandidature() : void
     {
         $id_offre = $_POST['id_offre'] ?? '';

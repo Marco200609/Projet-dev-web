@@ -7,6 +7,15 @@ use PDO;
 
 class EntrepriseM extends PdoM
 {
+    /**
+     * Récupère la liste des entreprises avec pagination et filtres de recherche
+     *
+     * @param $page
+     * @param $parpage
+     * @param $nom
+     * @param $ville
+     * @return array
+     */
     public function getEntreprises($page, $parpage, $nom = '', $ville = '') : array
     {
         if ($parpage ==-1) {
@@ -32,7 +41,14 @@ class EntrepriseM extends PdoM
         return $rq->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getNbEntreprises( $nom = '', $ville = '') {
+    /**
+     * Récupère le nombre total d'entreprises correspondant aux filtres de recherche
+     *
+     * @param $nom
+     * @param $ville
+     * @return mixed
+     */
+    public function getNbEntreprises($nom = '', $ville = '') {
         $rq = $this->pdo->prepare("SELECT COUNT(*) FROM entreprise
                                     LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
                                     LEFT JOIN villes ON adresse.id_ville_fk = villes.id_ville
@@ -43,6 +59,12 @@ class EntrepriseM extends PdoM
         return $rq->fetchColumn();
     }
 
+    /**
+     * Récupère les détails d'une entreprise spécifique, y compris les informations de base, la note moyenne, le nombre d'offres et les domaines des 3 dernières offres
+     *
+     * @param $id
+     * @return array
+     */
     public function getDetailEntreprise($id) : array
     {        $rq = $this->pdo->prepare("SELECT entreprise.id_entreprise, entreprise.nom, entreprise.logo, villes.nom_ville, AVG(note_entreprise.note)AS note, COUNT(DISTINCT offre.id_offre) AS nb_offre, entreprise.descriptif, entreprise.nb_employe, contact.email FROM entreprise
                                     LEFT JOIN adresse ON entreprise.id_adresse_fk = adresse.id_adresse
@@ -72,6 +94,13 @@ class EntrepriseM extends PdoM
         return $entreprise;
     }
 
+    /**
+     * Récupère la liste des noms d'entreprises correspondant à une recherche de nom, avec la possibilité de filtrer uniquement les entreprises ayant des offres visibles
+     *
+     * @param $nom
+     * @param bool $offre
+     * @return array
+     */
     public function getNomEntreprises($nom, bool $offre) :array
     {
         $sql = "SELECT nom FROM entreprise";
@@ -86,6 +115,12 @@ class EntrepriseM extends PdoM
         return $rq->fetchAll(PDO::FETCH_COLUMN);
     }
 
+    /**
+     * Récupère l'email de contact d'une entreprise à partir de son ID
+     *
+     * @param $id
+     * @return string|null
+     */
     public function getEmailEntreprise($id) : ?string
     {
         $rq = $this->pdo->prepare("SELECT contact.email FROM entreprise
@@ -97,6 +132,12 @@ class EntrepriseM extends PdoM
         return $email ? (string)$email : null;
     }
 
+    /**
+     * Récupère l'ID d'une entreprise à partir de son nom
+     *
+     * @param $nom
+     * @return int|null
+     */
     public function getIdEntreprise($nom) : ?int
     {
         $rq = $this->pdo->prepare("SELECT id_entreprise FROM entreprise WHERE nom = :nom");
@@ -109,6 +150,12 @@ class EntrepriseM extends PdoM
 
 
     //à utiliser dans ConnexionInsM.php
+
+    /**
+     * Récupère le code d'une entreprise à partir de son code unique
+     * @param $code_entreprise
+     * @return mixed
+     */
     public function get_code_entreprise($code_entreprise)
     {
         $sql = "SELECT code_entreprise 
@@ -122,6 +169,11 @@ class EntrepriseM extends PdoM
         return $rq->fetchColumn();
     }
 
+    /**
+     * Récupère les informations d'une entreprise à partir de son ID, y compris le nom, le logo, l'adresse complète, le descriptif, le nombre d'employés et les coordonnées de contact
+     * @param $id
+     * @return array
+     */
     public function getFormEntreprises($id) :array
     {
         $rq = $this->pdo->prepare("SELECT entreprise.nom, entreprise.logo, adresse.adresse, villes.nom_ville, departement.departement, pays.nom_pays, entreprise.descriptif, entreprise.nb_employe, contact.email, contact.telephone FROM entreprise
@@ -136,6 +188,21 @@ class EntrepriseM extends PdoM
         return $rq->fetch();
     }
 
+    /**
+     * Ajoute une nouvelle entreprise à la base de données, en créant les entrées associées pour le pays, le département, la ville, l'adresse et le contact si nécessaire
+     *
+     * @param $nom
+     * @param $logo
+     * @param $pays
+     * @param $departement
+     * @param $ville
+     * @param $adresse
+     * @param $mail
+     * @param $telephone
+     * @param $nb_employe
+     * @param $description
+     * @return bool
+     */
     public function addEntreprise($nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description) : bool
     {
         $rq = $this->pdo->prepare("SELECT id_entreprise FROM entreprise WHERE nom = :name");
@@ -191,6 +258,22 @@ class EntrepriseM extends PdoM
         }
     }
 
+    /**
+     * Met à jour les informations d'une entreprise existante dans la base de données, en créant les entrées associées pour le pays, le département, la ville, l'adresse et le contact si nécessaire
+     *
+     * @param $id
+     * @param $nom
+     * @param $logo
+     * @param $pays
+     * @param $departement
+     * @param $ville
+     * @param $adresse
+     * @param $mail
+     * @param $telephone
+     * @param $nb_employe
+     * @param $description
+     * @return bool
+     */
     public function updateEntreprise($id, $nom, $logo, $pays, $departement, $ville, $adresse, $mail, $telephone, $nb_employe, $description): bool
     {
 
@@ -259,8 +342,6 @@ class EntrepriseM extends PdoM
             $rq = $this->pdo->prepare("DELETE FROM entreprise WHERE id_entreprise = :id");
             $rq->bindValue(':id', $id, PDO::PARAM_INT);
             $rq->execute();
-
-            // ToDo : supprimer l'adresse et le contact si ils ne sont plus utilisés par d'autres entreprises
 
             $this->pdo->commit();
             return true;

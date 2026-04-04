@@ -110,6 +110,7 @@ header {
 @media screen and (max-width: 768px) {
     .Animation > * {
         animation: none;
+        opacity: 1;
     }
 }
 
