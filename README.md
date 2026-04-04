@@ -1,2 +1,2 @@
-# Projet-dev-web
-Création d'un site web avec front et back
+# Projet-dev-web : BDD
+Structure de la base de données et peuplement
