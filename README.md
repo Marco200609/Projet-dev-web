@@ -38,3 +38,6 @@ Notre site est prêt à accueilir quatre rôles distinct.
 - Des Admins qui seront là pour gérer l'ensemble des personnes présentes sur le site supprimer ou modifier les informations des comptes.
 
 
+
+(le script de création de la base de données est disponible dans la branche BDD)
+
