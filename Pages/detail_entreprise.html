@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Détail Entreprise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/detail_offre.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<nav class="navBar">
+    <div class="LogoNav">
+        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+        <img src="../Images/LogoNav2.png" class="LogoNav2">
+    </div>
+
+    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+    <label for="menu-toggle" class="burger-label">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+
+    <div class="links">
+        <a href="../index.html" >Accueil</a>
+        <a href="Offres.html" class="active">Offre</a>
+        <a href="Entreprises.html">Entreprise</a>
+        <a href="Connexion.html">Mon Compte</a>
+    </div>
+</nav>
+
+<main>
+    <section class="offre-det">
+        <div class="logo-entreprise">
+            <img src="https://upload.wikimedia.org/wikipedia/fr/a/a1/Logo_SNCF_%282011%29.svg" alt="image-entreprise">
+        </div>
+        <h1>SNCF</h1>
+        <div class="face_a_face">
+            <div class="offre-info">
+                <span class="mail-telephone"> <b> Mail : </b>contact@sncf.com</span>
+                <span class="note">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-half"></i>
+                        <i class="bi bi-star"></i>
+                </span>
+            </div>
+            <div class="offre-details">
+                <span class="localisation"><i class="bi bi-geo-alt"></i> Paris</span>
+                <span class="salaire"><i class="bi bi-people"></i> 1000 - 10 000</span>
+            </div>
+        </div>
+        <p class="descriptif"><strong>Descriptif :</strong>
+            Nous recherchons un stagiaire en développement web pour rejoindre notre équipe dynamique.
+            Le candidat idéal aura une passion pour la création de sites web attrayants et fonctionnels, ainsi qu'une solide compréhension des technologies front-end.
+            Vous travaillerez sur des projets variés, allant de la conception de pages web à l'implémentation de fonctionnalités interactives.
+            C'est une excellente opportunité pour acquérir une expérience pratique dans le domaine du développement web et de contribuer à des projets passionnants.
+        </p>
+        <div class="competences-ligne-postuler">
+            <div class="gauche">
+                <strong>Domaines liés :</strong>
+                <div class="offre-competences">
+                    <span>Informatique</span>
+                    <span>BTP</span>
+                    <span>Transport</span>
+                </div>
+            </div>
+            <a href="Offres.html" class="postuler-button">Voir les 7 offres</a>
+        </div>
+    </section>
+
+    <h2 class="titre-offre">Nos dernières offres</h2>
+
+    <section class="liste-annonce">
+        <a href="detail_offre.html" class="link-annonce">
+            <article class="box-annonce">
+                <div class="offre-header">
+                    <span class="date"><i class="bi bi-calendar"></i> 15/02/2026</span>
+                    <span class="nouveau">Nouveau</span>
+                    <input type="checkbox" id="wish1" class="wishlist-checkbox" />
+                    <label for="wish1" class="wishlist-label">
+                        <i class="bi bi-heart"></i>
+                    </label>
+                </div>
+                <h2 class="offre-titre">Offre 1 : Stage développement web</h2>
+                <div class="offre-content">
+                    <div class="offre-main">
+                        <div class="offre-info">
+                            <span class="entreprise">Entreprise X</span>
+                            <span class="domaine">Informatique</span>
+                        </div>
+                        <div class="offre-competences">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                        </div>
+                    </div>
+                    <div class="offre-details">
+                        <span class="localisation"><i class="bi bi-geo-alt"></i> Paris</span>
+                        <span class="salaire"><i class="bi bi-cash-stack"></i> 692€</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+
+        <a href="detail_offre.html" class="link-annonce">
+            <article class="box-annonce">
+                <div class="offre-header">
+                    <span class="date"><i class="bi bi-calendar"></i> 22/01/2026</span>
+                    <span class="nouveau"></span>
+                    <input type="checkbox" id="wish2" class="wishlist-checkbox" />
+                    <label for="wish2" class="wishlist-label">
+                        <i class="bi bi-heart"></i>
+                    </label>
+                </div>
+                <h2 class="offre-titre">Offre 2 : Stage marketing digital</h2>
+                <div class="offre-content">
+                    <div class="offre-main">
+                        <div class="offre-info">
+                            <span class="entreprise">Entreprise Y</span>
+                            <span class="domaine">Marketing</span>
+                        </div>
+                        <div class="offre-competences">
+                            <span>SEO</span>
+                            <span>Google Ads</span>
+                        </div>
+                    </div>
+                    <div class="offre-details">
+                        <span class="localisation"><i class="bi bi-geo-alt"></i> Lyon</span>
+                        <span class="salaire"><i class="bi bi-cash-stack"></i> 1200€</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+
+    </section>
+</main>
+
+<footer>
+    <p> © 2026 - All Right Reserved </p>
+</footer>
+</body>
+</html>

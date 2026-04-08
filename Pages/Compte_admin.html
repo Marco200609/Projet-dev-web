@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Compte administrateur</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/comptes.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<nav class="navBar">
+    <div class="LogoNav">
+        <img src="../Images/LogoNav1.png" class="LogoNav1" alt="LittleLogo">
+        <img src="../Images/LogoNav2.png" class="LogoNav2">
+    </div>
+
+    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+    <label for="menu-toggle" class="burger-label">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+
+    <div class="links">
+        <a href="../index.html">Accueil</a>
+        <a href="Offres.html">Offre</a>
+        <a href="Entreprises.html">Entreprise</a>
+        <a href="Connexion.html"  class="active">Mon Compte</a>
+    </div>
+</nav>
+
+<main class="dashboard">
+    <div class="profile-overview">
+        <div class="glass-card group-card">
+            <h3><i class="bi bi-database-fill-lock"></i> Administrateur</h3>
+            <div class="group-details">
+                <p><strong>Nom :</strong> Jean Administration</p>
+                <p><strong>ID Admin :</strong> #ADM-2026-042</p>
+                <p><strong>Dernière connexion :</strong> Aujourd'hui, 10:45</p>
+            </div>
+        </div>
+    
+        <div class="stats-row">
+            <div class="mini-stat">
+                <span class="number">1,240</span>
+                <span class="label">Étudiants</span>
+            </div>
+            <div class="mini-stat">
+                <span class="number">142</span>
+                <span class="label">Entreprises</span>
+            </div>
+            <div class="mini-stat success">
+                <span class="number">105</span>
+                <span class="label">Pilotes</span>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="glass-card table-section">
+        <h3><i class="bi bi-people-fill"></i> Liste étudiants <div class="table-search">
+            <input type="text" placeholder="Rechercher...">
+        </div>
+        </h3>
+        <div class="table-wrapper"><table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Groupe</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Johan durant</strong><br>
+                    <small>johan.durant@cesi.fr</small>
+                    </td>
+
+                    <td>CESI La Rochelle</td>
+                    <td class="cell-actions">
+
+                        <button class="btn-action folder" title="Modifier l'étudiant">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button class="btn-action chat" title="Contacter">
+                            <i class="bi bi-chat-left-dots-fill"></i>
+                        </button>
+
+                        <button class="btn-action folder" title="Réinitialiser le mot de passe" style="color: #f39c12;">
+                            <i class="bi bi-key-fill"></i>
+                        </button>
+
+                        <button class="btn-action refuse" title="Supprimer le compte">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Alice Martin</strong><br>
+                    <small>alice.martin@esigelec.fr</small>
+                    </td>
+                    <td>ESIGELEC </td>
+                    <td class="cell-actions">
+                        <button class="btn-action folder" title="Modifier l'étudiant">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        
+                        <button class="btn-action chat" title="Contacter">
+                            <i class="bi bi-chat-left-dots-fill"></i>
+                        </button>
+
+                        <button class="btn-action folder" title="Réinitialiser le mot de passe" style="color: #f39c12;">
+                            <i class="bi bi-key-fill"></i>
+                        </button>
+
+                        <button class="btn-action refuse" title="Supprimer le compte">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table></div>
+        <div class="pagination-numbers">
+            <a href="#" class="page active">1</a>
+            <a href="#" class="page">2</a>
+            <span class="dots">…</span>
+            <a href="#" class="page">15</a>
+            <a href="#" class="page">17</a>
+        </div>
+    </section>
+    
+
+    <section class="glass-card table-section">
+        <h3><i class="bi bi-building-fill"></i> Gestion des Entreprises <div class="table-search">
+            <input type="text" placeholder="Rechercher...">
+        </div>
+        </h3> 
+
+        <div class="table-wrapper"><table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Entreprise</th>
+                    <th>Secteur / Groupe</th>
+                    <th>Offres Actives</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Tech Solutions</strong><br><small>Lyon, France</small></td>
+                    <td><span class="type-tag alternance">Informatique</span></td>
+                    <td><span class="badge interview">5 annonces</span></td>
+                    <td class="cell-actions">
+                        <button class="btn-action folder" title="Voir les offres">
+                            <i class="bi bi-eye-fill"></i>
+                        </button>
+                        
+                        <button class="btn-action chat" title="Contacter l'entreprise">
+                            <i class="bi bi-chat-left-dots-fill"></i>
+                        </button>
+
+                        <button class="btn-action folder" title="Modifier la fiche">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button class="btn-action refuse" title="Supprimer l'accès">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Global Marketing</strong><br><small>Paris, France</small></td>
+                    <td><span class="type-tag stage">Communication</span></td>
+                    <td><span class="badge pending">0 annonce</span></td>
+                    <td class="cell-actions">
+                        <button class="btn-action folder" title="Voir les offres"><i class="bi bi-eye-fill"></i></button>
+                        <button class="btn-action chat" title="Contacter l'entreprise"><i class="bi bi-chat-left-dots-fill"></i></button>
+                        <button class="btn-action folder" title="Modifier la fiche"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn-action refuse" title="Supprimer l'accès"><i class="bi bi-trash3-fill"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table></div>
+        <div class="pagination-numbers">
+            <a href="#" class="page active">1</a>
+            <a href="#" class="page">2</a>
+            <span class="dots">…</span>
+            <a href="#" class="page">5</a>
+            <a href="#" class="page">6</a>
+        </div>
+    </section>
+    
+
+    <section class="glass-card table-section">
+        <h3><i class="bi bi-person-badge-fill"></i> Gestion des Pilotes <div class="table-search">
+            <input type="text" placeholder="Rechercher...">
+        </div>
+        </h3>
+
+        <div class="table-wrapper"><table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Pilote</th>
+                    <th>Groupe</th>
+                    <th>Étudiants</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>
+                        <strong>Marc Dupont</strong><br>
+                        <small>marc.dupont@cesi.fr</small>
+                    </td>
+
+                    <td>CESI La Rochelle 
+                    <button class="btn-action folder" title="Modifier le groupe">
+                        <i class="bi bi-people-fill"></i>
+                    </button>
+                    </td>
+
+                    <td>
+                        <span class="badge interview">24 étudiants</span>
+                    </td>
+
+                    <td class="cell-actions">
+
+                        <button class="btn-action chat" title="Contacter le pilote">
+                            <i class="bi bi-chat-left-dots-fill"></i>
+                        </button>
+
+                        <button class="btn-action folder" title="Modifier la fiche pilote">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button class="btn-action refuse" title="Supprimer">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <strong>Sophie Leroy</strong><br>
+                        <small>sophie.leroy@esigelec.fr</small>
+                    </td>
+
+                    <td>ESIGELEC Rouen
+                    <button class="btn-action folder" title="Modifier le groupe">
+                        <i class="bi bi-people-fill"></i>
+                    </button>
+                    </td>
+
+                    <td>
+                        <span class="badge interview">18 étudiants</span>
+                    </td>
+
+                    <td class="cell-actions">
+
+                        <button class="btn-action chat" title="Contacter le pilote">
+                            <i class="bi bi-chat-left-dots-fill"></i>
+                        </button>
+
+                        <button class="btn-action folder" title="Modifier la fiche pilote">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button class="btn-action refuse" title="Supprimer">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table></div>
+        <div class="pagination-numbers">
+            <a href="#" class="page active">1</a>
+            <a href="#" class="page">2</a>
+            <!-- 
+            <span class="dots">…</span>
+            -->
+            <a href="#" class="page">3</a>
+            <a href="#" class="page">4</a>
+        </div>
+    </section>
+    
+
+</main>
+
+<footer>
+    <p> © 2026 - Espace Admin </p>
+</footer>
+
+</body>
+</html>
